@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     color: "white",
     textTransform: "uppercase",
+    textAlign: "center",
   },
 
   teamsNameInput: {
@@ -145,6 +146,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     color: "white",
     textTransform: "uppercase",
+    textAlign: "center",
   },
 
   oppTeamsCircle: {
