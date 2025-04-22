@@ -9,9 +9,15 @@ const ScoreBoardChart = ({ lineChartScore }) => {
     <>
       {selectedPoint && (
         <View style={styles.pointInfoContainer}>
-          <Text>Point Number: {selectedPoint.pointNumber}</Text>
-          <Text>Point By: Player {selectedPoint.author}</Text>
-          <Text>Point Method: {selectedPoint.method}</Text>
+          <Text style={styles.infoText}>
+            Point Number: {selectedPoint.pointNumber}
+          </Text>
+          <Text style={styles.infoText}>
+            Point By: Player {selectedPoint.author}
+          </Text>
+          <Text style={styles.infoText}>
+            Point Method: {selectedPoint.method}
+          </Text>
         </View>
       )}
 
@@ -54,11 +60,21 @@ export default ScoreBoardChart;
 const styles = StyleSheet.create({
   pointInfoContainer: {
     width: "90%",
+    height: 110,
     marginInline: "auto",
+    marginTop: 30,
     padding: 10,
-    backgroundColor: "#59a9ff",
-    borderRadius: 5,
+    backgroundColor: "#161F23",
+    border: "2px solid #3A464E",
+    borderRadius: 10,
   },
+
+  infoText: {
+    color: "white",
+    fontSize: 16,
+    lineHeight: 30,
+  },
+
   chart: {
     width: "90%",
     backgroundColor: "#161F23",
