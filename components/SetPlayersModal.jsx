@@ -20,6 +20,21 @@ const SetPlayersModal = ({
     <Modal visible={modalVisible} transparent animationType="slide">
       <View style={styles.modalBackground}>
         <View style={styles.modalContent}>
+          <View>
+            <Text style={styles.modalTxt}>
+              Enter teams' names (3 letters MAX)
+            </Text>
+            <View style={styles.teamsContainer}>
+              <View style={styles.team}>
+                <View style={styles.teamsCircle} />
+                <TextInput style={styles.teamsNameInput} />
+              </View>
+              <View style={styles.team}>
+                <TextInput style={styles.oppTeamsNameInput} />
+                <View style={styles.oppTeamsCircle} />
+              </View>
+            </View>
+          </View>
           <Text style={styles.modalTxt}>
             Enter the team's players (tap to delete)
           </Text>
@@ -61,15 +76,17 @@ const SetPlayersModal = ({
 export default SetPlayersModal;
 
 const styles = StyleSheet.create({
+  //general modal and bkg
   modalBackground: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0,0,0,0.5)",
   },
+
   modalContent: {
     width: "90%",
-    height: 450,
+    minHeight: 500,
     gap: 20,
     backgroundColor: "#161F23",
     paddingBlock: 20,
@@ -80,17 +97,70 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     border: "2px solid #3A464E",
   },
+
   modalTxt: {
     fontSize: 18,
     color: "white",
     fontWeight: "bold",
     marginBottom: 10,
   },
+
+  //inputs, buttons and labels
+  teamsContainer: {
+    width: "100%",
+    position: "relative",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 15,
+  },
+
+  team: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 5,
+  },
+
+  teamsCircle: {
+    width: 30,
+    height: 30,
+    borderRadius: "100%",
+    border: "2px solid #111184",
+    backgroundColor: "#586DFF",
+  },
+
+  oppTeamsNameInput: {
+    height: 30,
+    width: 70,
+    border: "2px solid #DC605B",
+    borderRadius: 20,
+    color: "white",
+    textTransform: "uppercase",
+  },
+
+  teamsNameInput: {
+    height: 30,
+    width: 70,
+    border: "2px solid #586DFF",
+    borderRadius: 20,
+    color: "white",
+    textTransform: "uppercase",
+  },
+
+  oppTeamsCircle: {
+    width: 30,
+    height: 30,
+    borderRadius: "100%",
+    border: "2px solid #B52924",
+    backgroundColor: "#DC605B",
+  },
+
   optionContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
   },
+
   optionButton: {
     backgroundColor: "#007BFF",
     padding: 10,
