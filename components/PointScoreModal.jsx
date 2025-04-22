@@ -27,7 +27,7 @@ const ScoreModal = ({
                     setCurrentPoint({ ...currentPoint, author: player });
                   }}
                 >
-                  <Text>player {player}</Text>
+                  <Text style={styles.optionText}>{player}</Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -38,7 +38,7 @@ const ScoreModal = ({
                 <TouchableOpacity
                   key={method}
                   style={[
-                    styles.optionButton,
+                    styles.methodButton,
                     currentPoint.method === method && styles.selectedOption,
                   ]}
                   onPress={() => {
@@ -48,17 +48,22 @@ const ScoreModal = ({
                     });
                   }}
                 >
-                  <Text>{method}</Text>
+                  <Text style={styles.methodButtonText}>{method}</Text>
                 </TouchableOpacity>
               ))}
             </View>
 
-            <TouchableOpacity style={styles.confirmButton} onPress={onConfirm}>
-              <Text style={styles.confirmText}>Confirm</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.confirmButton} onPress={onClose}>
-              <Text style={styles.confirmText}>Cancel</Text>
-            </TouchableOpacity>
+            <View style={styles.bttnContainer}>
+              <TouchableOpacity
+                style={styles.confirmButton}
+                onPress={onConfirm}
+              >
+                <Text style={styles.bttnText}>Confirm</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
+                <Text style={styles.bttnText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       ) : (
@@ -70,14 +75,14 @@ const ScoreModal = ({
                 <TouchableOpacity
                   key={reason}
                   style={[
-                    styles.optionButton,
+                    styles.methodButton,
                     currentPoint.method === reason && styles.selectedOption,
                   ]}
                   onPress={() => {
                     setCurrentPoint({ ...currentPoint, method: reason });
                   }}
                 >
-                  <Text>{reason}</Text>
+                  <Text style={styles.methodButtonText}>{reason}</Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -98,7 +103,6 @@ const ScoreModal = ({
                 </TouchableOpacity>
               ))}
             </View>
-
             <Text style={styles.modalTxt}>Select Score Method</Text>
             <View style={styles.optionContainer}>
               {["Spike", "Block out", "Ace"].map((method) => (
@@ -120,13 +124,17 @@ const ScoreModal = ({
                 </TouchableOpacity>
               ))}
             </View>
-
-            <TouchableOpacity style={styles.confirmButton} onPress={onConfirm}>
-              <Text style={styles.confirmText}>Confirm</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.confirmButton} onPress={onClose}>
-              <Text style={styles.confirmText}>Cancel</Text>
-            </TouchableOpacity>
+            <View style={styles.bttnContainer}>
+              <TouchableOpacity
+                style={styles.confirmButton}
+                onPress={onConfirm}
+              >
+                <Text style={styles.bttnText}>Confirm</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
+                <Text style={styles.bttnText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       )}
@@ -145,51 +153,96 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: "80%",
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
+    height: "60%",
+    backgroundColor: "#161F23",
+    padding: 10,
+    borderRadius: 15,
     alignItems: "center",
+    border: "2px solid #3A464E",
   },
   modalTxt: {
-    fontSize: 18,
+    fontSize: 26,
     fontWeight: "bold",
-    marginBottom: 10,
+    margin: 15,
+    color: "white",
   },
   optionContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
   },
+
   optionButton: {
-    backgroundColor: "#007BFF",
+    backgroundColor: "#586DFF",
     padding: 10,
     margin: 5,
     borderRadius: 5,
+    minWidth: 60,
+    minHeight: 60,
   },
+
+  methodButtonText: {
+    color: "white",
+    fontSize: 18,
+    textAlign: "center",
+  },
+
+  methodButton: {
+    backgroundColor: "#586DFF",
+    padding: 10,
+    margin: 5,
+    borderRadius: 5,
+    minWidth: 60,
+  },
+
   selectedOption: {
-    backgroundColor: "#ffcc00",
+    backgroundColor: "#28a745",
   },
+
   optionText: {
-    fontSize: 16,
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    fontSize: 24,
     color: "white",
   },
+
+  bttnContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+    marginTop: 70,
+  },
+
   confirmButton: {
     backgroundColor: "#28a745",
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 5,
+    borderRadius: 10,
     marginTop: 20,
+    minWidth: 109,
+    width: "46%",
   },
-  confirmText: {
+
+  bttnText: {
     fontSize: 18,
     color: "white",
     fontWeight: "bold",
+    textAlign: "center",
   },
   cancelButton: {
-    marginTop: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    marginTop: 20,
+    backgroundColor: "#B52924",
+    minWidth: 109,
+    width: "46%",
   },
   cancelText: {
-    fontSize: 16,
+    fontSize: 18,
     color: "#FF0000",
   },
 });

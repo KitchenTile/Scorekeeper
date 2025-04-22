@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     position: "relative",
     paddingBlock: 10,
     paddingInline: 20,
-    borderRadius: 20,
+    borderRadius: 15,
   },
 
   bttnOpp: {
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     position: "relative",
     paddingBlock: 10,
     paddingInline: 20,
-    borderRadius: 20,
+    borderRadius: 15,
   },
 
   bttnTxt: {

@@ -21,7 +21,7 @@ const ScoreBoardChart = ({ lineChartScore }) => {
           datasets: [{ data: lineChartScore.map((point) => point.score) }],
         }}
         width={Dimensions.get("window").width * 0.9}
-        height={270}
+        height={320}
         withShadow={false}
         withInnerLines={false}
         yAxisLabel=""
