@@ -17,6 +17,7 @@ import SetPlayersModal from "../../components/SetPlayersModal";
 
 const app = () => {
   const [players, setPlayers] = useState([]);
+  const [teams, setTeams] = useState(["", ""]);
   const [scores, setScores] = useState({
     score: 0,
     myScore: 0,
@@ -36,12 +37,16 @@ const app = () => {
   });
 
   useEffect(() => {
-    console.log(lineChartScore);
-  }, [lineChartScore]);
+    console.log(players);
+  }, [players]);
 
   useEffect(() => {
     console.log(scores);
   }, [scores]);
+
+  useEffect(() => {
+    console.log(teams);
+  }, [teams]);
 
   const handlePlayerSubmit = (value) => {
     setPlayers((prev) => {
@@ -86,17 +91,22 @@ const app = () => {
     setCurrentPoint({ author: null, method: null, type: null });
   };
 
+  const handleTeamSubmit = (input, idx) => {
+    const updatedTeams = [...teams];
+    updatedTeams[idx] = input.toUpperCase();
+    setTeams(updatedTeams);
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <SetPlayersModal
         modalVisible={modalVisible.setPlayers}
         players={players}
+        handleTeamSubmit={handleTeamSubmit}
         handlePlayerDelete={handlePlayerDelete}
         handlePlayerSubmit={handlePlayerSubmit}
         onConfirm={() =>
-          players.length >= 6
-            ? setModalVisible({ ...modalVisible, setPlayers: false })
-            : console.log("not enough players")
+          setModalVisible({ ...modalVisible, setPlayers: false })
         }
       />
       <ThemedText lightColor="true" type="default" style={styles.title}>
@@ -107,12 +117,12 @@ const app = () => {
 
       <SafeAreaView style={styles.infoContainer}>
         <StatsComponent
-          team={"MY TEAM"}
+          team={teams[0]}
           score={scores.myScore}
           scoreDetails={lineChartScore}
         />
         <StatsComponent
-          team={"OPPONENT"}
+          team={teams[1]}
           score={scores.oppScore}
           scoreDetails={lineChartScore}
         />

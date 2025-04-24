@@ -9,7 +9,7 @@ function StatsComponent({ team, score, scoreDetails }) {
     <View
       style={[
         styles.info,
-        { backgroundColor: team === "MY TEAM" ? "#586DFF" : "#DC605B" },
+        // { backgroundColor: team === "MY TEAM" ? "#586DFF" : "#DC605B" },
       ]}
     >
       <Text style={styles.infoTitle}>{team}'S STATS</Text>
