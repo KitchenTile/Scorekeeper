@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -14,6 +14,7 @@ const SetPlayersModal = ({
   modalVisible,
   handlePlayerDelete,
   handlePlayerSubmit,
+  handleTeamSubmit,
   onConfirm,
 }) => {
   return (
@@ -27,10 +28,26 @@ const SetPlayersModal = ({
             <View style={styles.teamsContainer}>
               <View style={styles.team}>
                 <View style={styles.teamsCircle} />
-                <TextInput style={styles.teamsNameInput} />
+                <TextInput
+                  style={styles.teamsNameInput}
+                  maxLength="3"
+                  onBlur={(e) =>
+                    e.nativeEvent.text !== ""
+                      ? handleTeamSubmit(e.nativeEvent.text, 0)
+                      : null
+                  }
+                />
               </View>
               <View style={styles.team}>
-                <TextInput style={styles.oppTeamsNameInput} />
+                <TextInput
+                  style={styles.oppTeamsNameInput}
+                  maxLength="3"
+                  onBlur={(e) =>
+                    e.nativeEvent.text !== ""
+                      ? handleTeamSubmit(e.nativeEvent.text, 1)
+                      : null
+                  }
+                />
                 <View style={styles.oppTeamsCircle} />
               </View>
             </View>
@@ -39,31 +56,57 @@ const SetPlayersModal = ({
             Enter the team's players (tap to delete)
           </Text>
           <View style={styles.playersContainer}>
-            {players
-              ? players.map((player, idx) => (
-                  <Text
-                    style={styles.setPlayer}
-                    key={idx}
-                    onPress={() => handlePlayerDelete(idx)}
-                  >
-                    {player}
-                  </Text>
-                ))
-              : null}
+            {Array.from({ length: 9 }).map((_, index) =>
+              players[index] ? (
+                <Text
+                  style={styles.setPlayer}
+                  key={index}
+                  onPress={() => handlePlayerDelete(index)}
+                >
+                  {players[index]}
+                </Text>
+              ) : (
+                <TextInput
+                  key={index}
+                  onBlur={(e) =>
+                    e.nativeEvent.text !== ""
+                      ? handlePlayerSubmit(e.nativeEvent.text)
+                      : null
+                  }
+                  style={[
+                    styles.setPlayer,
+                    {
+                      backgroundColor: players[index]
+                        ? "#586DFF"
+                        : "transparent",
+                      borderWidth: 2,
+                      borderColor: "#586DFF",
+                    },
+                  ]}
+                />
+              )
+            )}
           </View>
-
-          <View style={styles.optionContainer}>
-            <TextInput
-              style={styles.input}
-              onBlur={(e) =>
-                e.nativeEvent.text !== ""
-                  ? handlePlayerSubmit(e.nativeEvent.text)
-                  : null
-              }
-            />
-          </View>
-          <TouchableOpacity style={styles.bttn}>
-            <Text style={styles.bttnTxt} onPress={onConfirm}>
+          <TouchableOpacity
+            style={[
+              styles.bttn,
+              {
+                backgroundColor: players.length < 6 ? "" : "#78C93C",
+                borderColor: players.length < 6 ? "#3A464E" : "#488719",
+              },
+            ]}
+            onPress={onConfirm}
+            disabled={players.length < 6}
+          >
+            <Text
+              style={[
+                styles.bttnTxt,
+                {
+                  color:
+                    players.length < 6 ? "rgba(255, 255, 255, 0.3)" : "white",
+                },
+              ]}
+            >
               Confirm
             </Text>
           </TouchableOpacity>
@@ -95,7 +138,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    border: "2px solid #3A464E",
+    borderWidth: 2,
+    borderColor: "#3A464E",
   },
 
   modalTxt: {
@@ -125,14 +169,18 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: "100%",
-    border: "2px solid #111184",
+    borderStyle: "solid",
+    borderWidth: 2,
+    borderColor: "#111184",
     backgroundColor: "#586DFF",
   },
 
   oppTeamsNameInput: {
     height: 30,
     width: 70,
-    border: "2px solid #DC605B",
+    borderStyle: "solid",
+    borderWidth: 2,
+    borderColor: "#DC605B",
     borderRadius: 20,
     color: "white",
     textTransform: "uppercase",
@@ -142,7 +190,9 @@ const styles = StyleSheet.create({
   teamsNameInput: {
     height: 30,
     width: 70,
-    border: "2px solid #586DFF",
+    borderStyle: "solid",
+    borderWidth: 2,
+    borderColor: "#586DFF",
     borderRadius: 20,
     color: "white",
     textTransform: "uppercase",
@@ -153,34 +203,10 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: "100%",
-    border: "2px solid #B52924",
-    backgroundColor: "#DC605B",
-  },
-
-  optionContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-  },
-
-  optionButton: {
-    backgroundColor: "#007BFF",
-    padding: 10,
-    margin: 5,
-    borderRadius: 5,
-  },
-
-  input: {
-    height: 50,
-    width: 50,
-    borderColor: "black",
-    borderWidth: 1,
     borderStyle: "solid",
-    borderRadius: 10,
-    textAlign: "center",
-    backgroundColor: "#586DFF",
-    fontSize: 18,
-    color: "white",
+    borderWidth: 2,
+    borderColor: "#B52924",
+    backgroundColor: "#DC605B",
   },
 
   setPlayer: {
@@ -211,7 +237,9 @@ const styles = StyleSheet.create({
 
   bttn: {
     backgroundColor: "#78C93C",
-    border: "2px solid #488719",
+    borderStyle: "solid",
+    borderWidth: 2,
+    borderColor: "#488719",
     paddingBlock: 10,
     paddingInline: 20,
     borderRadius: 10,
