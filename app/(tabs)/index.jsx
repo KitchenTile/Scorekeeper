@@ -8,12 +8,12 @@ import {
   TextInput,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { ThemedText } from "@/components/ThemedText";
 import ScoreBoardChart from "../../components/ScoreBoardChart";
 import StatsComponent from "../../components/StatsComponent";
 import PointScoreModal from "../../components/PointScoreModal";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SetPlayersModal from "../../components/SetPlayersModal";
+import TeamsCompoenent from "@/components/TeamsComponent";
 
 const app = () => {
   const [players, setPlayers] = useState([]);
@@ -105,13 +105,12 @@ const app = () => {
         handleTeamSubmit={handleTeamSubmit}
         handlePlayerDelete={handlePlayerDelete}
         handlePlayerSubmit={handlePlayerSubmit}
+        teams={teams}
         onConfirm={() =>
           setModalVisible({ ...modalVisible, setPlayers: false })
         }
       />
-      <ThemedText lightColor="true" type="default" style={styles.title}>
-        Ruben's Score Tracker App
-      </ThemedText>
+      <TeamsCompoenent handleTeamSubmit={handleTeamSubmit} teams={teams} />
 
       <ScoreBoardChart lineChartScore={lineChartScore} />
 
@@ -172,6 +171,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     marginTop: 50,
+    padding: 20,
     // maxWidth: "800px",
   },
 
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   },
 
   bttn: {
-    width: 177,
+    width: 187,
     height: 65,
     backgroundColor: "#78C93C",
     border: "2px solid #488719",
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   },
 
   bttnOpp: {
-    width: 177,
+    width: 187,
     height: 65,
     backgroundColor: "#DC605B",
     border: "2px solid #B52924",
