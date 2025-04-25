@@ -55,12 +55,12 @@ const styles = StyleSheet.create({
   team: {
     display: "flex",
     flexDirection: "row",
-    gap: 5,
+    gap: 10,
   },
 
   teamsCircle: {
-    width: 30,
-    height: 30,
+    width: 35,
+    height: 35,
     borderRadius: "100%",
     borderStyle: "solid",
     borderWidth: 2,
@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
   },
 
   oppTeamsNameInput: {
-    height: 30,
-    width: 70,
+    height: 35,
+    width: 75,
     lineHeight: 30,
     borderStyle: "solid",
     borderWidth: 2,
@@ -78,13 +78,14 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     color: "white",
     textTransform: "uppercase",
-    textAlign: "center",
+    fontSize: 16,
     fontWeight: 700,
+    textAlign: "center",
   },
 
   teamsNameInput: {
-    height: 30,
-    width: 70,
+    height: 35,
+    width: 75,
     lineHeight: 30,
     borderStyle: "solid",
     borderWidth: 2,
@@ -92,13 +93,14 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     color: "white",
     textTransform: "uppercase",
+    fontSize: 16,
     fontWeight: 700,
     textAlign: "center",
   },
 
   oppTeamsCircle: {
-    width: 30,
-    height: 30,
+    width: 35,
+    height: 35,
     borderRadius: "100%",
     borderStyle: "solid",
     borderWidth: 2,
