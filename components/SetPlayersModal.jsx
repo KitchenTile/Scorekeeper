@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import TeamsComponent from "./TeamsComponent";
 import {
   View,
   Text,
@@ -16,6 +17,7 @@ const SetPlayersModal = ({
   handlePlayerSubmit,
   handleTeamSubmit,
   onConfirm,
+  teams,
 }) => {
   return (
     <Modal visible={modalVisible} transparent animationType="slide">
@@ -25,32 +27,7 @@ const SetPlayersModal = ({
             <Text style={styles.modalTxt}>
               Enter teams' names (3 letters MAX)
             </Text>
-            <View style={styles.teamsContainer}>
-              <View style={styles.team}>
-                <View style={styles.teamsCircle} />
-                <TextInput
-                  style={styles.teamsNameInput}
-                  maxLength="3"
-                  onBlur={(e) =>
-                    e.nativeEvent.text !== ""
-                      ? handleTeamSubmit(e.nativeEvent.text, 0)
-                      : null
-                  }
-                />
-              </View>
-              <View style={styles.team}>
-                <TextInput
-                  style={styles.oppTeamsNameInput}
-                  maxLength="3"
-                  onBlur={(e) =>
-                    e.nativeEvent.text !== ""
-                      ? handleTeamSubmit(e.nativeEvent.text, 1)
-                      : null
-                  }
-                />
-                <View style={styles.oppTeamsCircle} />
-              </View>
-            </View>
+            <TeamsComponent handleTeamSubmit={handleTeamSubmit} teams={teams} />
           </View>
           <Text style={styles.modalTxt}>
             Enter the team's players (tap to delete)
@@ -150,65 +127,6 @@ const styles = StyleSheet.create({
   },
 
   //inputs, buttons and labels
-  teamsContainer: {
-    width: "100%",
-    position: "relative",
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 15,
-  },
-
-  team: {
-    display: "flex",
-    flexDirection: "row",
-    gap: 5,
-  },
-
-  teamsCircle: {
-    width: 30,
-    height: 30,
-    borderRadius: "100%",
-    borderStyle: "solid",
-    borderWidth: 2,
-    borderColor: "#111184",
-    backgroundColor: "#586DFF",
-  },
-
-  oppTeamsNameInput: {
-    height: 30,
-    width: 70,
-    borderStyle: "solid",
-    borderWidth: 2,
-    borderColor: "#DC605B",
-    borderRadius: 20,
-    color: "white",
-    textTransform: "uppercase",
-    textAlign: "center",
-  },
-
-  teamsNameInput: {
-    height: 30,
-    width: 70,
-    borderStyle: "solid",
-    borderWidth: 2,
-    borderColor: "#586DFF",
-    borderRadius: 20,
-    color: "white",
-    textTransform: "uppercase",
-    textAlign: "center",
-  },
-
-  oppTeamsCircle: {
-    width: 30,
-    height: 30,
-    borderRadius: "100%",
-    borderStyle: "solid",
-    borderWidth: 2,
-    borderColor: "#B52924",
-    backgroundColor: "#DC605B",
-  },
-
   setPlayer: {
     height: 60,
     width: 60,
