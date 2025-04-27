@@ -136,16 +136,14 @@ const app = () => {
         >
           <Text style={styles.bttnTxt}>+</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.bttnOpp}>
-          <Text
-            style={styles.bttnTxt}
-            onPress={() => {
-              setCurrentPoint({ ...currentPoint, type: "oppScore" });
-              setModalVisible({ ...modalVisible, setScore: true });
-            }}
-          >
-            -
-          </Text>
+        <TouchableOpacity
+          style={styles.bttnOpp}
+          onPress={() => {
+            setCurrentPoint({ ...currentPoint, type: "oppScore" });
+            setModalVisible({ ...modalVisible, setScore: true });
+          }}
+        >
+          <Text style={styles.bttnTxt}>-</Text>
         </TouchableOpacity>
       </SafeAreaView>
       <PointScoreModal
@@ -182,13 +180,24 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
+  pointInfoContainer: {
+    width: "100%",
+    height: 100,
+    borderWidth: 2,
+    borderColor: "#3A464E",
+    borderRadius: 20,
+    marginTop: 20,
+    marginInline: "auto",
+  },
+
   infoContainer: {
     width: "90%",
     height: 170,
     position: "absolute",
     bottom: "12.5%",
     left: "5%",
-    border: "2px solid #3A464E",
+    borderWidth: 2,
+    borderColor: "#3A464E",
     borderRadius: 20,
     overflow: "hidden",
     marginInline: "auto",
@@ -211,7 +220,8 @@ const styles = StyleSheet.create({
     width: 187,
     height: 65,
     backgroundColor: "#78C93C",
-    border: "2px solid #488719",
+    borderWidth: 2,
+    borderColor: "#488719",
     position: "relative",
     paddingBlock: 10,
     paddingInline: 20,
@@ -222,7 +232,8 @@ const styles = StyleSheet.create({
     width: 187,
     height: 65,
     backgroundColor: "#DC605B",
-    border: "2px solid #B52924",
+    borderWidth: 2,
+    borderColor: "#B52924",
     position: "relative",
     paddingBlock: 10,
     paddingInline: 20,

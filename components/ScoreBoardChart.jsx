@@ -7,38 +7,59 @@ const ScoreBoardChart = ({ lineChartScore }) => {
 
   return (
     <>
-      {selectedPoint && (
-        <View style={styles.pointInfoContainer}>
-          <Text style={styles.infoText}>
-            Point Number: {selectedPoint.pointNumber}
-          </Text>
-          <Text style={styles.infoText}>
-            Point By: Player {selectedPoint.author}
-          </Text>
-          <Text style={styles.infoText}>
-            Point Method: {selectedPoint.method}
-          </Text>
-        </View>
-      )}
+      <View
+        style={[
+          styles.pointInfoContainer,
+          {
+            borderColor:
+              selectedPoint !== null
+                ? selectedPoint.author === "opp" ||
+                  selectedPoint.author.includes("opp")
+                  ? "#DC605B"
+                  : "#586DFF"
+                : "#3A464E",
+          },
+        ]}
+      >
+        {selectedPoint ? (
+          <>
+            <Text style={styles.infoText}>
+              Point Number: {selectedPoint.pointNumber}
+            </Text>
+            <Text style={styles.infoText}>
+              Point By: Player {selectedPoint.author}
+            </Text>
+            <Text style={styles.infoText}>
+              Point Method: {selectedPoint.method}
+            </Text>
+          </>
+        ) : null}
+      </View>
 
+      {/*  chart */}
       <LineChart
         data={{
           labels: lineChartScore.map((point, index) => index),
           datasets: [{ data: lineChartScore.map((point) => point.score) }],
         }}
-        width={Dimensions.get("window").width * 0.9}
-        height={320}
+        width={Dimensions.get("window").width * 0.95}
+        height={350}
         withShadow={false}
         withInnerLines={false}
         yAxisLabel=""
         xAxisLabel=""
         chartConfig={{
-          backgroundGradientFrom: "#3A464E",
-          backgroundGradientTo: "#3A464E",
+          backgroundGradientFrom: "transparent",
+          backgroundGradientTo: "transparent",
           decimalPlaces: 0,
           color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           propsForDots: { r: "4", strokeWidth: "2", stroke: "#fff" },
+
+          propsForBackgroundLines: {
+            strokeDasharray: "",
+            strokeWidth: 1,
+          },
         }}
         linear
         style={styles.chart}
@@ -59,31 +80,31 @@ export default ScoreBoardChart;
 
 const styles = StyleSheet.create({
   pointInfoContainer: {
-    width: "90%",
-    height: 110,
+    width: "100%",
+    height: 100,
+    borderWidth: 2,
+    borderColor: "#3A464E",
+    borderRadius: 20,
+    paddingInline: 15,
+    paddingBlock: 4,
+    marginTop: 20,
     marginInline: "auto",
-    marginTop: 30,
-    padding: 10,
-    backgroundColor: "#161F23",
-    border: "2px solid #3A464E",
-    borderRadius: 10,
   },
 
   infoText: {
     color: "white",
-    fontSize: 16,
+    fontSize: 15,
     lineHeight: 30,
   },
 
   chart: {
     width: "90%",
-    backgroundColor: "#161F23",
     marginVertical: 10,
     borderRadius: 20,
     alignItems: "center",
     position: "absolute",
-    bottom: "34.5%",
-    left: "5%",
+    bottom: "29%",
+    left: "-0.5%",
   },
 
   modalBackground: {

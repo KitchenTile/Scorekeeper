@@ -79,27 +79,55 @@ const ScoreModal = ({
                     currentPoint.method === reason && styles.selectedOption,
                   ]}
                   onPress={() => {
-                    setCurrentPoint({ ...currentPoint, method: reason });
+                    setCurrentPoint({
+                      ...currentPoint,
+                      author:
+                        reason === "Opponent's point"
+                          ? "opp"
+                          : "opp (mistake by)",
+                      method: reason,
+                    });
                   }}
                 >
                   <Text style={styles.methodButtonText}>{reason}</Text>
                 </TouchableOpacity>
               ))}
             </View>
-            <Text style={styles.modalTxt}>Select player</Text>
+            <Text
+              style={[
+                styles.modalTxt,
+                currentPoint.method === "Opponent's point" && {
+                  color: "rgba(255, 255, 255, 0.3)",
+                },
+              ]}
+            >
+              Select Player
+            </Text>
             <View style={styles.optionContainer}>
               {players.map((player) => (
                 <TouchableOpacity
                   key={player}
+                  disabled={currentPoint.method === "Opponent's point"}
                   style={[
                     styles.optionButton,
                     currentPoint.author === player && styles.selectedOption,
+                    currentPoint.method === "Opponent's point" &&
+                      styles.disabled,
                   ]}
                   onPress={() => {
                     setCurrentPoint({ ...currentPoint, author: player });
                   }}
                 >
-                  <Text>player {player}</Text>
+                  <Text
+                    style={[
+                      styles.optionText,
+                      currentPoint.method === "Opponent's point" && {
+                        color: "rgba(255, 255, 255, 0.3)",
+                      },
+                    ]}
+                  >
+                    {player}
+                  </Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -109,7 +137,7 @@ const ScoreModal = ({
                 <TouchableOpacity
                   key={method}
                   style={[
-                    styles.optionButton,
+                    styles.methodButton,
                     currentPoint.method === "Defence Mistake, " + method &&
                       styles.selectedOption,
                   ]}
@@ -120,7 +148,7 @@ const ScoreModal = ({
                     });
                   }}
                 >
-                  <Text>{method}</Text>
+                  <Text style={styles.methodButtonText}>{method}</Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -153,7 +181,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: "80%",
-    height: "60%",
+    // minHeight: "60%",
     backgroundColor: "#161F23",
     padding: 10,
     borderRadius: 15,
@@ -170,6 +198,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
+    width: "80%",
   },
 
   optionButton: {
@@ -213,7 +242,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
-    marginTop: 70,
+    marginBlock: 10,
   },
 
   confirmButton: {
@@ -244,5 +273,17 @@ const styles = StyleSheet.create({
   cancelText: {
     fontSize: 18,
     color: "#FF0000",
+  },
+
+  disabled: {
+    backgroundColor: "transparent",
+    borderColor: "#3A464E",
+    borderStyle: "solid",
+    borderWidth: 2,
+    padding: 10,
+    margin: 5,
+    borderRadius: 5,
+    minWidth: 60,
+    minHeight: 60,
   },
 });
