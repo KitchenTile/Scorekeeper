@@ -35,7 +35,7 @@ const ScoreModal = ({
 
             <Text style={styles.modalTxt}>Select Score Method</Text>
             <View style={styles.optionContainer}>
-              {["Spike", "Block", "Ace", "Opponent's Error"].map((method) => (
+              {["Spike", "Block", "Ace"].map((method) => (
                 <TouchableOpacity
                   key={method}
                   style={[
