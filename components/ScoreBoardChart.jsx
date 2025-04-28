@@ -23,8 +23,13 @@ const ScoreBoardChart = ({ lineChartScore, teams }) => {
       >
         {selectedPoint ? (
           <>
-            <Text style={styles.infoText}>
-              Point Number: {selectedPoint.pointNumber}
+            <Text
+              style={[
+                styles.infoText,
+                { textAlign: "center", fontSize: 20, fontWeight: 600 },
+              ]}
+            >
+              Point {selectedPoint.pointNumber} Overview
             </Text>
             <Text style={styles.infoText}>
               Point By:{" "}
@@ -42,23 +47,33 @@ const ScoreBoardChart = ({ lineChartScore, teams }) => {
       {/*  chart */}
       <LineChart
         data={{
-          labels: lineChartScore.map((point, index) => index),
+          labels: lineChartScore.map((point, index) =>
+            index % 2 === 0 ? index : ""
+          ),
           datasets: [{ data: lineChartScore.map((point) => point.score) }],
         }}
         width={Dimensions.get("window").width * 0.95}
         height={350}
-        withShadow={false}
-        withInnerLines={false}
+        withShadow={true}
+        withInnerLines={true}
+        yAxisInterval={5}
+        fromZero={true}
         yAxisLabel=""
         xAxisLabel=""
         chartConfig={{
           backgroundGradientFrom: "transparent",
           backgroundGradientTo: "transparent",
           decimalPlaces: 0,
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+          color: (opacity = 1) => {
+            if (lineChartScore[lineChartScore.length - 1].score > 0) {
+              return `rgba(88, 109, 255, ${opacity})`;
+            } else {
+              return `rgba(220, 96, 91, ${opacity})`;
+            }
+          },
           labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           propsForLabels: {
-            fontFamily: "iransans",
+            fontFamily: "SpaceMono",
             fontWeight: 100,
           },
           propsForDots: {
@@ -75,7 +90,6 @@ const ScoreBoardChart = ({ lineChartScore, teams }) => {
         bezier
         style={styles.chart}
         getDotColor={(dataPoint, dataPointIndex) => {
-          console.log(lineChartScore[dataPointIndex]);
           if (lineChartScore[dataPointIndex].type === teams[1]) {
             return "#DC605B";
           } else {
