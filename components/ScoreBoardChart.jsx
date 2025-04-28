@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LineChart } from "react-native-chart-kit";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
+import spaceMono from "../assets/fonts/SpaceMono-Regular.ttf";
 
-const ScoreBoardChart = ({ lineChartScore }) => {
+const ScoreBoardChart = ({ lineChartScore, teams }) => {
   const [selectedPoint, setSelectedPoint] = useState(null);
 
   return (
@@ -13,8 +14,7 @@ const ScoreBoardChart = ({ lineChartScore }) => {
           {
             borderColor:
               selectedPoint !== null
-                ? selectedPoint.author === "opp" ||
-                  selectedPoint.author.includes("opp")
+                ? selectedPoint.type === teams[1]
                   ? "#DC605B"
                   : "#586DFF"
                 : "#3A464E",
@@ -27,7 +27,10 @@ const ScoreBoardChart = ({ lineChartScore }) => {
               Point Number: {selectedPoint.pointNumber}
             </Text>
             <Text style={styles.infoText}>
-              Point By: Player {selectedPoint.author}
+              Point By:{" "}
+              {selectedPoint.author === "none"
+                ? "none"
+                : `Player ${selectedPoint.author}`}
             </Text>
             <Text style={styles.infoText}>
               Point Method: {selectedPoint.method}
@@ -54,21 +57,38 @@ const ScoreBoardChart = ({ lineChartScore }) => {
           decimalPlaces: 0,
           color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          propsForDots: { r: "4", strokeWidth: "2", stroke: "#fff" },
-
+          propsForLabels: {
+            fontFamily: "iransans",
+            fontWeight: 100,
+          },
+          propsForDots: {
+            r: "5",
+            strokeWidth: "2",
+            stroke: "#fff",
+          },
           propsForBackgroundLines: {
             strokeDasharray: "",
             strokeWidth: 1,
           },
         }}
-        linear
+        // linear
+        bezier
         style={styles.chart}
+        getDotColor={(dataPoint, dataPointIndex) => {
+          console.log(lineChartScore[dataPointIndex]);
+          if (lineChartScore[dataPointIndex].type === teams[1]) {
+            return "#DC605B";
+          } else {
+            return "#586DFF";
+          }
+        }}
         onDataPointClick={({ value, index }) => {
           setSelectedPoint({
             value,
             pointNumber: index,
             author: lineChartScore[index].author,
             method: lineChartScore[index].method,
+            type: lineChartScore[index].type,
           });
         }}
       />
