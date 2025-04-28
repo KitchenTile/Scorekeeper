@@ -28,9 +28,16 @@ const app = () => {
     setPlayers: true,
   });
   const [lineChartScore, setLineChartScore] = useState([
-    { score: 0, author: "none", method: "No Points Yet" },
+    {
+      score: 0,
+      author: "none",
+      method: "No Points Yet",
+      type: null,
+      reason: null,
+    },
   ]);
   const [currentPoint, setCurrentPoint] = useState({
+    reason: null,
     author: null,
     method: null,
     type: null,
@@ -43,10 +50,6 @@ const app = () => {
   useEffect(() => {
     console.log(scores);
   }, [scores]);
-
-  useEffect(() => {
-    console.log(teams);
-  }, [teams]);
 
   const handlePlayerSubmit = (value) => {
     setPlayers((prev) => {
@@ -64,7 +67,7 @@ const app = () => {
   };
 
   const handleConfirm = () => {
-    if (currentPoint.type === "myScore")
+    if (currentPoint.type === `${teams[0]}`)
       setScores({
         ...scores,
         myScore: scores.myScore + 1,
@@ -81,9 +84,13 @@ const app = () => {
       ...prev,
       {
         score:
-          currentPoint.type === "myScore" ? scores.score + 1 : scores.score - 1,
+          currentPoint.type === `${teams[0]}`
+            ? scores.score + 1
+            : scores.score - 1,
         author: currentPoint.author,
         method: currentPoint.method,
+        type: currentPoint.type,
+        reason: currentPoint.reason,
       },
     ]);
 
@@ -112,7 +119,7 @@ const app = () => {
       />
       <TeamsCompoenent handleTeamSubmit={handleTeamSubmit} teams={teams} />
 
-      <ScoreBoardChart lineChartScore={lineChartScore} />
+      <ScoreBoardChart lineChartScore={lineChartScore} teams={teams} />
 
       <SafeAreaView style={styles.infoContainer}>
         <StatsComponent
@@ -130,7 +137,7 @@ const app = () => {
         <TouchableOpacity
           style={styles.bttn}
           onPress={() => {
-            setCurrentPoint({ ...currentPoint, type: "myScore" });
+            setCurrentPoint({ ...currentPoint, type: `${teams[0]}` });
             setModalVisible({ ...modalVisible, setScore: true });
           }}
         >
@@ -139,7 +146,7 @@ const app = () => {
         <TouchableOpacity
           style={styles.bttnOpp}
           onPress={() => {
-            setCurrentPoint({ ...currentPoint, type: "oppScore" });
+            setCurrentPoint({ ...currentPoint, type: `${teams[1]}` });
             setModalVisible({ ...modalVisible, setScore: true });
           }}
         >
@@ -152,6 +159,7 @@ const app = () => {
         currentPoint={currentPoint}
         setCurrentPoint={setCurrentPoint}
         onConfirm={handleConfirm}
+        teams={teams}
         onClose={() => {
           setModalVisible({ ...modalVisible, setScore: false });
           setCurrentPoint({ author: null, method: null, type: null });
