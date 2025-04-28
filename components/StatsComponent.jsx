@@ -2,39 +2,48 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 const StatsComponent = ({ team, score, scoreDetails }) => {
-  const countMethods = (array) => {
-    const counter = {};
-    array.forEach((method) => {
-      counter[method] = (counter[method] || 0) + 1;
+  const statOrganizer = () => {
+    const countMethods = (array) => {
+      const counter = {};
+      array.forEach((method) => {
+        counter[method] = (counter[method] || 0) + 1;
+      });
+      return counter;
+    };
+
+    const scores = scoreDetails?.map((point) => {
+      const ourScores = point.type === team;
+      if (ourScores) {
+        return point.method;
+      }
     });
-    return counter;
+
+    const stats = countMethods(scores);
+
+    return Object.fromEntries(
+      Object.entries(stats).filter(([key]) => key !== "undefined")
+    );
   };
 
-  const scores = scoreDetails?.map((point) => {
-    const ourScores = point.type === team;
-    if (ourScores) {
-      return point.method;
-    }
-  });
-
-  const stats = countMethods(scores);
-
-  const updatedStats = Object.fromEntries(
-    Object.entries(stats).filter(([key]) => key !== "undefined")
-  );
-
-  console.log(Object.entries(updatedStats));
-
-  // console.log(kills);
   return (
     <View style={styles.info}>
       <Text style={styles.infoTitle}>{team}'S STATS</Text>
-      <Text style={styles.text}>Points: {score}</Text>
-      {Object.entries(updatedStats).map((stat) => (
-        <Text style={styles.text}>
-          {stat[0]}s: {stat[1]}
-        </Text>
-      ))}
+      <View
+        style={{
+          display: "grid",
+          gridTemplateRows: "repeat(2, 1fr)",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          justifyItems: "center",
+        }}
+      >
+        <Text style={styles.text}>Points: {score}</Text>
+        {Object.entries(statOrganizer()).map((stat) => (
+          <Text style={styles.text}>
+            {stat[0]}s: {stat[1]}
+          </Text>
+        ))}
+      </View>
+      <View style={styles.line}></View>
     </View>
   );
 };
@@ -58,7 +67,17 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 14,
+    fontSize: 16,
     color: "white",
+    marginBottom: 5,
+  },
+
+  line: {
+    height: "100%",
+    width: 2,
+    backgroundColor: "rgba(58,70,78,1.00)",
+    position: "absolute",
+    top: 0,
+    left: "100%",
   },
 });
