@@ -1,17 +1,43 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-function StatsComponent({ team, score, scoreDetails }) {
-  // scoreDetails?.map((point) => {
-  //   console.log(point.author);
-  // });
+const StatsComponent = ({ team, score, scoreDetails }) => {
+  const countMethods = (array) => {
+    const counter = {};
+    array.forEach((method) => {
+      counter[method] = (counter[method] || 0) + 1;
+    });
+    return counter;
+  };
+
+  const scores = scoreDetails?.map((point) => {
+    const ourScores = point.type === team;
+    if (ourScores) {
+      return point.method;
+    }
+  });
+
+  const stats = countMethods(scores);
+
+  const updatedStats = Object.fromEntries(
+    Object.entries(stats).filter(([key]) => key !== "undefined")
+  );
+
+  console.log(Object.entries(updatedStats));
+
+  // console.log(kills);
   return (
     <View style={styles.info}>
       <Text style={styles.infoTitle}>{team}'S STATS</Text>
       <Text style={styles.text}>Points: {score}</Text>
+      {Object.entries(updatedStats).map((stat) => (
+        <Text style={styles.text}>
+          {stat[0]}s: {stat[1]}
+        </Text>
+      ))}
     </View>
   );
-}
+};
 
 export default StatsComponent;
 
