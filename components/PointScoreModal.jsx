@@ -8,10 +8,11 @@ const ScoreModal = ({
   players,
   onConfirm,
   onClose,
+  teams,
 }) => {
   return (
     <Modal visible={modalVisible} transparent animationType="slide">
-      {currentPoint.type === "myScore" ? (
+      {currentPoint.type === teams[0] ? (
         <View style={styles.modalBackground}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTxt}>Select player</Text>
@@ -76,16 +77,13 @@ const ScoreModal = ({
                   key={reason}
                   style={[
                     styles.methodButton,
-                    currentPoint.method === reason && styles.selectedOption,
+                    currentPoint.reason === reason && styles.selectedOption,
                   ]}
                   onPress={() => {
                     setCurrentPoint({
                       ...currentPoint,
-                      author:
-                        reason === "Opponent's point"
-                          ? "opp"
-                          : "opp (mistake by)",
-                      method: reason,
+                      author: reason === "Opponent's point" && "opp",
+                      reason: reason,
                     });
                   }}
                 >
@@ -96,7 +94,7 @@ const ScoreModal = ({
             <Text
               style={[
                 styles.modalTxt,
-                currentPoint.method === "Opponent's point" && {
+                currentPoint.reason === "Opponent's point" && {
                   color: "rgba(255, 255, 255, 0.3)",
                 },
               ]}
@@ -111,17 +109,21 @@ const ScoreModal = ({
                   style={[
                     styles.optionButton,
                     currentPoint.author === player && styles.selectedOption,
-                    currentPoint.method === "Opponent's point" &&
+                    currentPoint.reason === "Opponent's point" &&
                       styles.disabled,
                   ]}
                   onPress={() => {
-                    setCurrentPoint({ ...currentPoint, author: player });
+                    setCurrentPoint({
+                      ...currentPoint,
+                      author: player,
+                      method: "Defence mistake",
+                    });
                   }}
                 >
                   <Text
                     style={[
                       styles.optionText,
-                      currentPoint.method === "Opponent's point" && {
+                      currentPoint.reason === "Opponent's point" && {
                         color: "rgba(255, 255, 255, 0.3)",
                       },
                     ]}
@@ -131,24 +133,44 @@ const ScoreModal = ({
                 </TouchableOpacity>
               ))}
             </View>
-            <Text style={styles.modalTxt}>Select Score Method</Text>
+            <Text
+              style={[
+                styles.modalTxt,
+                currentPoint.reason === "Defence Mistake" && {
+                  color: "rgba(255, 255, 255, 0.3)",
+                },
+              ]}
+            >
+              Select Score Method
+            </Text>
             <View style={styles.optionContainer}>
               {["Spike", "Block out", "Ace"].map((method) => (
                 <TouchableOpacity
                   key={method}
+                  disabled={currentPoint.reason === "Defence Mistake"}
                   style={[
                     styles.methodButton,
-                    currentPoint.method === "Defence Mistake, " + method &&
-                      styles.selectedOption,
+                    currentPoint.method === method && styles.selectedOption,
+                    currentPoint.reason === "Defence Mistake" &&
+                      styles.disabled,
                   ]}
                   onPress={() => {
                     setCurrentPoint({
                       ...currentPoint,
-                      method: "Defence Mistake, " + method,
+                      method: method,
                     });
                   }}
                 >
-                  <Text style={styles.methodButtonText}>{method}</Text>
+                  <Text
+                    style={[
+                      styles.methodButtonText,
+                      currentPoint.reason === "Defence Mistake" && {
+                        color: "rgba(255, 255, 255, 0.3)",
+                      },
+                    ]}
+                  >
+                    {method}
+                  </Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -198,7 +220,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
-    width: "80%",
+    width: "83%",
   },
 
   optionButton: {
@@ -218,7 +240,7 @@ const styles = StyleSheet.create({
 
   methodButton: {
     backgroundColor: "#586DFF",
-    padding: 10,
+    padding: 12,
     margin: 5,
     borderRadius: 5,
     minWidth: 60,
@@ -280,10 +302,10 @@ const styles = StyleSheet.create({
     borderColor: "#3A464E",
     borderStyle: "solid",
     borderWidth: 2,
-    padding: 10,
+    // padding: 10,
     margin: 5,
     borderRadius: 5,
     minWidth: 60,
-    minHeight: 60,
+    // minHeight: 60,
   },
 });
