@@ -21,13 +21,36 @@ const StatsComponent = ({ team, score, scoreDetails }) => {
     const stats = countMethods(scores);
 
     return Object.fromEntries(
-      Object.entries(stats).filter(([key]) => key !== "undefined")
+      Object.entries(stats)
+        .filter(([key]) => key !== "undefined")
+        .filter(([key]) => key !== "null")
     );
   };
+
+  const mistakes = scoreDetails?.map((point) => {
+    const oppTeam = point.type !== team;
+    if (oppTeam) {
+      if (point.reason === "Defence Mistake") {
+        return point.reason;
+      }
+    }
+  });
 
   return (
     <View style={styles.info}>
       <Text style={styles.infoTitle}>{team}'S STATS</Text>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-around",
+        }}
+      >
+        <Text style={styles.text}>Points: {score}</Text>
+        <Text style={[styles.text, { color: "rgba(220, 96, 91, 1.00)" }]}>
+          Mistakes: {mistakes.filter((element) => element !== undefined).length}
+        </Text>
+      </View>
       <View
         style={{
           display: "grid",
@@ -36,7 +59,6 @@ const StatsComponent = ({ team, score, scoreDetails }) => {
           justifyItems: "center",
         }}
       >
-        <Text style={styles.text}>Points: {score}</Text>
         {Object.entries(statOrganizer()).map((stat) => (
           <Text style={styles.text}>
             {stat[0]}s: {stat[1]}

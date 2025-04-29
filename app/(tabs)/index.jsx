@@ -34,6 +34,7 @@ const app = () => {
       method: "No Points Yet",
       type: null,
       reason: null,
+      isMistake: null,
     },
   ]);
   const [currentPoint, setCurrentPoint] = useState({
@@ -41,6 +42,7 @@ const app = () => {
     author: null,
     method: null,
     type: null,
+    isMistake: null,
   });
 
   useEffect(() => {
@@ -225,7 +227,7 @@ const styles = StyleSheet.create({
   },
 
   bttn: {
-    width: 187,
+    width: "48.5%",
     height: 65,
     backgroundColor: "#78C93C",
     borderWidth: 2,
@@ -237,7 +239,7 @@ const styles = StyleSheet.create({
   },
 
   bttnOpp: {
-    width: 187,
+    width: "48.5%",
     height: 65,
     backgroundColor: "#DC605B",
     borderWidth: 2,

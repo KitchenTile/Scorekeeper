@@ -33,12 +33,15 @@ const ScoreBoardChart = ({ lineChartScore, teams }) => {
             </Text>
             <Text style={styles.infoText}>
               Point By:{" "}
-              {selectedPoint.author === "none"
-                ? "none"
+              {selectedPoint.author === "opp"
+                ? "Opposite team"
                 : `Player ${selectedPoint.author}`}
             </Text>
             <Text style={styles.infoText}>
-              Point Method: {selectedPoint.method}
+              Point Method:{" "}
+              {selectedPoint.method === null
+                ? "Defence Mistake"
+                : selectedPoint.method}
             </Text>
           </>
         ) : null}
