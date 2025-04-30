@@ -20,11 +20,18 @@ const StatsComponent = ({ team, score, scoreDetails }) => {
 
     const stats = countMethods(scores);
 
-    return Object.fromEntries(
-      Object.entries(stats)
-        .filter(([key]) => key !== "undefined")
-        .filter(([key]) => key !== "null")
+    const filterCriteria = Object.entries(MISTAKEMETHODS).map((filter) => {
+      console.log(filter);
+      return filter[1];
+    });
+
+    const newArray = Object.fromEntries(
+      Object.entries(stats).filter(
+        ([key]) => !filterCriteria.map((word) => word).includes(key)
+      )
     );
+
+    return newArray;
   };
 
   const mistakes = scoreDetails?.map((point) => {
@@ -103,3 +110,12 @@ const styles = StyleSheet.create({
     left: "100%",
   },
 });
+
+const MISTAKEMETHODS = {
+  C: "Communication",
+  P: "Passing Error",
+  S: "Serving Error",
+  H: "Hitting Error",
+  U: "undefined",
+  N: "null",
+};
