@@ -1,7 +1,10 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 const StatsComponent = ({ team, score, scoreDetails }) => {
+  const [statsToDisplay, setStatsToDisplay] = useState("points");
+  const [instructionsVisible, setInstructionsVisible] = useState(false);
+
   const statOrganizer = () => {
     const countMethods = (array) => {
       const counter = {};
@@ -18,28 +21,35 @@ const StatsComponent = ({ team, score, scoreDetails }) => {
       }
     });
 
-    const stats = countMethods(scores);
-
-    const filterCriteria = Object.entries(MISTAKEMETHODS).map((filter) => {
-      console.log(filter);
-      return filter[1];
+    const mistakesscores = scoreDetails?.map((point) => {
+      const ourScores = point.type !== team;
+      if (ourScores) {
+        return point.method;
+      }
     });
 
-    const newArray = Object.fromEntries(
-      Object.entries(stats).filter(
-        ([key]) => !filterCriteria.map((word) => word).includes(key)
+    const points = Object.fromEntries(
+      Object.entries(countMethods(scores)).filter(
+        ([key]) => !MISTAKEMETHODS.map((word) => word).includes(key)
       )
     );
 
-    return newArray;
+    const mistakes = Object.fromEntries(
+      Object.entries(countMethods(mistakesscores))
+        .filter(([key]) => MISTAKEMETHODS.map((word) => word).includes(key))
+        .filter(([key]) => !key.includes("undefined"))
+        .filter(([key]) => !key.includes("null"))
+    );
+
+    return { points, mistakes };
   };
 
   const mistakes = scoreDetails?.map((point) => {
     const oppTeam = point.type !== team;
     if (oppTeam) {
       if (point.reason === "Defence Mistake") {
-        return point.reason;
-      }
+        return point.method;
+      } else return;
     }
   });
 
@@ -53,26 +63,45 @@ const StatsComponent = ({ team, score, scoreDetails }) => {
           justifyContent: "space-around",
         }}
       >
-        <Text style={styles.text}>Points: {score}</Text>
-        <Text style={[styles.text, { color: "rgba(220, 96, 91, 1.00)" }]}>
-          Mistakes: {mistakes.filter((element) => element !== undefined).length}
-        </Text>
+        <TouchableOpacity onPress={() => setStatsToDisplay("points")}>
+          <Text style={styles.text}>Points: {score}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => setStatsToDisplay("mistakes")}>
+          <Text style={[styles.text, { color: "rgba(220, 96, 91, 1.00)" }]}>
+            Mistakes:{" "}
+            {mistakes.filter((element) => element !== undefined).length}
+          </Text>
+        </TouchableOpacity>
       </View>
       <View
         style={{
           display: "grid",
           gridTemplateRows: "repeat(2, 1fr)",
-          gridTemplateColumns: "repeat(2, 1fr)",
+          gridTemplateColumns: "repeat(3, 1fr)",
           justifyItems: "center",
+          marginTop: 30,
         }}
       >
-        {Object.entries(statOrganizer()).map((stat) => (
-          <Text style={styles.text}>
-            {stat[0]}s: {stat[1]}
+        {Object.entries(statOrganizer()[statsToDisplay]).map(([key, val]) => (
+          <Text
+            key={key}
+            style={[
+              styles.text,
+              {
+                color:
+                  statsToDisplay === "mistakes"
+                    ? "rgba(220, 96, 91, 1.00)"
+                    : "white",
+              },
+            ]}
+          >
+            {key[0]}: {val}
           </Text>
         ))}
       </View>
       <View style={styles.line}></View>
+      <View style={styles.horizontalLine}></View>
     </View>
   );
 };
@@ -109,13 +138,23 @@ const styles = StyleSheet.create({
     top: 0,
     left: "100%",
   },
+
+  horizontalLine: {
+    height: 2,
+    width: "20%",
+    backgroundColor: "rgba(58,70,78,1.00)",
+    position: "absolute",
+    top: "55%",
+    left: "50%",
+    transform: "translateX(-50%)",
+  },
 });
 
-const MISTAKEMETHODS = {
-  C: "Communication",
-  P: "Passing Error",
-  S: "Serving Error",
-  H: "Hitting Error",
-  U: "undefined",
-  N: "null",
-};
+const MISTAKEMETHODS = [
+  "Communication",
+  "Passing Error",
+  "Serving Error",
+  "Hitting Error",
+  "undefined",
+  "null",
+];
