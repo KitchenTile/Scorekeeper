@@ -5,8 +5,6 @@ import { Dimensions, StyleSheet, Text, View } from "react-native";
 const ScoreBoardChart = ({ lineChartScore, teams }) => {
   const [selectedPoint, setSelectedPoint] = useState(null);
 
-  console.log(selectedPoint);
-
   return (
     <>
       <View
@@ -53,9 +51,7 @@ const ScoreBoardChart = ({ lineChartScore, teams }) => {
       {/*  chart */}
       <LineChart
         data={{
-          labels: lineChartScore.map((point, index) =>
-            index % 2 === 0 ? index : ""
-          ),
+          labels: lineChartScore.map((point, index) => index.toString()),
           datasets: [{ data: lineChartScore.map((point) => point.score) }],
         }}
         width={Dimensions.get("window").width * 0.95}
