@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { LineChart } from "react-native-chart-kit";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
-import spaceMono from "../assets/fonts/SpaceMono-Regular.ttf";
 
 const ScoreBoardChart = ({ lineChartScore, teams }) => {
   const [selectedPoint, setSelectedPoint] = useState(null);
+
+  console.log(selectedPoint);
 
   return (
     <>
@@ -34,13 +35,15 @@ const ScoreBoardChart = ({ lineChartScore, teams }) => {
             <Text style={styles.infoText}>
               Point By:{" "}
               {selectedPoint.author === "opp"
-                ? "Opposite team"
+                ? teams[1]
                 : `Player ${selectedPoint.author}`}
             </Text>
             <Text style={styles.infoText}>
               Point Method:{" "}
-              {selectedPoint.method === null
-                ? "Defence Mistake"
+              {selectedPoint.reason === "Defence Mistake"
+                ? selectedPoint.method === null
+                  ? "Defence Mistake"
+                  : `Defence Mistake (${selectedPoint.method})`
                 : selectedPoint.method}
             </Text>
           </>
@@ -89,8 +92,8 @@ const ScoreBoardChart = ({ lineChartScore, teams }) => {
             strokeWidth: 1,
           },
         }}
-        // linear
-        bezier
+        linear
+        // bezier
         style={styles.chart}
         getDotColor={(dataPoint, dataPointIndex) => {
           if (lineChartScore[dataPointIndex].type === teams[1]) {
@@ -106,6 +109,7 @@ const ScoreBoardChart = ({ lineChartScore, teams }) => {
             author: lineChartScore[index].author,
             method: lineChartScore[index].method,
             type: lineChartScore[index].type,
+            reason: lineChartScore[index].reason,
           });
         }}
       />
