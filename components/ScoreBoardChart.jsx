@@ -17,6 +17,8 @@ const ScoreBoardChart = ({ lineChartScore, teams }) => {
                   ? "#DC605B"
                   : "#586DFF"
                 : "#3A464E",
+            transitionTimingFunction: "ease-in-out",
+            transitionDuration: "0.2s",
           },
         ]}
       >

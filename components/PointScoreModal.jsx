@@ -286,15 +286,15 @@ const POINTMETHODS = {
   B: "Block",
   K: "KILL",
   T: "TIP",
-  F: "Free ball",
-  V: "Court Coverage",
 };
 
 const MISTAKEMETHODS = {
   C: "Communication",
-  P: "Passing Error",
-  S: "Serving Error",
-  H: "Hitting Error",
+  PE: "Passing Error",
+  SE: "Serving Error",
+  HE: "Hitting Error",
+  FB: "Free ball",
+  CC: "Court Coverage",
 };
 
 const styles = StyleSheet.create({

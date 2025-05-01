@@ -18,6 +18,7 @@ const InfoComponent = () => {
             textAlign: "center",
             fontSize: 20,
             marginBottom: 10,
+            fontWeight: 600,
           },
         ]}
       >
@@ -42,7 +43,7 @@ const InfoComponent = () => {
               },
             ]}
           >
-            {key[0]}: {val}
+            {key}: {val}
           </Text>
         ))}
         {Object.entries(MISTAKEMETHODS).map(([key, val]) => (
@@ -55,7 +56,7 @@ const InfoComponent = () => {
               },
             ]}
           >
-            {key[0]}: {val}
+            {key}: {val}
           </Text>
         ))}
       </View>
@@ -70,13 +71,13 @@ const POINTMETHODS = {
   B: "Block",
   K: "KILL",
   T: "TIP",
-  F: "Free ball",
-  V: "Court Coverage",
 };
 
 const MISTAKEMETHODS = {
   C: "Communication",
-  P: "Passing Error",
-  S: "Serving Error",
-  H: "Hitting Error",
+  PE: "Passing Error",
+  SE: "Serving Error",
+  HE: "Hitting Error",
+  FB: "Free ball",
+  CC: "Court Coverage",
 };

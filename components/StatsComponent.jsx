@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 const StatsComponent = ({ team, score, scoreDetails }) => {
   const [statsToDisplay, setStatsToDisplay] = useState("points");
-  const [instructionsVisible, setInstructionsVisible] = useState(false);
 
   const statOrganizer = () => {
     const countMethods = (array) => {
@@ -63,12 +62,37 @@ const StatsComponent = ({ team, score, scoreDetails }) => {
           justifyContent: "space-around",
         }}
       >
-        <TouchableOpacity onPress={() => setStatsToDisplay("points")}>
-          <Text style={styles.text}>Points: {score}</Text>
+        <TouchableOpacity
+          onPress={() => setStatsToDisplay("points")}
+          style={{
+            borderBottomColor: `${
+              statsToDisplay === "points" ? "#979797" : "transparent"
+            }`,
+            borderBottomWidth: 2,
+            transition: "all 0.2s ease-in-out",
+          }}
+        >
+          <Text style={[styles.text, { fontWeight: 600 }]}>
+            Points: {score}
+          </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => setStatsToDisplay("mistakes")}>
-          <Text style={[styles.text, { color: "rgba(220, 96, 91, 1.00)" }]}>
+        <TouchableOpacity
+          onPress={() => setStatsToDisplay("mistakes")}
+          style={{
+            borderBottomColor: `${
+              statsToDisplay === "mistakes" ? "#dc605bad" : "transparent"
+            }`,
+            borderBottomWidth: 2,
+            transition: "all 0.2s ease-in-out",
+          }}
+        >
+          <Text
+            style={[
+              styles.text,
+              { color: "rgba(220, 96, 91, 1.00)", fontWeight: 600 },
+            ]}
+          >
             Mistakes:{" "}
             {mistakes.filter((element) => element !== undefined).length}
           </Text>
@@ -96,7 +120,7 @@ const StatsComponent = ({ team, score, scoreDetails }) => {
               },
             ]}
           >
-            {key[0]}: {val}
+            {STAT_ABBREVIATIONS[key] ?? key[0]}: {val}
           </Text>
         ))}
       </View>
@@ -158,4 +182,19 @@ const MISTAKEMETHODS = [
   "Hitting Error",
   "undefined",
   "null",
+  "Free ball",
+  "Court Coverage",
 ];
+
+const STAT_ABBREVIATIONS = {
+  Ace: "A",
+  Block: "B",
+  KILL: "K",
+  TIP: "T",
+  "Free ball": "F",
+  "Court Coverage": "CC",
+  Communication: "C",
+  "Passing Error": "PE",
+  "Serving Error": "SE",
+  "Hitting Error": "HE",
+};
