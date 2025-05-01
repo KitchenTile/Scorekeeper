@@ -14,9 +14,11 @@ import PointScoreModal from "../../components/PointScoreModal";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SetPlayersModal from "../../components/SetPlayersModal";
 import TeamsCompoenent from "@/components/TeamsComponent";
+import InfoComponent from "../../components/InfoComponent";
 
 const app = () => {
   const [players, setPlayers] = useState([]);
+  const [infoVisible, setInfoVisible] = useState(false);
   const [teams, setTeams] = useState(["", ""]);
   const [scores, setScores] = useState({
     score: 0,
@@ -46,8 +48,8 @@ const app = () => {
   });
 
   useEffect(() => {
-    console.log(players);
-  }, [players]);
+    console.log(infoVisible);
+  }, [infoVisible]);
 
   useEffect(() => {
     console.log(scores);
@@ -124,16 +126,30 @@ const app = () => {
       <ScoreBoardChart lineChartScore={lineChartScore} teams={teams} />
 
       <SafeAreaView style={styles.infoContainer}>
-        <StatsComponent
-          team={teams[0]}
-          score={scores.myScore}
-          scoreDetails={lineChartScore}
-        />
-        <StatsComponent
-          team={teams[1]}
-          score={scores.oppScore}
-          scoreDetails={lineChartScore}
-        />
+        <TouchableOpacity
+          style={styles.infoIcon}
+          onPress={() => setInfoVisible(!infoVisible)}
+        >
+          <Text style={{ color: "white", textAlign: "center", lineHeight: 26 }}>
+            ?
+          </Text>
+        </TouchableOpacity>
+        {infoVisible ? (
+          <InfoComponent />
+        ) : (
+          <>
+            <StatsComponent
+              team={teams[0]}
+              score={scores.myScore}
+              scoreDetails={lineChartScore}
+            />
+            <StatsComponent
+              team={teams[1]}
+              score={scores.oppScore}
+              scoreDetails={lineChartScore}
+            />
+          </>
+        )}
       </SafeAreaView>
       <SafeAreaView style={styles.bttnsContainer}>
         <TouchableOpacity
@@ -209,7 +225,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#3A464E",
     borderRadius: 20,
-    overflow: "hidden",
+    // overflow: "hidden",
     marginInline: "auto",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -268,5 +284,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  //
+  infoIcon: {
+    position: "absolute",
+    top: "-5%",
+    left: "95%",
+    borderRadius: "100%",
+    width: 30,
+    height: 30,
+    backgroundColor: "#161F23",
+    borderStyle: "solid",
+    borderWidth: 2,
+    borderColor: "#3A464E",
+    zIndex: 10,
+  },
 });
