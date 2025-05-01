@@ -131,12 +131,13 @@ const styles = StyleSheet.create({
   },
 
   line: {
-    height: "100%",
+    height: "80%",
     width: 2,
     backgroundColor: "rgba(58,70,78,1.00)",
     position: "absolute",
-    top: 0,
+    top: "50%",
     left: "100%",
+    transform: "translateY(-50%)",
   },
 
   horizontalLine: {
