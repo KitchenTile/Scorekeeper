@@ -8,13 +8,13 @@ import {
   TextInput,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import ScoreBoardChart from "../../components/ScoreBoardChart";
-import StatsComponent from "../../components/StatsComponent";
-import PointScoreModal from "../../components/PointScoreModal";
+import ScoreBoardChart from "../../components/court_components/ScoreBoardChart";
+import StatsComponent from "../../components/court_components/StatsComponent";
+import PointScoreModal from "../../components/court_components/PointScoreModal";
 import { SafeAreaView } from "react-native-safe-area-context";
-import SetPlayersModal from "../../components/SetPlayersModal";
-import TeamsCompoenent from "@/components/TeamsComponent";
-import InfoComponent from "../../components/InfoComponent";
+import SetPlayersModal from "../../components/court_components/SetPlayersModal";
+import TeamsCompoenent from "@/components/court_components/TeamsComponent";
+import InfoComponent from "../../components/court_components/InfoComponent";
 
 const app = () => {
   const [players, setPlayers] = useState([]);
@@ -47,13 +47,13 @@ const app = () => {
     isMistake: null,
   });
 
-  useEffect(() => {
-    console.log(infoVisible);
-  }, [infoVisible]);
+  // useEffect(() => {
+  //   console.log(infoVisible);
+  // }, [infoVisible]);
 
-  useEffect(() => {
-    console.log(scores);
-  }, [scores]);
+  // useEffect(() => {
+  //   console.log(scores);
+  // }, [scores]);
 
   const handlePlayerSubmit = (value) => {
     setPlayers((prev) => {
