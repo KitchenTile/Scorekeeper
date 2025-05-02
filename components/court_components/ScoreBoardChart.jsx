@@ -53,7 +53,9 @@ const ScoreBoardChart = ({ lineChartScore, teams }) => {
       {/*  chart */}
       <LineChart
         data={{
-          labels: lineChartScore.map((point, index) => index.toString()),
+          labels: lineChartScore.map((point, index) =>
+            index > 10 ? (index % 2 === 0 ? index : "") : index
+          ),
           datasets: [{ data: lineChartScore.map((point) => point.score) }],
         }}
         width={Dimensions.get("window").width * 0.95}
