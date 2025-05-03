@@ -306,12 +306,13 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: "80%",
-    // minHeight: "60%",
     backgroundColor: "#161F23",
     padding: 10,
     borderRadius: 15,
     alignItems: "center",
-    border: "2px solid #3A464E",
+    borderColor: "#3A464E",
+    borderStyle: "solid",
+    borderWidth: 2,
   },
   modalTxt: {
     fontSize: 26,
@@ -333,6 +334,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     minWidth: 60,
     minHeight: 60,
+    borderStyle: "solid",
+    borderWidth: 2,
+    borderColor: "#3c4cbb",
   },
 
   methodButtonText: {
@@ -347,10 +351,16 @@ const styles = StyleSheet.create({
     margin: 5,
     borderRadius: 5,
     minWidth: 60,
+    borderStyle: "solid",
+    borderWidth: 2,
+    borderColor: "#3c4cbb",
   },
 
   selectedOption: {
     backgroundColor: "#28a745",
+    borderColor: "#28a745",
+    borderStyle: "solid",
+    borderWidth: 2,
   },
 
   optionText: {

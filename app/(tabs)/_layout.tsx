@@ -1,6 +1,7 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform, View } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Animated, View } from 'react-native';
+import TabIcon from '@/components/misc/TabIcon';
 
 import { HapticTab } from '@/components/HapticTab';
 import TabBarBackground from '@/components/ui/TabBarBackground';
@@ -37,18 +38,20 @@ export default function TabLayout() {
           title: 'Court',
           // tabBarIcon: ({ color }) => <FontAwesome6 name="volleyball" size={24} color={color} />,
           tabBarIcon: ({ color, focused }) => (
-            <View style={{
-              height: 38,
-              alignItems: 'center',
-              borderTopWidth: focused ? 2 : 0 ,
-              transitionTimingFunction: "ease-in-out",
-              transitionDuration: "0.2s",
-              borderTopColor: focused ? '#586DFF' : 'transparent',
-              paddingTop: 5,
-              width: '200%',
-            }}>
-              <FontAwesome6 name="volleyball" size={24} color={color} />
-            </View>
+            // <Animated.View style={{
+            //   height: 38,
+            //   alignItems: 'center',
+            //   borderTopWidth: 2,
+            //   borderTopColor: focused ? '#586DFF' : 'red',
+            //   paddingTop: 5,
+            //   width: focused ? '200%' : "100%" ,
+            //   transitionProperty: "all",
+            //   transitionTimingFunction: "ease-in-out",
+            //   transitionDuration: "0.2s",
+            // }}>
+            //   <FontAwesome6 name="volleyball" size={24} color={color} />
+            // </Animated.View>
+            <TabIcon focused={focused} color={color} iconName="volleyball" IconComponent={FontAwesome6}/>
           ),
         }}
       />
