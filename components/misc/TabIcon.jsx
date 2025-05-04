@@ -8,7 +8,7 @@ const TabIcon = ({ focused, IconComponent, iconName, color }) => {
     Animated.timing(borderAnim, {
       toValue: focused ? 1 : 0,
       duration: 200,
-      useNativeDriver: false, // borderColor needs false
+      useNativeDriver: false,
     }).start();
   }, [focused]);
 
