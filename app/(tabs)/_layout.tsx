@@ -36,21 +36,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Court',
-          // tabBarIcon: ({ color }) => <FontAwesome6 name="volleyball" size={24} color={color} />,
           tabBarIcon: ({ color, focused }) => (
-            // <Animated.View style={{
-            //   height: 38,
-            //   alignItems: 'center',
-            //   borderTopWidth: 2,
-            //   borderTopColor: focused ? '#586DFF' : 'red',
-            //   paddingTop: 5,
-            //   width: focused ? '200%' : "100%" ,
-            //   transitionProperty: "all",
-            //   transitionTimingFunction: "ease-in-out",
-            //   transitionDuration: "0.2s",
-            // }}>
-            //   <FontAwesome6 name="volleyball" size={24} color={color} />
-            // </Animated.View>
             <TabIcon focused={focused} color={color} iconName="volleyball" IconComponent={FontAwesome6}/>
           ),
         }}
@@ -60,18 +46,7 @@ export default function TabLayout() {
         options={{
           title: 'Game Stats',
           tabBarIcon: ({ color, focused }) => (
-            <View style={{
-              height: 38,
-              alignItems: 'center',
-              borderTopColor: focused ? '#586DFF' : 'transparent',
-              borderTopWidth: focused ? 2 : 0 ,
-              transitionTimingFunction: "ease-in-out",
-              transitionDuration: "0.2s",
-              paddingTop: 5,
-              width: '250%',
-            }}>
-              <AntDesign name="barschart" size={24} color={color} />
-            </View>
+              <TabIcon focused={focused} color={color} iconName="barschart" IconComponent={AntDesign}/>
           ),
         }}
       />
