@@ -1,12 +1,4 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  Modal,
-  TextInput,
-} from "react-native";
+import { Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import ScoreBoardChart from "../../components/court_components/ScoreBoardChart";
 import StatsComponent from "../../components/court_components/StatsComponent";
@@ -18,6 +10,7 @@ import InfoComponent from "../../components/court_components/InfoComponent";
 
 const app = () => {
   const [players, setPlayers] = useState([]);
+  const [currentSet, setCurrentSet] = useState(0);
   const [infoVisible, setInfoVisible] = useState(false);
   const [teams, setTeams] = useState(["", ""]);
   const [scores, setScores] = useState({
@@ -46,14 +39,18 @@ const app = () => {
     type: null,
     isMistake: null,
   });
+  const [set, setSet] = useState({
+    lineChartScore: [{}],
+    scores: { score: 0, myScore: 0, oppScore: 0 },
+  });
 
   // useEffect(() => {
   //   console.log(infoVisible);
   // }, [infoVisible]);
 
-  // useEffect(() => {
-  //   console.log(scores);
-  // }, [scores]);
+  useEffect(() => {
+    console.log(set);
+  }, [set]);
 
   const handlePlayerSubmit = (value) => {
     setPlayers((prev) => {
@@ -72,17 +69,33 @@ const app = () => {
 
   const handleConfirm = () => {
     if (currentPoint.type === `${teams[0]}`)
-      setScores({
-        ...scores,
-        myScore: scores.myScore + 1,
-        score: scores.score + 1,
+      // setScores({
+      //   ...scores,
+      //   myScore: scores.myScore + 1,
+      //   score: scores.score + 1,
+      // });
+      setSet({
+        ...set,
+        scores: {
+          ...scores,
+          myScore: set.scores.myScore + 1,
+          score: set.scores.score + 1,
+        },
       });
     else
-      setScores({
-        ...scores,
-        oppScore: scores.oppScore + 1,
-        score: scores.score - 1,
+      setSet({
+        ...set,
+        scores: {
+          ...scores,
+          oppScore: scores.oppScore + 1,
+          score: scores.score - 1,
+        },
       });
+    // setScores({
+    //   ...scores,
+    //   oppScore: scores.oppScore + 1,
+    //   score: scores.score - 1,
+    // });
 
     setLineChartScore((prev) => [
       ...prev,
