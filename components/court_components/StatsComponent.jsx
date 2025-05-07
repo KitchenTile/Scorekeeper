@@ -125,7 +125,7 @@ const StatsComponent = ({ team, score, scoreDetails }) => {
         ))}
       </View>
       <View style={styles.line}></View>
-      <View style={styles.horizontalLine}></View>
+      {/* <View style={styles.horizontalLine}></View> */}
     </View>
   );
 };
