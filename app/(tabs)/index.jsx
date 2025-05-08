@@ -10,28 +10,13 @@ import InfoComponent from "../../components/court_components/InfoComponent";
 
 const app = () => {
   const [players, setPlayers] = useState([]);
-  const [currentSet, setCurrentSet] = useState(0);
+  const [currentSetIndex, setCurrentSetIndex] = useState(0);
   const [infoVisible, setInfoVisible] = useState(false);
   const [teams, setTeams] = useState(["", ""]);
-  const [scores, setScores] = useState({
-    score: 0,
-    myScore: 0,
-    oppScore: 0,
-  });
   const [modalVisible, setModalVisible] = useState({
     setScore: false,
     setPlayers: true,
   });
-  const [lineChartScore, setLineChartScore] = useState([
-    {
-      score: 0,
-      author: "none",
-      method: "No Points Yet",
-      type: null,
-      reason: null,
-      isMistake: null,
-    },
-  ]);
   const [currentPoint, setCurrentPoint] = useState({
     reason: null,
     author: null,
@@ -39,18 +24,27 @@ const app = () => {
     type: null,
     isMistake: null,
   });
-  const [set, setSet] = useState({
-    lineChartScore: [{}],
-    scores: { score: 0, myScore: 0, oppScore: 0 },
-  });
+  const [sets, setSets] = useState([
+    {
+      lineChartScore: [
+        {
+          score: 0,
+          author: "none",
+          method: "No Points Yet",
+          type: null,
+          reason: null,
+          isMistake: null,
+        },
+      ],
+      scores: { score: 0, myScore: 0, oppScore: 0 },
+    },
+  ]);
 
-  // useEffect(() => {
-  //   console.log(infoVisible);
-  // }, [infoVisible]);
+  const currentSet = sets[currentSetIndex];
 
   useEffect(() => {
-    console.log(set);
-  }, [set]);
+    console.log(sets);
+  }, [sets]);
 
   const handlePlayerSubmit = (value) => {
     setPlayers((prev) => {
@@ -68,48 +62,41 @@ const app = () => {
   };
 
   const handleConfirm = () => {
-    if (currentPoint.type === `${teams[0]}`)
-      // setScores({
-      //   ...scores,
-      //   myScore: scores.myScore + 1,
-      //   score: scores.score + 1,
-      // });
-      setSet({
-        ...set,
+    setSets((prev) => {
+      const updatedSets = [...prev];
+      updatedSets[currentSetIndex] = {
+        ...updatedSets[currentSetIndex],
+        lineChartScore: [
+          ...updatedSets[currentSetIndex].lineChartScore,
+          {
+            score:
+              currentPoint.type === `${teams[0]}`
+                ? updatedSets[currentSetIndex].scores.score + 1
+                : updatedSets[currentSetIndex].scores.score - 1,
+            author: currentPoint.author,
+            method: currentPoint.method,
+            type: currentPoint.type,
+            reason: currentPoint.reason,
+            isMistake: currentPoint.reason === "Defence Mistake",
+          },
+        ],
         scores: {
-          ...scores,
-          myScore: set.scores.myScore + 1,
-          score: set.scores.score + 1,
+          myScore:
+            currentPoint.type === `${teams[0]}`
+              ? updatedSets[currentSetIndex].scores.myScore + 1
+              : updatedSets[currentSetIndex].scores.myScore,
+          oppScore:
+            currentPoint.type === `${teams[0]}`
+              ? updatedSets[currentSetIndex].scores.oppScore
+              : updatedSets[currentSetIndex].scores.oppScore + 1,
+          score:
+            currentPoint.type === `${teams[0]}`
+              ? updatedSets[currentSetIndex].scores.score + 1
+              : updatedSets[currentSetIndex].scores.score - 1,
         },
-      });
-    else
-      setSet({
-        ...set,
-        scores: {
-          ...scores,
-          oppScore: scores.oppScore + 1,
-          score: scores.score - 1,
-        },
-      });
-    // setScores({
-    //   ...scores,
-    //   oppScore: scores.oppScore + 1,
-    //   score: scores.score - 1,
-    // });
-
-    setLineChartScore((prev) => [
-      ...prev,
-      {
-        score:
-          currentPoint.type === `${teams[0]}`
-            ? scores.score + 1
-            : scores.score - 1,
-        author: currentPoint.author,
-        method: currentPoint.method,
-        type: currentPoint.type,
-        reason: currentPoint.reason,
-      },
-    ]);
+      };
+      return updatedSets;
+    });
 
     setModalVisible({ ...modalVisible, setScore: false });
     setCurrentPoint({ author: null, method: null, type: null });
@@ -136,7 +123,10 @@ const app = () => {
       />
       <TeamsCompoenent handleTeamSubmit={handleTeamSubmit} teams={teams} />
 
-      <ScoreBoardChart lineChartScore={lineChartScore} teams={teams} />
+      <ScoreBoardChart
+        lineChartScore={currentSet.lineChartScore}
+        teams={teams}
+      />
 
       <SafeAreaView style={styles.infoContainer}>
         <TouchableOpacity
@@ -153,13 +143,13 @@ const app = () => {
           <>
             <StatsComponent
               team={teams[0]}
-              score={scores.myScore}
-              scoreDetails={lineChartScore}
+              score={currentSet.scores.myScore}
+              scoreDetails={currentSet.lineChartScore}
             />
             <StatsComponent
               team={teams[1]}
-              score={scores.oppScore}
-              scoreDetails={lineChartScore}
+              score={currentSet.scores.oppScore}
+              scoreDetails={currentSet.lineChartScore}
             />
           </>
         )}
