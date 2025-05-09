@@ -37,6 +37,8 @@ const app = () => {
         },
       ],
       scores: { score: 0, myScore: 0, oppScore: 0 },
+      winner: "",
+      number: currentSetIndex + 1,
     },
   ]);
 
@@ -45,6 +47,12 @@ const app = () => {
   useEffect(() => {
     console.log(sets);
   }, [sets]);
+
+  useEffect(() => {
+    console.log("My score: " + currentSet.scores.myScore);
+    console.log("Opp score: " + currentSet.scores.oppScore);
+    console.log("score: " + currentSet.scores.score);
+  }, [currentSet.scores]);
 
   const handlePlayerSubmit = (value) => {
     setPlayers((prev) => {
@@ -62,6 +70,44 @@ const app = () => {
   };
 
   const handleConfirm = () => {
+    if (
+      (currentPoint.type === `${teams[0]}` &&
+        currentSet.scores.myScore >= 4 &&
+        currentSet.scores.score >= 1) ||
+      (currentPoint.type === `${teams[1]}` &&
+        currentSet.scores.oppScore >= 4 &&
+        currentSet.scores.score <= -1)
+    ) {
+      setSets((prev) => {
+        const updatedSets = [...prev];
+        updatedSets[currentSetIndex] = {
+          ...updatedSets[currentSetIndex],
+          winner:
+            currentPoint.type === `${teams[0]}` ? `${teams[0]}` : `${teams[1]}`,
+        };
+
+        return [
+          ...updatedSets,
+          {
+            lineChartScore: [
+              {
+                score: 0,
+                author: "none",
+                method: "No Points Yet",
+                type: null,
+                reason: null,
+                isMistake: null,
+              },
+            ],
+            scores: { score: 0, myScore: 0, oppScore: 0 },
+            winner: "",
+            number: currentSetIndex + 2,
+          },
+        ];
+      });
+      setCurrentSetIndex((prev) => prev + 1);
+    }
+
     setSets((prev) => {
       const updatedSets = [...prev];
       updatedSets[currentSetIndex] = {
