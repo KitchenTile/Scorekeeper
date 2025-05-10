@@ -1,7 +1,22 @@
+import { useMatchStore } from "@/store";
+import { useEffect } from "react";
 import { StyleSheet, Text } from "react-native";
 import { TextInput, View } from "react-native-web";
 
-const TeamsCompoenent = ({ handleTeamSubmit, teams }) => {
+const TeamsCompoenent = () => {
+  const teams = useMatchStore((state) => state.teams);
+  const setTeams = useMatchStore((state) => state.setTeams);
+
+  const handleTeamSubmit = (input, idx) => {
+    const updatedTeams = [...teams];
+    updatedTeams[idx] = input.toUpperCase();
+    setTeams(updatedTeams);
+  };
+
+  useEffect(() => {
+    console.log(teams);
+  }, [teams]);
+
   return (
     <View style={styles.teamsContainer}>
       <View style={styles.team}>
