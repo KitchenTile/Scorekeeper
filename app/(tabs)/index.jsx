@@ -7,40 +7,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import SetPlayersModal from "../../components/court_components/SetPlayersModal";
 import TeamsCompoenent from "@/components/court_components/TeamsComponent";
 import InfoComponent from "../../components/court_components/InfoComponent";
+import { useMatchStore } from "../../store";
 
 const app = () => {
-  const [players, setPlayers] = useState([]);
-  const [currentSetIndex, setCurrentSetIndex] = useState(0);
+  const sets = useMatchStore((state) => state.sets);
+  const setModalVisible = useMatchStore((state) => state.setModalVisible);
+  const modalVisible = useMatchStore((state) => state.modalVisible);
+  const teams = useMatchStore((state) => state.teams);
+  const currentPoint = useMatchStore((state) => state.currentPoint);
+  const setCurrentPoint = useMatchStore((state) => state.setCurrentPoint);
+  const currentSetIndex = useMatchStore((state) => state.currentSetIndex);
   const [infoVisible, setInfoVisible] = useState(false);
-  const [teams, setTeams] = useState(["", ""]);
-  const [modalVisible, setModalVisible] = useState({
-    setScore: false,
-    setPlayers: true,
-  });
-  const [currentPoint, setCurrentPoint] = useState({
-    reason: null,
-    author: null,
-    method: null,
-    type: null,
-    isMistake: null,
-  });
-  const [sets, setSets] = useState([
-    {
-      lineChartScore: [
-        {
-          score: 0,
-          author: "none",
-          method: "No Points Yet",
-          type: null,
-          reason: null,
-          isMistake: null,
-        },
-      ],
-      scores: { score: 0, myScore: 0, oppScore: 0 },
-      winner: "",
-      number: currentSetIndex + 1,
-    },
-  ]);
 
   const currentSet = sets[currentSetIndex];
 
@@ -48,131 +25,12 @@ const app = () => {
     console.log(sets);
   }, [sets]);
 
-  useEffect(() => {
-    console.log("My score: " + currentSet.scores.myScore);
-    console.log("Opp score: " + currentSet.scores.oppScore);
-    console.log("score: " + currentSet.scores.score);
-  }, [currentSet.scores]);
-
-  const handlePlayerSubmit = (value) => {
-    setPlayers((prev) => {
-      if (!prev.includes(value)) {
-        return [...prev, value];
-      }
-      return prev;
-    });
-  };
-
-  const handlePlayerDelete = (value) => {
-    setPlayers((prev) => {
-      return prev.filter((id) => id !== prev[value]);
-    });
-  };
-
-  const handleConfirm = () => {
-    if (
-      (currentPoint.type === `${teams[0]}` &&
-        currentSet.scores.myScore >= 4 &&
-        currentSet.scores.score >= 1) ||
-      (currentPoint.type === `${teams[1]}` &&
-        currentSet.scores.oppScore >= 4 &&
-        currentSet.scores.score <= -1)
-    ) {
-      setSets((prev) => {
-        const updatedSets = [...prev];
-        updatedSets[currentSetIndex] = {
-          ...updatedSets[currentSetIndex],
-          winner:
-            currentPoint.type === `${teams[0]}` ? `${teams[0]}` : `${teams[1]}`,
-        };
-
-        return [
-          ...updatedSets,
-          {
-            lineChartScore: [
-              {
-                score: 0,
-                author: "none",
-                method: "No Points Yet",
-                type: null,
-                reason: null,
-                isMistake: null,
-              },
-            ],
-            scores: { score: 0, myScore: 0, oppScore: 0 },
-            winner: "",
-            number: currentSetIndex + 2,
-          },
-        ];
-      });
-      setCurrentSetIndex((prev) => prev + 1);
-    }
-
-    setSets((prev) => {
-      const updatedSets = [...prev];
-      updatedSets[currentSetIndex] = {
-        ...updatedSets[currentSetIndex],
-        lineChartScore: [
-          ...updatedSets[currentSetIndex].lineChartScore,
-          {
-            score:
-              currentPoint.type === `${teams[0]}`
-                ? updatedSets[currentSetIndex].scores.score + 1
-                : updatedSets[currentSetIndex].scores.score - 1,
-            author: currentPoint.author,
-            method: currentPoint.method,
-            type: currentPoint.type,
-            reason: currentPoint.reason,
-            isMistake: currentPoint.reason === "Defence Mistake",
-          },
-        ],
-        scores: {
-          myScore:
-            currentPoint.type === `${teams[0]}`
-              ? updatedSets[currentSetIndex].scores.myScore + 1
-              : updatedSets[currentSetIndex].scores.myScore,
-          oppScore:
-            currentPoint.type === `${teams[0]}`
-              ? updatedSets[currentSetIndex].scores.oppScore
-              : updatedSets[currentSetIndex].scores.oppScore + 1,
-          score:
-            currentPoint.type === `${teams[0]}`
-              ? updatedSets[currentSetIndex].scores.score + 1
-              : updatedSets[currentSetIndex].scores.score - 1,
-        },
-      };
-      return updatedSets;
-    });
-
-    setModalVisible({ ...modalVisible, setScore: false });
-    setCurrentPoint({ author: null, method: null, type: null });
-  };
-
-  const handleTeamSubmit = (input, idx) => {
-    const updatedTeams = [...teams];
-    updatedTeams[idx] = input.toUpperCase();
-    setTeams(updatedTeams);
-  };
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <SetPlayersModal
-        modalVisible={modalVisible.setPlayers}
-        players={players}
-        handleTeamSubmit={handleTeamSubmit}
-        handlePlayerDelete={handlePlayerDelete}
-        handlePlayerSubmit={handlePlayerSubmit}
-        teams={teams}
-        onConfirm={() =>
-          setModalVisible({ ...modalVisible, setPlayers: false })
-        }
-      />
-      <TeamsCompoenent handleTeamSubmit={handleTeamSubmit} teams={teams} />
+      <SetPlayersModal />
+      <TeamsCompoenent />
 
-      <ScoreBoardChart
-        lineChartScore={currentSet.lineChartScore}
-        teams={teams}
-      />
+      <ScoreBoardChart />
 
       <SafeAreaView style={styles.infoContainer}>
         <TouchableOpacity
@@ -187,15 +45,10 @@ const app = () => {
           <InfoComponent />
         ) : (
           <>
-            <StatsComponent
-              team={teams[0]}
-              score={currentSet.scores.myScore}
-              scoreDetails={currentSet.lineChartScore}
-            />
+            <StatsComponent team={teams[0]} score={currentSet.scores.myScore} />
             <StatsComponent
               team={teams[1]}
               score={currentSet.scores.oppScore}
-              scoreDetails={currentSet.lineChartScore}
             />
           </>
         )}
@@ -220,18 +73,7 @@ const app = () => {
           <Text style={styles.bttnTxt}>-</Text>
         </TouchableOpacity>
       </SafeAreaView>
-      <PointScoreModal
-        modalVisible={modalVisible.setScore}
-        players={players}
-        currentPoint={currentPoint}
-        setCurrentPoint={setCurrentPoint}
-        onConfirm={handleConfirm}
-        teams={teams}
-        onClose={() => {
-          setModalVisible({ ...modalVisible, setScore: false });
-          setCurrentPoint({ author: null, method: null, type: null });
-        }}
-      />
+      <PointScoreModal />
     </ScrollView>
   );
 };
