@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import { useMatchStore } from "@/store";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Modal } from "react-native";
 
-const ScoreModal = ({
-  modalVisible,
-  setCurrentPoint,
-  currentPoint,
-  players,
-  onConfirm,
-  onClose,
-  teams,
-}) => {
+const ScoreModal = () => {
+  const players = useMatchStore((state) => state.players);
+  const currentPoint = useMatchStore((state) => state.currentPoint);
+  const setCurrentPoint = useMatchStore((state) => state.setCurrentPoint);
+  const modalVisible = useMatchStore((state) => state.modalVisible);
+  const setModalVisible = useMatchStore((state) => state.setModalVisible);
+  const teams = useMatchStore((state) => state.teams);
+  const handleConfirm = useMatchStore((state) => state.handleConfirm);
+
   return (
-    <Modal visible={modalVisible} transparent animationType="slide">
+    <Modal visible={modalVisible.setScore} transparent animationType="slide">
       {currentPoint.type === teams[0] ? (
         <View style={styles.modalBackground}>
           <View style={styles.modalContent}>
@@ -143,11 +144,17 @@ const ScoreModal = ({
             <View style={styles.bttnContainer}>
               <TouchableOpacity
                 style={styles.confirmButton}
-                onPress={onConfirm}
+                onPress={() => handleConfirm()}
               >
                 <Text style={styles.bttnText}>Confirm</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
+              <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={() => {
+                  setModalVisible({ ...modalVisible, setScore: false });
+                  setCurrentPoint({ author: null, method: null, type: null });
+                }}
+              >
                 <Text style={styles.bttnText}>Cancel</Text>
               </TouchableOpacity>
             </View>
@@ -264,11 +271,17 @@ const ScoreModal = ({
             <View style={styles.bttnContainer}>
               <TouchableOpacity
                 style={styles.confirmButton}
-                onPress={onConfirm}
+                onPress={() => handleConfirm()}
               >
                 <Text style={styles.bttnText}>Confirm</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.cancelButton} onPress={onClose}>
+              <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={() => {
+                  setModalVisible({ ...modalVisible, setScore: false });
+                  setCurrentPoint({ author: null, method: null, type: null });
+                }}
+              >
                 <Text style={styles.bttnText}>Cancel</Text>
               </TouchableOpacity>
             </View>
