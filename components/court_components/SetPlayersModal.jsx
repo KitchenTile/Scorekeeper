@@ -9,25 +9,25 @@ import {
   SafeAreaView,
   TextInput,
 } from "react-native";
+import { useMatchStore } from "@/store";
 
-const SetPlayersModal = ({
-  players,
-  modalVisible,
-  handlePlayerDelete,
-  handlePlayerSubmit,
-  handleTeamSubmit,
-  onConfirm,
-  teams,
-}) => {
+const SetPlayersModal = () => {
+  const modalVisible = useMatchStore((state) => state.modalVisible);
+  const setModalVisible = useMatchStore((state) => state.setModalVisible);
+
+  const players = useMatchStore((state) => state.players);
+  const addPlayer = useMatchStore((state) => state.addPlayer);
+  const removePlayer = useMatchStore((state) => state.removePlayer);
+
   return (
-    <Modal visible={modalVisible} transparent animationType="slide">
+    <Modal visible={modalVisible.setPlayers} transparent animationType="slide">
       <View style={styles.modalBackground}>
         <View style={styles.modalContent}>
           <View>
             <Text style={styles.modalTxt}>
               Enter teams' names (3 letters MAX)
             </Text>
-            <TeamsComponent handleTeamSubmit={handleTeamSubmit} teams={teams} />
+            <TeamsComponent />
           </View>
           <Text style={styles.modalTxt}>
             Enter the team's players (tap to delete)
@@ -38,7 +38,7 @@ const SetPlayersModal = ({
                 <Text
                   style={styles.setPlayer}
                   key={index}
-                  onPress={() => handlePlayerDelete(index)}
+                  onPress={() => removePlayer(index)}
                 >
                   {players[index]}
                 </Text>
@@ -47,7 +47,7 @@ const SetPlayersModal = ({
                   key={index}
                   onBlur={(e) =>
                     e.nativeEvent.text !== ""
-                      ? handlePlayerSubmit(e.nativeEvent.text)
+                      ? addPlayer(e.nativeEvent.text)
                       : null
                   }
                   style={[
@@ -72,7 +72,9 @@ const SetPlayersModal = ({
                 borderColor: players.length < 6 ? "#3A464E" : "#488719",
               },
             ]}
-            onPress={onConfirm}
+            onPress={() =>
+              setModalVisible({ ...modalVisible, setPlayers: false })
+            }
             disabled={players.length < 6}
           >
             <Text
