@@ -1,7 +1,13 @@
+import { useMatchStore } from "@/store";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-const StatsComponent = ({ team, score, scoreDetails }) => {
+const StatsComponent = ({ team, score }) => {
+  const sets = useMatchStore((state) => state.sets);
+  const currentSetIndex = useMatchStore((state) => state.currentSetIndex);
+
+  const scoreDetails = sets[currentSetIndex].lineChartScore;
+
   const [statsToDisplay, setStatsToDisplay] = useState("points");
 
   const statOrganizer = () => {
