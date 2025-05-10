@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { LineChart } from "react-native-chart-kit";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { useMatchStore } from "@/store";
 
-const ScoreBoardChart = ({ lineChartScore, teams }) => {
+const ScoreBoardChart = () => {
   const [selectedPoint, setSelectedPoint] = useState(null);
+  const teams = useMatchStore((state) => state.teams);
+  const sets = useMatchStore((state) => state.sets);
+  const currentSetIndex = useMatchStore((state) => state.currentSetIndex);
+
+  const lineChartScore = sets[currentSetIndex].lineChartScore;
 
   return (
     <>
