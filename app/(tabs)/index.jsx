@@ -29,9 +29,7 @@ const app = () => {
     <ScrollView contentContainerStyle={styles.container}>
       <SetPlayersModal />
       <TeamsCompoenent />
-
       <ScoreBoardChart />
-
       <SafeAreaView style={styles.infoContainer}>
         <TouchableOpacity
           style={styles.infoIcon}
