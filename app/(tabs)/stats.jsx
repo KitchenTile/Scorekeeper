@@ -4,14 +4,18 @@ import { useMatchStore } from "../../store";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import PlayersGraphs from "../../components/stats_components/PlayersGraphs";
+import ErrorGraph from "../../components/stats_components/ErrorGraph";
 
 const stats = () => {
   const [activeTab, setActiveTab] = useState(1);
   const sets = useMatchStore((state) => state.sets);
 
-  useEffect(() => {
-    console.log(activeTab);
-  }, [activeTab]);
+  // useEffect(() => {
+  //   console.log(pointsData);
+  // }, [pointsData]);
+
+  console.log(sets[0].lineChartScore);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -34,7 +38,9 @@ const stats = () => {
               justifyContent: "space-around",
             }}
           >
-            <Text style={styles.title}>SET {index + 1} BREAKDOWN</Text>
+            <>
+              <Text style={styles.title}>SET {index + 1} BREAKDOWN</Text>
+            </>
             <TouchableOpacity
               style={[styles.optionButton, { textAlign: "center" }]}
               onPress={() => setActiveTab(index)}
@@ -42,6 +48,8 @@ const stats = () => {
               <AntDesign name="caretdown" size={24} color="white" />{" "}
             </TouchableOpacity>
           </View>
+          {/* <PlayersGraphs set={sets[index]} /> */}
+          <ErrorGraph set={sets[index]} />
         </View>
       ))}
     </ScrollView>
@@ -143,11 +151,12 @@ const styles = StyleSheet.create({
 
   optionButton: {
     backgroundColor: "#586DFF",
-    padding: 10,
+    padding: 3,
+    // paddingTop: 2,
     margin: 5,
     borderRadius: 5,
-    minWidth: 50,
-    minHeight: 50,
+    minWidth: 30,
+    minHeight: 20,
     borderStyle: "solid",
     borderWidth: 2,
     borderColor: "#3c4cbb",
