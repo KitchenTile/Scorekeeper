@@ -74,35 +74,64 @@ const PlayersGraphs = ({ set }) => {
     barPercentage: 0.8,
   };
 
+  const pieHasData = pieData.some((entry) => entry.errorQty > 0);
+  const barHasData = barData.datasets[0].data.some((val) => val > 0);
+
   return (
     <>
-      <Text>Points Graph</Text>
+      <Text style={styles.title}>Points Graph</Text>
       <View>
-        <BarChart
-          // style={graphStyle}
-          data={barData}
-          width={Dimensions.get("window").width * 0.85}
-          height={220}
-          chartConfig={chartConfig}
-        />
+        {barHasData ? (
+          <BarChart
+            // style={graphStyle}
+            data={barData}
+            width={Dimensions.get("window").width * 0.85}
+            height={220}
+            chartConfig={chartConfig}
+          />
+        ) : (
+          <Text style={styles.placeholder}>
+            No points data to show in bar chart.
+          </Text>
+        )}
       </View>
       <View>
-        <PieChart
-          data={pieData}
-          width={Dimensions.get("window").width * 0.85}
-          height={220}
-          chartConfig={chartConfig}
-          accessor={"errorQty"}
-          backgroundColor={"transparent"}
-          // paddingLeft={"15"}
-          // center={[10, 50]}
-          absolute
-        />
+        {pieHasData ? (
+          <PieChart
+            data={pieData}
+            width={Dimensions.get("window").width * 0.85}
+            height={220}
+            chartConfig={chartConfig}
+            accessor={"errorQty"}
+            backgroundColor={"transparent"}
+            // paddingLeft={"15"}
+            // center={[10, 50]}
+            absolute
+          />
+        ) : (
+          <Text style={styles.placeholder}>
+            No error data to show in pie chart.
+          </Text>
+        )}
       </View>
     </>
   );
 };
 
 export default PlayersGraphs;
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 18,
+    color: "white",
+    marginBottom: 10,
+  },
+  placeholder: {
+    textAlign: "center",
+    color: "#ccc",
+    fontStyle: "italic",
+    marginVertical: 20,
+  },
+});
 
 const POINTMETHODS = ["Ace", "Block", "KILL", "TIP"];
