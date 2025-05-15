@@ -27,7 +27,10 @@ const PlayersGraphs = ({ set }) => {
     });
 
     for (let i = 0; i < sets.lineChartScore.length; i++) {
-      if (POINTMETHODS.includes(sets.lineChartScore[i].method)) {
+      if (
+        POINTMETHODS.includes(sets.lineChartScore[i].method) &&
+        sets.lineChartScore[i].type
+      ) {
         oppObj[sets.lineChartScore[i].method]++;
       }
     }
@@ -104,7 +107,7 @@ const PlayersGraphs = ({ set }) => {
             chartConfig={chartConfig}
             accessor={"errorQty"}
             backgroundColor={"transparent"}
-            // paddingLeft={"15"}
+            paddingLeft={"30"}
             // center={[10, 50]}
             absolute
           />
