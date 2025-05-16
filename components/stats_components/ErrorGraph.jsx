@@ -67,7 +67,7 @@ const ErrorGraph = ({ set }) => {
     ],
   };
 
-  console.log(barData);
+  console.log(pieData.length);
 
   const chartConfig = {
     backgroundGradientFrom: "#1E2923",
@@ -79,10 +79,14 @@ const ErrorGraph = ({ set }) => {
     barPercentage: 0.8,
   };
 
+  const pieHasData = pieData.some((entry) => entry.errorQty > 0);
+  const barHasData = barData.datasets[0].data.some((val) => val > 0);
+
   return (
     <>
-      <Text>Error Graphs</Text>
-      <View>
+      <Text style={styles.title}>Error Graphs</Text>
+
+      {pieHasData ? (
         <PieChart
           data={pieData}
           width={Dimensions.get("window").width * 0.85}
@@ -90,25 +94,46 @@ const ErrorGraph = ({ set }) => {
           chartConfig={chartConfig}
           accessor={"errorQty"}
           backgroundColor={"transparent"}
-          // paddingLeft={"15"}
-          // center={[10, 50]}
           absolute
         />
-      </View>
-      <View>
+      ) : (
+        <Text style={styles.placeholder}>
+          No error data to show in pie chart.
+        </Text>
+      )}
+
+      {barHasData ? (
         <BarChart
-          // style={graphStyle}
           data={barData}
           width={Dimensions.get("window").width * 0.85}
           height={220}
           chartConfig={chartConfig}
+          style={{ color: "red" }}
         />
-      </View>
+      ) : (
+        <Text style={styles.placeholder}>
+          No player error data to show in bar chart.
+        </Text>
+      )}
     </>
   );
 };
 
 export default ErrorGraph;
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 18,
+    color: "white",
+    marginBottom: 10,
+  },
+  placeholder: {
+    textAlign: "center",
+    color: "#ccc",
+    fontStyle: "italic",
+    marginVertical: 20,
+  },
+});
 
 const MISTAKEMETHODS = [
   "Communication",
