@@ -4,23 +4,27 @@ import { useMatchStore } from "../../store";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import PlayersGraphs from "../../components/stats_components/PlayersGraphs";
+import ErrorGraph from "../../components/stats_components/ErrorGraph";
+import TeamsCompoenent from "@/components/court_components/TeamsComponent";
 
 const stats = () => {
-  const [activeTab, setActiveTab] = useState(1);
+  const [activeTab, setActiveTab] = useState(null);
   const sets = useMatchStore((state) => state.sets);
 
-  useEffect(() => {
-    console.log(activeTab);
-  }, [activeTab]);
+  // useEffect(() => {
+  //   console.log(pointsData);
+  // }, [pointsData]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <TeamsCompoenent />
       {sets.map((set, index) => (
         <View
           style={[
             styles.pointInfoContainer,
             {
-              height: index === activeTab ? 300 : "",
+              height: index === activeTab ? "" : 65,
               display: "flex",
               flexDirection: "column",
             },
@@ -28,20 +32,26 @@ const stats = () => {
         >
           <View
             style={{
-              maxHeight: 80,
+              maxHeight: 65,
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-around",
             }}
           >
-            <Text style={styles.title}>SET {index + 1} BREAKDOWN</Text>
+            <>
+              <Text style={[styles.title, { lineHeight: 44 }]}>
+                SET {index + 1} BREAKDOWN
+              </Text>
+            </>
             <TouchableOpacity
               style={[styles.optionButton, { textAlign: "center" }]}
               onPress={() => setActiveTab(index)}
             >
-              <AntDesign name="caretdown" size={24} color="white" />{" "}
+              <AntDesign name="caretdown" size={20} color="white" />{" "}
             </TouchableOpacity>
           </View>
+          <PlayersGraphs set={sets[index]} />
+          <ErrorGraph set={sets[index]} />
         </View>
       ))}
     </ScrollView>
@@ -57,6 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginTop: 50,
     padding: 20,
+    height: "100%",
     // maxWidth: "800px",
   },
 
@@ -77,6 +88,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 10,
     marginInline: "auto",
+    overflow: "hidden",
   },
 
   infoContainer: {
@@ -143,11 +155,12 @@ const styles = StyleSheet.create({
 
   optionButton: {
     backgroundColor: "#586DFF",
-    padding: 10,
+    padding: 3,
+    paddingTop: 1,
     margin: 5,
     borderRadius: 5,
-    minWidth: 50,
-    minHeight: 50,
+    minWidth: 30,
+    maxHeight: 30,
     borderStyle: "solid",
     borderWidth: 2,
     borderColor: "#3c4cbb",
