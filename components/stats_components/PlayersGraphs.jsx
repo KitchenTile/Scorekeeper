@@ -16,7 +16,10 @@ const PlayersGraphs = ({ set }) => {
     });
 
     for (let i = 0; i < sets.lineChartScore.length; i++) {
-      if (players.includes(sets.lineChartScore[i].author)) {
+      if (
+        !sets.lineChartScore[i].isMistake &&
+        players.includes(sets.lineChartScore[i].author)
+      ) {
         playerObj[sets.lineChartScore[i].author]++;
       }
     }
