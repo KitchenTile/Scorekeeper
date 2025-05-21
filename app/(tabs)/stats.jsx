@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
     padding: 20,
     height: "100%",
+    overflow: "scroll",
     // maxWidth: "800px",
   },
 
