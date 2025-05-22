@@ -77,6 +77,12 @@ const ErrorGraph = ({ set }) => {
     color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
     strokeWidth: 3,
     barPercentage: 0.8,
+
+    backgroundGradientFrom: "#f7f7f7",
+    backgroundGradientTo: "#e3e3e3",
+    color: (opacity = 1) => `rgba(120, 80, 220, ${opacity})`,
+    labelColor: (opacity = 1) => `rgba(80, 80, 80, ${opacity})`,
+    strokeWidth: 1,
   };
 
   const pieHasData = pieData.some((entry) => entry.errorQty > 0);
