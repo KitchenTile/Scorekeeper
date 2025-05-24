@@ -92,33 +92,41 @@ const ErrorGraph = ({ set }) => {
     <>
       <Text style={styles.title}>Error Graphs</Text>
 
-      {pieHasData ? (
-        <PieChart
-          data={pieData}
-          width={Dimensions.get("window").width * 0.85}
-          height={220}
-          chartConfig={chartConfig}
-          accessor={"errorQty"}
-          backgroundColor={"transparent"}
-          absolute
-        />
-      ) : (
-        <Text style={styles.placeholder}>
-          No error data to show in pie chart.
-        </Text>
-      )}
-
       {barHasData ? (
-        <BarChart
-          data={barData}
-          width={Dimensions.get("window").width * 0.85}
-          height={220}
-          chartConfig={chartConfig}
-          style={{ color: "red" }}
-        />
+        <>
+          <Text style={styles.placeholder}>Error per player</Text>
+
+          <BarChart
+            data={barData}
+            width={Dimensions.get("window").width * 0.85}
+            height={220}
+            chartConfig={chartConfig}
+            style={{ color: "red" }}
+          />
+        </>
       ) : (
         <Text style={styles.placeholder}>
           No player error data to show in bar chart.
+        </Text>
+      )}
+
+      {pieHasData ? (
+        <>
+          <Text style={styles.placeholder}>Type of Error</Text>
+
+          <PieChart
+            data={pieData}
+            width={Dimensions.get("window").width * 0.85}
+            height={220}
+            chartConfig={chartConfig}
+            accessor={"errorQty"}
+            backgroundColor={"transparent"}
+            absolute
+          />
+        </>
+      ) : (
+        <Text style={styles.placeholder}>
+          No error data to show in pie chart.
         </Text>
       )}
     </>
