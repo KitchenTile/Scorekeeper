@@ -13,8 +13,18 @@ const stats = () => {
   const sets = useMatchStore((state) => state.sets);
 
   // useEffect(() => {
-  //   console.log(pointsData);
-  // }, [pointsData]);
+  //   console.log(activeTab);
+  // }, [activeTab]);
+
+  const activeTabToggle = (index) => {
+    setActiveTab((prev) => {
+      if (prev === index) {
+        return null;
+      } else {
+        return index;
+      }
+    });
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -39,15 +49,15 @@ const stats = () => {
             }}
           >
             <>
-              <Text style={[styles.title, { lineHeight: 44 }]}>
+              <Text style={[styles.title, { lineHeight: 42 }]}>
                 SET {index + 1} BREAKDOWN
               </Text>
             </>
             <TouchableOpacity
               style={[styles.optionButton, { textAlign: "center" }]}
-              onPress={() => setActiveTab(index)}
+              onPress={() => activeTabToggle(index)}
             >
-              <AntDesign name="caretdown" size={20} color="white" />{" "}
+              <AntDesign name="caretdown" size={20} color="white" />
             </TouchableOpacity>
           </View>
           <PlayersGraphs set={sets[index]} />
@@ -147,8 +157,8 @@ const styles = StyleSheet.create({
     left: "50%",
     top: "50%",
     transform: "translate(-50%, -60%)",
-    fontSize: "34px",
-    lineHeight: "28px",
+    fontSize: 34,
+    lineHeight: 28,
     textAlign: "center",
     color: "rgb(0,0,0)",
     fontWeight: 600,
@@ -157,7 +167,7 @@ const styles = StyleSheet.create({
   optionButton: {
     backgroundColor: "#586DFF",
     padding: 3,
-    paddingTop: 1,
+    paddingTop: 0,
     margin: 5,
     borderRadius: 5,
     minWidth: 30,
