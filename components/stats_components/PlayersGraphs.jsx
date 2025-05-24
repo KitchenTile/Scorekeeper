@@ -58,8 +58,8 @@ const PlayersGraphs = ({ set }) => {
   };
 
   const pieData = Object.entries(oppObject).map(([key, value], index) => {
-    const hue = 1 + index * 4;
-    const lightness = Math.max(10, 80 - value * 5);
+    const hue = 205 + index * 4;
+    const lightness = Math.max(30, 60 - value * 5);
 
     return {
       name: key,
@@ -75,6 +75,7 @@ const PlayersGraphs = ({ set }) => {
     backgroundGradientFromOpacity: 0,
     backgroundGradientTo: "#08130D",
     backgroundGradientToOpacity: 0.5,
+    // paddingLeft: 10,
     color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
     strokeWidth: 3, // optional, default 3
     barPercentage: 0.8,
@@ -88,13 +89,20 @@ const PlayersGraphs = ({ set }) => {
       <Text style={styles.title}>Points Graph</Text>
       <View>
         {barHasData ? (
-          <BarChart
-            // style={graphStyle}
-            data={barData}
-            width={Dimensions.get("window").width * 0.85}
-            height={220}
-            chartConfig={chartConfig}
-          />
+          <>
+            <Text style={styles.placeholder}>Points per player</Text>
+            <BarChart
+              style={{
+                paddingRight: 10,
+                borderBlockColor: "red",
+                borderWidth: 2,
+              }}
+              data={barData}
+              width={Dimensions.get("window").width * 0.85}
+              height={220}
+              chartConfig={chartConfig}
+            />
+          </>
         ) : (
           <Text style={styles.placeholder}>
             No points data to show in bar chart.
@@ -103,17 +111,21 @@ const PlayersGraphs = ({ set }) => {
       </View>
       <View>
         {pieHasData ? (
-          <PieChart
-            data={pieData}
-            width={Dimensions.get("window").width * 0.85}
-            height={220}
-            chartConfig={chartConfig}
-            accessor={"errorQty"}
-            backgroundColor={"transparent"}
-            paddingLeft={"30"}
-            // center={[10, 50]}
-            absolute
-          />
+          <>
+            <Text style={styles.placeholder}>Type of point</Text>
+
+            <PieChart
+              data={pieData}
+              width={Dimensions.get("window").width * 0.85}
+              height={220}
+              chartConfig={chartConfig}
+              accessor={"errorQty"}
+              backgroundColor={"transparent"}
+              paddingLeft={"30"}
+              // center={[10, 50]}
+              absolute
+            />
+          </>
         ) : (
           <Text style={styles.placeholder}>
             No error data to show in pie chart.
