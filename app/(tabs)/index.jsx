@@ -21,9 +21,9 @@ const app = () => {
 
   const currentSet = sets[currentSetIndex];
 
-  useEffect(() => {
-    console.log(sets);
-  }, [sets]);
+  // useEffect(() => {
+  //   console.log(sets);
+  // }, [sets]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -62,7 +62,10 @@ const app = () => {
           <Text style={styles.bttnTxt}>+</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.bttnOpp}
+          style={[
+            styles.bttn,
+            { backgroundColor: "#DC605B", borderColor: "#B52924" },
+          ]}
           onPress={() => {
             setCurrentPoint({ ...currentPoint, type: `${teams[1]}` });
             setModalVisible({ ...modalVisible, setScore: true });
@@ -137,18 +140,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#78C93C",
     borderWidth: 2,
     borderColor: "#488719",
-    position: "relative",
-    paddingBlock: 10,
-    paddingInline: 20,
-    borderRadius: 15,
-  },
-
-  bttnOpp: {
-    width: "48.5%",
-    height: 65,
-    backgroundColor: "#DC605B",
-    borderWidth: 2,
-    borderColor: "#B52924",
     position: "relative",
     paddingBlock: 10,
     paddingInline: 20,
