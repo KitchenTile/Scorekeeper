@@ -10,6 +10,8 @@ import TeamsCompoenent from "@/components/court_components/TeamsComponent";
 
 const stats = () => {
   const [activeTab, setActiveTab] = useState(null);
+  const [statView, setStatView] = useState("team");
+
   const sets = useMatchStore((state) => state.sets);
 
   // useEffect(() => {
@@ -22,6 +24,16 @@ const stats = () => {
         return null;
       } else {
         return index;
+      }
+    });
+  };
+
+  const activeStatToggle = (e) => {
+    setStatView((prev) => {
+      if (prev === e) {
+        return prev;
+      } else {
+        return e;
       }
     });
   };
@@ -62,7 +74,10 @@ const stats = () => {
                   paddingTop: activeTab === index ? 3 : 0,
                 },
               ]}
-              onPress={() => activeTabToggle(index)}
+              onPress={() => {
+                activeTabToggle(index);
+                activeStatToggle("team");
+              }}
             >
               <view
                 style={{ rotate: activeTab === index ? "180deg" : "360deg" }}
@@ -78,22 +93,56 @@ const stats = () => {
           >
             <View style={styles.bttnsContainer}>
               <TouchableOpacity
-                style={[styles.optionButton]}
-                onPress={() => activeTabToggle(index)}
+                style={[
+                  styles.optionButton,
+                  {
+                    backgroundColor:
+                      statView === "team" ? "#586DFF" : "transparent",
+                  },
+                ]}
+                onPress={() => activeStatToggle("team")}
               >
-                <Text style={styles.bttnTxt}>TEAM</Text>
+                <Text
+                  style={[
+                    styles.bttnTxt,
+                    {
+                      color: statView === "team" ? "white" : "#586DFF",
+                    },
+                  ]}
+                >
+                  TEAM
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.optionButton]}
-                onPress={() => activeTabToggle(index)}
+                style={[
+                  styles.optionButton,
+                  {
+                    backgroundColor:
+                      statView === "players" ? "#586DFF" : "transparent",
+                  },
+                ]}
+                onPress={() => activeStatToggle("players")}
               >
-                <Text style={styles.bttnTxt}>PLAYERS</Text>
+                <Text
+                  style={[
+                    styles.bttnTxt,
+                    {
+                      color: statView === "players" ? "white" : "#586DFF",
+                    },
+                  ]}
+                >
+                  PLAYERS
+                </Text>
               </TouchableOpacity>
             </View>
-            <View>
-              <PlayersGraphs set={sets[index]} />
-              <ErrorGraph set={sets[index]} />
-            </View>
+            {statView === "team" ? (
+              <View>
+                <PlayersGraphs set={sets[index]} />
+                <ErrorGraph set={sets[index]} />
+              </View>
+            ) : (
+              <View></View>
+            )}
           </View>
         </View>
       ))}
