@@ -54,14 +54,47 @@ const stats = () => {
               </Text>
             </>
             <TouchableOpacity
-              style={[styles.optionButton, { textAlign: "center" }]}
+              style={[
+                styles.smallOptionButton,
+                {
+                  textAlign: "center",
+                  padding: activeTab === index ? 3 : 0,
+                  paddingTop: activeTab === index ? 3 : 0,
+                },
+              ]}
               onPress={() => activeTabToggle(index)}
             >
-              <AntDesign name="caretdown" size={20} color="white" />
+              <view
+                style={{ rotate: activeTab === index ? "180deg" : "360deg" }}
+              >
+                <AntDesign name="caretdown" size={20} color="white" />
+              </view>
             </TouchableOpacity>
           </View>
-          <PlayersGraphs set={sets[index]} />
-          <ErrorGraph set={sets[index]} />
+          <View
+            style={{
+              display: index === activeTab ? "flex" : "none",
+            }}
+          >
+            <View style={styles.bttnsContainer}>
+              <TouchableOpacity
+                style={[styles.optionButton]}
+                onPress={() => activeTabToggle(index)}
+              >
+                <Text style={styles.bttnTxt}>TEAM</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.optionButton]}
+                onPress={() => activeTabToggle(index)}
+              >
+                <Text style={styles.bttnTxt}>PLAYERS</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <PlayersGraphs set={sets[index]} />
+              <ErrorGraph set={sets[index]} />
+            </View>
+          </View>
         </View>
       ))}
     </ScrollView>
@@ -118,14 +151,10 @@ const styles = StyleSheet.create({
   },
 
   bttnsContainer: {
-    position: "absolute",
-    bottom: "3%",
-    width: "90%",
-    left: "5%",
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
-    height: 40,
-    marginBlock: 20,
+    textAlign: "center",
   },
 
   bttn: {
@@ -140,31 +169,14 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
 
-  bttnOpp: {
-    width: "48.5%",
-    height: 65,
-    backgroundColor: "#DC605B",
-    borderWidth: 2,
-    borderColor: "#B52924",
-    position: "relative",
-    paddingBlock: 10,
-    paddingInline: 20,
-    borderRadius: 15,
-  },
-
   bttnTxt: {
-    position: "absolute",
-    left: "50%",
-    top: "50%",
-    transform: "translate(-50%, -60%)",
-    fontSize: 34,
-    lineHeight: 28,
+    fontSize: 22,
     textAlign: "center",
-    color: "rgb(0,0,0)",
-    fontWeight: 600,
+    color: "white",
+    lineHeight: 35,
   },
 
-  optionButton: {
+  smallOptionButton: {
     backgroundColor: "#586DFF",
     padding: 3,
     paddingTop: 0,
@@ -177,23 +189,22 @@ const styles = StyleSheet.create({
     borderColor: "#3c4cbb",
   },
 
+  optionButton: {
+    backgroundColor: "#586DFF",
+    padding: 3,
+    paddingTop: 0,
+    marginBottom: 15,
+    borderRadius: 5,
+    minWidth: "48%",
+    minHeight: 40,
+    borderStyle: "solid",
+    borderWidth: 2,
+    borderColor: "#3c4cbb",
+  },
+
   text: {
     fontSize: 42,
     fontWeight: 600,
     textAlign: "center",
-  },
-
-  infoIcon: {
-    position: "absolute",
-    top: "-5%",
-    left: "95%",
-    borderRadius: "100%",
-    width: 30,
-    height: 30,
-    backgroundColor: "#161F23",
-    borderStyle: "solid",
-    borderWidth: 2,
-    borderColor: "#3A464E",
-    zIndex: 10,
   },
 });
