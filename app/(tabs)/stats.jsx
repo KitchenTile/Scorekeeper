@@ -143,28 +143,27 @@ const stats = () => {
                 <ErrorGraph set={sets[index]} />
               </View>
             ) : (
-              <View style={styles.optionContainer}>
-                {players.map((player) => (
-                  <TouchableOpacity
-                    key={player}
-                    style={[styles.playersButton]}
-                    onPress={() => {
-                      setSelectedPlayer(player);
-                    }}
-                  >
-                    <Text
+              <>
+                <View style={styles.optionContainer}>
+                  {players.map((player) => (
+                    <TouchableOpacity
+                      key={player}
                       style={[
-                        styles.optionText,
-                        // currentPoint.reason === "Defence Mistake" && {
-                        //   color: "rgba(255, 255, 255, 0.3)",
-                        // },
+                        styles.playersButton,
+                        selectedPlayer === player
+                          ? styles.selectedOption
+                          : styles.playersButton,
                       ]}
+                      onPress={() => {
+                        setSelectedPlayer(player);
+                      }}
                     >
-                      {player}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
+                      <Text style={[styles.optionText]}>{player}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+                <View></View>
+              </>
             )}
           </View>
         </View>
@@ -306,5 +305,12 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
     width: "100%",
+  },
+
+  selectedOption: {
+    backgroundColor: "#28a745",
+    borderColor: "#28a745",
+    borderStyle: "solid",
+    borderWidth: 2,
   },
 });
