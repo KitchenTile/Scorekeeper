@@ -12,13 +12,13 @@ const stats = () => {
   const players = useMatchStore((state) => state.players);
   const [activeTab, setActiveTab] = useState(null);
   const [statView, setStatView] = useState("team");
-  const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const [selectedPlayer, setSelectedPlayer] = useState(players[0]);
 
   const sets = useMatchStore((state) => state.sets);
 
   // useEffect(() => {
-  //   console.log(activeTab);
-  // }, [activeTab]);
+  //   console.log(selectedPlayer);
+  // }, [selectedPlayer]);
 
   const activeTabToggle = (index) => {
     setActiveTab((prev) => {
@@ -149,7 +149,7 @@ const stats = () => {
                     key={player}
                     style={[styles.playersButton]}
                     onPress={() => {
-                      // setCurrentPoint({ ...currentPoint, author: player });
+                      setSelectedPlayer(player);
                     }}
                   >
                     <Text
@@ -279,8 +279,8 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 5,
     borderRadius: 5,
-    minWidth: 60,
-    minHeight: 60,
+    minWidth: 51,
+    minHeight: 51,
     borderStyle: "solid",
     borderWidth: 2,
     borderColor: "#3c4cbb",
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    fontSize: 24,
+    fontSize: 22,
     color: "white",
   },
 
@@ -305,6 +305,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
-    width: "83%",
+    width: "100%",
   },
 });
