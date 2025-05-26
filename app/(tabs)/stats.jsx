@@ -9,8 +9,10 @@ import ErrorGraph from "../../components/stats_components/ErrorGraph";
 import TeamsCompoenent from "@/components/court_components/TeamsComponent";
 
 const stats = () => {
+  const players = useMatchStore((state) => state.players);
   const [activeTab, setActiveTab] = useState(null);
   const [statView, setStatView] = useState("team");
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
 
   const sets = useMatchStore((state) => state.sets);
 
@@ -141,7 +143,28 @@ const stats = () => {
                 <ErrorGraph set={sets[index]} />
               </View>
             ) : (
-              <View></View>
+              <View style={styles.optionContainer}>
+                {players.map((player) => (
+                  <TouchableOpacity
+                    key={player}
+                    style={[styles.playersButton]}
+                    onPress={() => {
+                      // setCurrentPoint({ ...currentPoint, author: player });
+                    }}
+                  >
+                    <Text
+                      style={[
+                        styles.optionText,
+                        // currentPoint.reason === "Defence Mistake" && {
+                        //   color: "rgba(255, 255, 255, 0.3)",
+                        // },
+                      ]}
+                    >
+                      {player}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
             )}
           </View>
         </View>
@@ -251,9 +274,37 @@ const styles = StyleSheet.create({
     borderColor: "#3c4cbb",
   },
 
+  playersButton: {
+    backgroundColor: "#586DFF",
+    padding: 10,
+    margin: 5,
+    borderRadius: 5,
+    minWidth: 60,
+    minHeight: 60,
+    borderStyle: "solid",
+    borderWidth: 2,
+    borderColor: "#3c4cbb",
+  },
+
   text: {
     fontSize: 42,
     fontWeight: 600,
     textAlign: "center",
+  },
+
+  optionText: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    fontSize: 24,
+    color: "white",
+  },
+
+  optionContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    width: "83%",
   },
 });
