@@ -93,7 +93,7 @@ const PlayersGraphs = ({ set }) => {
             <Text style={styles.placeholder}>Points per player</Text>
             <BarChart
               style={{
-                paddingRight: 10,
+                // paddingRight: 0,
                 borderBlockColor: "red",
                 borderWidth: 2,
               }}
