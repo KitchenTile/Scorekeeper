@@ -163,7 +163,7 @@ const stats = () => {
                   ))}
                 </View>
                 <View>
-                  <IndividualStats player={selectedPlayer} />
+                  <IndividualStats player={selectedPlayer} set={sets[index]} />
                 </View>
               </>
             )}
