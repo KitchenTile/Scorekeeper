@@ -7,18 +7,18 @@ import { AntDesign } from "@expo/vector-icons";
 import PlayersGraphs from "../../components/stats_components/PlayersGraphs";
 import ErrorGraph from "../../components/stats_components/ErrorGraph";
 import TeamsCompoenent from "@/components/court_components/TeamsComponent";
+import IndividualStats from "../../components/stats_components/IndividualStats";
 
 const stats = () => {
+  const sets = useMatchStore((state) => state.sets);
   const players = useMatchStore((state) => state.players);
-  const [activeTab, setActiveTab] = useState(null);
+  const [activeTab, setActiveTab] = useState(sets.length - 1);
   const [statView, setStatView] = useState("team");
   const [selectedPlayer, setSelectedPlayer] = useState(players[0]);
 
-  const sets = useMatchStore((state) => state.sets);
-
   // useEffect(() => {
-  //   console.log(selectedPlayer);
-  // }, [selectedPlayer]);
+  //   console.log(sets);
+  // }, [sets]);
 
   const activeTabToggle = (index) => {
     setActiveTab((prev) => {
@@ -162,7 +162,9 @@ const stats = () => {
                     </TouchableOpacity>
                   ))}
                 </View>
-                <View></View>
+                <View>
+                  <IndividualStats player={selectedPlayer} />
+                </View>
               </>
             )}
           </View>
