@@ -4,45 +4,16 @@ import { useMatchStore } from "../../store";
 import { StyleSheet } from "react-native";
 import { BarChart, PieChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
+import {
+  playersPointsPerSetOrganizer,
+  pointByMethodOrganizer,
+} from "../../utils/statsProcessor";
 
 const PlayersGraphs = ({ set }) => {
-  const sets = useMatchStore((state) => state.sets);
   const players = useMatchStore((state) => state.players);
 
-  const pointsOrganizer = (players, sets) => {
-    const playerObj = {};
-    players.forEach((e) => {
-      playerObj[e] = 0;
-    });
-
-    for (let i = 0; i < sets.lineChartScore.length; i++) {
-      if (
-        !sets.lineChartScore[i].isMistake &&
-        players.includes(sets.lineChartScore[i].author)
-      ) {
-        playerObj[sets.lineChartScore[i].author]++;
-      }
-    }
-
-    const oppObj = {};
-    POINTMETHODS.forEach((e) => {
-      oppObj[e] = 0;
-    });
-
-    for (let i = 0; i < sets.lineChartScore.length; i++) {
-      if (
-        POINTMETHODS.includes(sets.lineChartScore[i].method) &&
-        sets.lineChartScore[i].type
-      ) {
-        oppObj[sets.lineChartScore[i].method]++;
-      }
-    }
-
-    return { playerObj, oppObj };
-  };
-
-  const playerObject = pointsOrganizer(players, set).playerObj;
-  const oppObject = pointsOrganizer(players, set).oppObj;
+  const playerObject = playersPointsPerSetOrganizer(players, set);
+  const oppObject = pointByMethodOrganizer(set);
 
   const barData = {
     labels: Object.entries(playerObject).map(([key, value]) => {
@@ -90,7 +61,6 @@ const PlayersGraphs = ({ set }) => {
       <View>
         {barHasData ? (
           <>
-            <Text style={styles.placeholder}>Points per player</Text>
             <BarChart
               style={{
                 // paddingRight: 0,
@@ -102,6 +72,7 @@ const PlayersGraphs = ({ set }) => {
               height={220}
               chartConfig={chartConfig}
             />
+            <Text style={styles.placeholder}>Points per player</Text>
           </>
         ) : (
           <Text style={styles.placeholder}>
@@ -112,8 +83,6 @@ const PlayersGraphs = ({ set }) => {
       <View>
         {pieHasData ? (
           <>
-            <Text style={styles.placeholder}>Type of point</Text>
-
             <PieChart
               data={pieData}
               width={Dimensions.get("window").width * 0.85}
@@ -125,6 +94,7 @@ const PlayersGraphs = ({ set }) => {
               // center={[10, 50]}
               absolute
             />
+            <Text style={styles.placeholder}>Type of point</Text>
           </>
         ) : (
           <Text style={styles.placeholder}>
@@ -151,5 +121,3 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
 });
-
-const POINTMETHODS = ["Ace", "Block", "KILL", "TIP"];
