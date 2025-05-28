@@ -4,34 +4,10 @@ import { useMatchStore } from "../../store";
 import { StyleSheet } from "react-native";
 import { PieChart, BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
+import { errorOrganizer } from "../../utils/statsProcessor";
 
 const ErrorGraph = ({ set }) => {
   const players = useMatchStore((state) => state.players);
-
-  const errorOrganizer = (players, sets) => {
-    const errorObj = {};
-    MISTAKEMETHODS.forEach((e) => {
-      errorObj[e] = 0;
-    });
-
-    const playersObj = {};
-    players.forEach((e) => {
-      playersObj[e] = 0;
-    });
-
-    for (let i = 0; i < sets.lineChartScore.length; i++) {
-      if (sets.lineChartScore[i].isMistake) {
-        if (MISTAKEMETHODS.includes(sets.lineChartScore[i].method)) {
-          errorObj[sets.lineChartScore[i].method]++;
-        }
-        if (players.includes(sets.lineChartScore[i].author)) {
-          playersObj[sets.lineChartScore[i].author]++;
-        }
-      }
-    }
-
-    return { errorObj, playersObj };
-  };
 
   const pieData = Object.entries(errorOrganizer(players, set).errorObj).map(
     ([key, value], index) => {
@@ -90,8 +66,6 @@ const ErrorGraph = ({ set }) => {
 
       {barHasData ? (
         <>
-          <Text style={styles.placeholder}>Error per player</Text>
-
           <BarChart
             data={barData}
             width={Dimensions.get("window").width * 0.85}
@@ -99,6 +73,7 @@ const ErrorGraph = ({ set }) => {
             chartConfig={chartConfig}
             style={{ color: "red" }}
           />
+          <Text style={styles.placeholder}>Error per player</Text>
         </>
       ) : (
         <Text style={styles.placeholder}>
@@ -108,8 +83,6 @@ const ErrorGraph = ({ set }) => {
 
       {pieHasData ? (
         <>
-          <Text style={styles.placeholder}>Type of Error</Text>
-
           <PieChart
             data={pieData}
             width={Dimensions.get("window").width * 0.85}
@@ -119,6 +92,7 @@ const ErrorGraph = ({ set }) => {
             backgroundColor={"transparent"}
             absolute
           />
+          <Text style={styles.placeholder}>Type of Error</Text>
         </>
       ) : (
         <Text style={styles.placeholder}>
