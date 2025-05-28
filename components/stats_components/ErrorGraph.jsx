@@ -33,8 +33,6 @@ const ErrorGraph = ({ set }) => {
     return { errorObj, playersObj };
   };
 
-  console.log(errorOrganizer(players, set));
-
   const pieData = Object.entries(errorOrganizer(players, set).errorObj).map(
     ([key, value], index) => {
       const hue = 1 + index * 4;
@@ -66,8 +64,6 @@ const ErrorGraph = ({ set }) => {
       },
     ],
   };
-
-  console.log(pieData.length);
 
   const chartConfig = {
     backgroundGradientFrom: "#1E2923",
