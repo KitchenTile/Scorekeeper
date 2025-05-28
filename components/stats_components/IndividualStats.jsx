@@ -6,60 +6,24 @@ import { useMatchStore } from "../../store";
 import { StyleSheet } from "react-native";
 import { BarChart, PieChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
+import {
+  playerPointsAcrossSetsOrganizer,
+  playersPointsPerSetOrganizer,
+} from "../../utils/statsProcessor";
 
 const IndividualStats = ({ player, set }) => {
   const sets = useMatchStore((state) => state.sets);
-
-  const SETS = [1, 2, 3, 4, 5];
-
-  const pointsOrganizer = () => {
-    const pointObj = {};
-    const pointObjPerSet = [{}, {}, {}, {}, {}];
-    const playerPointsPerSet = {};
-
-    SETS.forEach((set) => {
-      playerPointsPerSet[set] = 0;
-    });
-
-    POINTMETHODS.forEach((point) => {
-      pointObj[point] = 0;
-
-      pointObjPerSet.forEach((set, index) => {
-        pointObjPerSet[index][point] = 0;
-      });
-    });
-
-    sets.forEach((set, index) => {
-      for (let i = 0; i < set.lineChartScore.length; i++) {
-        if (
-          !set.lineChartScore[i].isMistake &&
-          POINTMETHODS.includes(set.lineChartScore[i].method) &&
-          set.lineChartScore[i].author === player
-        ) {
-          pointObj[set.lineChartScore[i].method]++;
-          pointObjPerSet[index][set.lineChartScore[i].method]++;
-          playerPointsPerSet[index + 1]++;
-        }
-      }
-    });
-
-    // console.log("player: " + player);
-    // console.log(pointObj);
-    // console.log(pointObjPerSet[set.number - 1]);
-    // console.log(playerPointsPerSet);
-
-    const currentSetPointsObj = pointObjPerSet[set.number - 1];
-
-    return { pointObj, currentSetPointsObj, playerPointsPerSet };
-  };
+  const playerPointsPerSet = playerPointsAcrossSetsOrganizer(
+    sets,
+    player
+  ).playerPointsPerSet;
+  const pointObj = playerPointsAcrossSetsOrganizer(sets, player).pointObj;
+  const currentSetPointsObj = playerPointsAcrossSetsOrganizer(sets, player)
+    .pointObjPerSet[set.number - 1];
 
   //   useEffect(() => {
   //     console.log(sets);
   //   }, [sets]);
-
-  const playerPointsPerSet = pointsOrganizer().playerPointsPerSet;
-  const pointObj = pointsOrganizer().pointObj;
-  const currentSetPointsObj = pointsOrganizer().currentSetPointsObj;
 
   const barData = {
     labels: Object.entries(playerPointsPerSet).map(([key, value]) => {
@@ -81,7 +45,7 @@ const IndividualStats = ({ player, set }) => {
 
       return {
         name: key,
-        errorQty: value,
+        points: value,
         color: `hsl(${hue}, 100%, ${lightness}%)`,
         legendFontSize: 15,
       };
@@ -94,7 +58,7 @@ const IndividualStats = ({ player, set }) => {
 
     return {
       name: key,
-      errorQty: value,
+      points: value,
       color: `hsl(${hue}, 100%, ${lightness}%)`,
       legendFontSize: 15,
     };
@@ -111,8 +75,8 @@ const IndividualStats = ({ player, set }) => {
     barPercentage: 0.8,
   };
 
-  const pieHasData = pieData.some((entry) => entry.errorQty > 0);
-  const pieHasData2 = pieData2.some((entry) => entry.errorQty > 0);
+  const pieHasData = pieData.some((entry) => entry.points > 0);
+  const pieHasData2 = pieData2.some((entry) => entry.points > 0);
 
   const barHasData = barData.datasets[0].data.some((val) => val > 0);
 
@@ -133,6 +97,7 @@ const IndividualStats = ({ player, set }) => {
                 width={Dimensions.get("window").width * 0.85}
                 height={220}
                 chartConfig={chartConfig}
+                fromZero={true}
               />
               <Text style={styles.placeholder}>Points per set</Text>
             </>
@@ -152,7 +117,7 @@ const IndividualStats = ({ player, set }) => {
               width={Dimensions.get("window").width * 0.85}
               height={220}
               chartConfig={chartConfig}
-              accessor={"errorQty"}
+              accessor={"points"}
               backgroundColor={"transparent"}
               paddingLeft={"30"}
               // center={[10, 50]}
@@ -175,7 +140,7 @@ const IndividualStats = ({ player, set }) => {
               width={Dimensions.get("window").width * 0.85}
               height={220}
               chartConfig={chartConfig}
-              accessor={"errorQty"}
+              accessor={"points"}
               backgroundColor={"transparent"}
               paddingLeft={"30"}
               // center={[10, 50]}
