@@ -19,7 +19,7 @@ const initialSet = () => ({
   ],
   scores: { ...initialScore },
   winner: "",
-  //   number: 1,
+  number: 1,
 });
 
 export const useMatchStore = create((set, get) => ({
@@ -71,11 +71,14 @@ export const useMatchStore = create((set, get) => ({
     // Check win
     let winner = "";
     if (
-      (isTeamA && newScores.myScore >= 25 && newScores.score >= 1) ||
-      (!isTeamA && newScores.oppScore >= 25 && newScores.score <= -1)
+      (isTeamA && newScores.myScore >= 5 && newScores.score >= 1) ||
+      (!isTeamA && newScores.oppScore >= 5 && newScores.score <= -1)
     ) {
       winner = currentPoint.type;
-      updatedSets.push(initialSet());
+      const newSet = initialSet();
+      newSet.number = updatedSets.length + 1;
+
+      updatedSets.push(newSet);
       set({ currentSetIndex: updatedSets.length - 1 });
     }
 
