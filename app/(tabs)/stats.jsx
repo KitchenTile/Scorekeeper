@@ -14,6 +14,7 @@ const stats = () => {
   const players = useMatchStore((state) => state.players);
   const [activeTab, setActiveTab] = useState(sets.length - 1);
   const [statView, setStatView] = useState("team");
+  const [pointOrError, setPointOrError] = useState("points");
   const [selectedPlayer, setSelectedPlayer] = useState(players[0]);
 
   // useEffect(() => {
@@ -32,6 +33,16 @@ const stats = () => {
 
   const activeStatToggle = (e) => {
     setStatView((prev) => {
+      if (prev === e) {
+        return prev;
+      } else {
+        return e;
+      }
+    });
+  };
+
+  const pointOrErrorToggle = (e) => {
+    setPointOrError((prev) => {
       if (prev === e) {
         return prev;
       } else {
@@ -81,11 +92,11 @@ const stats = () => {
                 activeStatToggle("team");
               }}
             >
-              <view
+              <View
                 style={{ rotate: activeTab === index ? "180deg" : "360deg" }}
               >
                 <AntDesign name="caretdown" size={20} color="white" />
-              </view>
+              </View>
             </TouchableOpacity>
           </View>
           <View
@@ -139,8 +150,57 @@ const stats = () => {
             </View>
             {statView === "team" ? (
               <View>
-                <PlayersGraphs set={sets[index]} />
-                <ErrorGraph set={sets[index]} />
+                <View style={styles.bttnsContainer}>
+                  <TouchableOpacity
+                    style={[
+                      styles.optionButton,
+                      {
+                        backgroundColor:
+                          pointOrError === "points" ? "#586DFF" : "transparent",
+                      },
+                    ]}
+                    onPress={() => pointOrErrorToggle("points")}
+                  >
+                    <Text
+                      style={[
+                        styles.bttnTxt,
+                        {
+                          color:
+                            pointOrError === "points" ? "white" : "#586DFF",
+                        },
+                      ]}
+                    >
+                      POINTS
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.optionButton,
+                      {
+                        backgroundColor:
+                          pointOrError === "errors" ? "#586DFF" : "transparent",
+                      },
+                    ]}
+                    onPress={() => pointOrErrorToggle("errors")}
+                  >
+                    <Text
+                      style={[
+                        styles.bttnTxt,
+                        {
+                          color:
+                            pointOrError === "errors" ? "white" : "#586DFF",
+                        },
+                      ]}
+                    >
+                      ERRORS
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                {pointOrError === "points" ? (
+                  <PlayersGraphs set={sets[index]} />
+                ) : (
+                  <ErrorGraph set={sets[index]} />
+                )}
               </View>
             ) : (
               <>
