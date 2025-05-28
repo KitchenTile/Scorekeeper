@@ -43,27 +43,19 @@ const IndividualStats = ({ player, set }) => {
       }
     });
 
-    console.log("player: " + player);
-    console.log(pointObj);
-    console.log(pointObjPerSet[set.number - 1]);
-    console.log(playerPointsPerSet);
+    // console.log("player: " + player);
+    // console.log(pointObj);
+    // console.log(pointObjPerSet[set.number - 1]);
+    // console.log(playerPointsPerSet);
 
     const currentSetPointsObj = pointObjPerSet[set.number - 1];
 
     return { pointObj, currentSetPointsObj, playerPointsPerSet };
   };
 
-  //   pointsOrganizer();
   //   useEffect(() => {
   //     console.log(sets);
   //   }, [sets]);
-
-  //   const { pointObj, currentSetPointsObj } = pointsOrganizer();
-
-  const { p, pp, c } = pointsOrganizer();
-
-  console.log("P");
-  console.log(c);
 
   const playerPointsPerSet = pointsOrganizer().playerPointsPerSet;
   const pointObj = pointsOrganizer().pointObj;
@@ -131,7 +123,6 @@ const IndividualStats = ({ player, set }) => {
         <View>
           {barHasData ? (
             <>
-              <Text style={styles.placeholder}>Points per set</Text>
               <BarChart
                 style={{
                   // paddingRight: 0,
@@ -143,6 +134,7 @@ const IndividualStats = ({ player, set }) => {
                 height={220}
                 chartConfig={chartConfig}
               />
+              <Text style={styles.placeholder}>Points per set</Text>
             </>
           ) : (
             <Text style={styles.placeholder}>
@@ -155,8 +147,6 @@ const IndividualStats = ({ player, set }) => {
         </Text>
         {pieHasData ? (
           <>
-            <Text style={styles.placeholder}>Type of point</Text>
-
             <PieChart
               data={pieData}
               width={Dimensions.get("window").width * 0.85}
@@ -168,10 +158,11 @@ const IndividualStats = ({ player, set }) => {
               // center={[10, 50]}
               absolute
             />
+            <Text style={styles.placeholder}>Type of point</Text>
           </>
         ) : (
           <Text style={styles.placeholder}>
-            No player data to show in pie chart.
+            No player {player} points to show in pie chart.
           </Text>
         )}
       </View>
@@ -179,8 +170,6 @@ const IndividualStats = ({ player, set }) => {
         <Text style={styles.title}>All Sets Points</Text>
         {pieHasData2 ? (
           <>
-            <Text style={styles.placeholder}>Type of point</Text>
-
             <PieChart
               data={pieData2}
               width={Dimensions.get("window").width * 0.85}
@@ -192,10 +181,11 @@ const IndividualStats = ({ player, set }) => {
               // center={[10, 50]}
               absolute
             />
+            <Text style={styles.placeholder}>Type of point</Text>
           </>
         ) : (
           <Text style={styles.placeholder}>
-            No player data to show in pie chart.
+            No player {player} points to show in pie chart.
           </Text>
         )}
       </View>
