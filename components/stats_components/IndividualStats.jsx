@@ -6,10 +6,7 @@ import { useMatchStore } from "../../store";
 import { StyleSheet } from "react-native";
 import { BarChart, PieChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
-import {
-  playerPointsAcrossSetsOrganizer,
-  playersPointsPerSetOrganizer,
-} from "../../utils/statsProcessor";
+import { playerPointsAcrossSetsOrganizer } from "../../utils/statsProcessor";
 
 const IndividualStats = ({ player, set }) => {
   const sets = useMatchStore((state) => state.sets);
