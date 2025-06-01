@@ -8,6 +8,7 @@ import PlayersGraphs from "../../components/stats_components/PlayersGraphs";
 import ErrorGraph from "../../components/stats_components/ErrorGraph";
 import TeamsCompoenent from "@/components/court_components/TeamsComponent";
 import IndividualStats from "../../components/stats_components/IndividualStats";
+import DisplayToggle from "../../components/misc/DisplayToggle";
 
 const stats = () => {
   const sets = useMatchStore((state) => state.sets);
@@ -105,53 +106,21 @@ const stats = () => {
             }}
           >
             <View style={styles.bttnsContainer}>
-              <TouchableOpacity
-                style={[
-                  styles.optionButton,
-                  {
-                    backgroundColor:
-                      statView === "team" ? "#586DFF" : "transparent",
-                  },
-                ]}
+              <DisplayToggle
+                label={"TEAM"}
+                active={statView === "team"}
                 onPress={() => activeStatToggle("team")}
-              >
-                <Text
-                  style={[
-                    styles.bttnTxt,
-                    {
-                      color: statView === "team" ? "white" : "#586DFF",
-                    },
-                  ]}
-                >
-                  TEAM
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  styles.optionButton,
-                  {
-                    backgroundColor:
-                      statView === "players" ? "#586DFF" : "transparent",
-                  },
-                ]}
+              />
+              <DisplayToggle
+                label={"PLAYERS"}
+                active={statView === "players"}
                 onPress={() => activeStatToggle("players")}
-              >
-                <Text
-                  style={[
-                    styles.bttnTxt,
-                    {
-                      color: statView === "players" ? "white" : "#586DFF",
-                    },
-                  ]}
-                >
-                  PLAYERS
-                </Text>
-              </TouchableOpacity>
+              />
             </View>
             {statView === "team" ? (
               <View>
                 <View style={styles.bttnsContainer}>
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     style={[
                       styles.optionButton,
                       {
@@ -194,7 +163,18 @@ const stats = () => {
                     >
                       ERRORS
                     </Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
+
+                  <DisplayToggle
+                    label={"POINTS"}
+                    active={pointOrError === "points"}
+                    onPress={() => pointOrErrorToggle("points")}
+                  />
+                  <DisplayToggle
+                    label={"ERRORS"}
+                    active={pointOrError === "errors"}
+                    onPress={() => pointOrErrorToggle("errors")}
+                  />
                 </View>
                 {pointOrError === "points" ? (
                   <PlayersGraphs set={sets[index]} />
