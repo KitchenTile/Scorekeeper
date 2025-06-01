@@ -1,7 +1,7 @@
 import { useMatchStore } from "@/store";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import MISTAKEMETHODS from "@/utils/statsProcessor.js";
+// import MISTAKEMETHODS from "@/utils/statsProcessor.js";
 
 const StatsComponent = ({ team, score }) => {
   const sets = useMatchStore((state) => state.sets);
@@ -132,7 +132,6 @@ const StatsComponent = ({ team, score }) => {
         ))}
       </View>
       <View style={styles.line}></View>
-      {/* <View style={styles.horizontalLine}></View> */}
     </View>
   );
 };
@@ -182,16 +181,16 @@ const styles = StyleSheet.create({
   },
 });
 
-// const MISTAKEMETHODS = [
-//   "Communication",
-//   "Passing Error",
-//   "Serving Error",
-//   "Hitting Error",
-//   "undefined",
-//   "null",
-//   "Free ball",
-//   "Court Coverage",
-// ];
+const MISTAKEMETHODS = [
+  "Communication",
+  "Passing Error",
+  "Serving Error",
+  "Hitting Error",
+  "undefined",
+  "null",
+  "Free ball",
+  "Court Coverage",
+];
 
 const STAT_ABBREVIATIONS = {
   Ace: "A",
