@@ -2,11 +2,7 @@ import { useEffect } from "react";
 
 import React from "react";
 import { ScrollView, View, Text } from "react-native-web";
-import { useMatchStore } from "../../store";
 import { StyleSheet } from "react-native";
-import { BarChart, PieChart } from "react-native-chart-kit";
-import { Dimensions } from "react-native";
-import { playerPointsAcrossSetsOrganizer } from "../../utils/statsProcessor";
 import { TouchableOpacity } from "react-native";
 
 const DisplayToggle = ({ label, active, onPress }) => {
@@ -15,7 +11,7 @@ const DisplayToggle = ({ label, active, onPress }) => {
       style={[
         styles.optionButton,
         {
-          backgroundColor: active === "team" ? "#586DFF" : "transparent",
+          backgroundColor: active ? "#586DFF" : "transparent",
         },
       ]}
       onPress={onPress}
@@ -24,7 +20,7 @@ const DisplayToggle = ({ label, active, onPress }) => {
         style={[
           styles.bttnTxt,
           {
-            color: active === "team" ? "white" : "#586DFF",
+            color: active ? "white" : "#586DFF",
           },
         ]}
       >
