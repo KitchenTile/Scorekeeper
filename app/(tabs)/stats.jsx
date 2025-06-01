@@ -120,51 +120,6 @@ const stats = () => {
             {statView === "team" ? (
               <View>
                 <View style={styles.bttnsContainer}>
-                  {/* <TouchableOpacity
-                    style={[
-                      styles.optionButton,
-                      {
-                        backgroundColor:
-                          pointOrError === "points" ? "#586DFF" : "transparent",
-                      },
-                    ]}
-                    onPress={() => pointOrErrorToggle("points")}
-                  >
-                    <Text
-                      style={[
-                        styles.bttnTxt,
-                        {
-                          color:
-                            pointOrError === "points" ? "white" : "#586DFF",
-                        },
-                      ]}
-                    >
-                      POINTS
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.optionButton,
-                      {
-                        backgroundColor:
-                          pointOrError === "errors" ? "#586DFF" : "transparent",
-                      },
-                    ]}
-                    onPress={() => pointOrErrorToggle("errors")}
-                  >
-                    <Text
-                      style={[
-                        styles.bttnTxt,
-                        {
-                          color:
-                            pointOrError === "errors" ? "white" : "#586DFF",
-                        },
-                      ]}
-                    >
-                      ERRORS
-                    </Text>
-                  </TouchableOpacity> */}
-
                   <DisplayToggle
                     label={"POINTS"}
                     active={pointOrError === "points"}
@@ -202,8 +157,24 @@ const stats = () => {
                     </TouchableOpacity>
                   ))}
                 </View>
+                <View style={styles.bttnsContainer}>
+                  <DisplayToggle
+                    label={"POINTS"}
+                    active={pointOrError === "points"}
+                    onPress={() => pointOrErrorToggle("points")}
+                  />
+                  <DisplayToggle
+                    label={"ERRORS"}
+                    active={pointOrError === "errors"}
+                    onPress={() => pointOrErrorToggle("errors")}
+                  />
+                </View>
                 <View>
-                  <IndividualStats player={selectedPlayer} set={sets[index]} />
+                  <IndividualStats
+                    player={selectedPlayer}
+                    set={sets[index]}
+                    pointsOrError={pointOrError}
+                  />
                 </View>
               </>
             )}
@@ -319,6 +290,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#586DFF",
     padding: 10,
     margin: 5,
+    marginBlock: 10,
     borderRadius: 5,
     minWidth: 51,
     minHeight: 51,
