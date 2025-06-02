@@ -6,9 +6,12 @@ import { useMatchStore } from "../../store";
 import { StyleSheet } from "react-native";
 import { BarChart, PieChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
-import { playerPointsAcrossSetsOrganizer } from "../../utils/statsProcessor";
+import {
+  playerErrorAcrossSetsOrganizer,
+  playerPointsAcrossSetsOrganizer,
+} from "../../utils/statsProcessor";
 
-const IndividualStats = ({ player, set }) => {
+const IndividualStats = ({ player, set, pointsOrError }) => {
   const sets = useMatchStore((state) => state.sets);
   const playerPointsPerSet = playerPointsAcrossSetsOrganizer(
     sets,
@@ -17,10 +20,30 @@ const IndividualStats = ({ player, set }) => {
   const pointObj = playerPointsAcrossSetsOrganizer(sets, player).pointObj;
   const currentSetPointsObj = playerPointsAcrossSetsOrganizer(sets, player)
     .pointObjPerSet[set.number - 1];
-
+  const playerErrorPerSet = playerErrorAcrossSetsOrganizer(
+    sets,
+    player
+  ).playerErrorsPerSet;
+  const errorObj = playerErrorAcrossSetsOrganizer(sets, player).errorObj;
+  const currentSetErrorsObj = playerErrorAcrossSetsOrganizer(sets, player)
+    .errorObjPerSet[set.number - 1];
+  // console.log(playerErrorAcrossSetsOrganizer(sets, player));
   //   useEffect(() => {
   //     console.log(sets);
   //   }, [sets]);
+
+  const errorBarData = {
+    labels: Object.entries(playerErrorPerSet).map(([key, value]) => {
+      return key;
+    }),
+    datasets: [
+      {
+        data: Object.entries(playerErrorPerSet).map(([key, value]) => {
+          return value;
+        }),
+      },
+    ],
+  };
 
   const barData = {
     labels: Object.entries(playerPointsPerSet).map(([key, value]) => {
@@ -35,7 +58,7 @@ const IndividualStats = ({ player, set }) => {
     ],
   };
 
-  const pieData = Object.entries(currentSetPointsObj).map(
+  const currentSetPieData = Object.entries(currentSetPointsObj).map(
     ([key, value], index) => {
       const hue = 205 + index * 4;
       const lightness = Math.max(30, 60 - value * 5);
@@ -49,17 +72,47 @@ const IndividualStats = ({ player, set }) => {
     }
   );
 
-  const pieData2 = Object.entries(pointObj).map(([key, value], index) => {
-    const hue = 205 + index * 4;
-    const lightness = Math.max(30, 60 - value * 5);
+  const currentSetErrorPieData = Object.entries(currentSetErrorsObj).map(
+    ([key, value], index) => {
+      const hue = 205 + index * 4;
+      const lightness = Math.max(30, 60 - value * 5);
 
-    return {
-      name: key,
-      points: value,
-      color: `hsl(${hue}, 100%, ${lightness}%)`,
-      legendFontSize: 15,
-    };
-  });
+      return {
+        name: key,
+        points: value,
+        color: `hsl(${hue}, 100%, ${lightness}%)`,
+        legendFontSize: 15,
+      };
+    }
+  );
+
+  const generalPointPieData = Object.entries(pointObj).map(
+    ([key, value], index) => {
+      const hue = 205 + index * 4;
+      const lightness = Math.max(30, 60 - value * 5);
+
+      return {
+        name: key,
+        points: value,
+        color: `hsl(${hue}, 100%, ${lightness}%)`,
+        legendFontSize: 15,
+      };
+    }
+  );
+
+  const generalErrorPieData = Object.entries(errorObj).map(
+    ([key, value], index) => {
+      const hue = 205 + index * 4;
+      const lightness = Math.max(30, 60 - value * 5);
+
+      return {
+        name: key,
+        points: value,
+        color: `hsl(${hue}, 100%, ${lightness}%)`,
+        legendFontSize: 15,
+      };
+    }
+  );
 
   const chartConfig = {
     backgroundGradientFrom: "#1E2923",
@@ -72,17 +125,31 @@ const IndividualStats = ({ player, set }) => {
     barPercentage: 0.8,
   };
 
-  const pieHasData = pieData.some((entry) => entry.points > 0);
-  const pieHasData2 = pieData2.some((entry) => entry.points > 0);
-
+  const currentSetPieHasData = currentSetPieData.some(
+    (entry) => entry.points > 0
+  );
+  const currentSetErrorPieHasData = currentSetErrorPieData.some(
+    (entry) => entry.points > 0
+  );
+  const geenralPieHasData = generalPointPieData.some(
+    (entry) => entry.points > 0
+  );
+  const geenralErrorPieHasData = generalErrorPieData.some(
+    (entry) => entry.points > 0
+  );
   const barHasData = barData.datasets[0].data.some((val) => val > 0);
+  const errorBarHasData = errorBarData.datasets[0].data.some((val) => val > 0);
 
   return (
     <View style={{ marginTop: 20 }}>
+      {/* {pointsOrError === "points" ? (
+        <> */}
       <View>
-        <Text style={styles.title}>Points Graph</Text>
+        <Text style={styles.title}>
+          {pointsOrError === "points" ? "Points" : "Errors"} Graph
+        </Text>
         <View>
-          {barHasData ? (
+          {(pointsOrError === "points" ? barHasData : errorBarHasData) ? (
             <>
               <BarChart
                 style={{
@@ -90,27 +157,37 @@ const IndividualStats = ({ player, set }) => {
                   borderBlockColor: "red",
                   borderWidth: 2,
                 }}
-                data={barData}
+                data={pointsOrError === "points" ? barData : errorBarData}
                 width={Dimensions.get("window").width * 0.85}
                 height={220}
                 chartConfig={chartConfig}
                 fromZero={true}
               />
-              <Text style={styles.placeholder}>Points per set</Text>
+              <Text style={styles.placeholder}>
+                {pointsOrError === "points" ? "points" : "errors"} per set
+              </Text>
             </>
           ) : (
             <Text style={styles.placeholder}>
-              No points data to show in bar chart.
+              No data to show in bar chart.
             </Text>
           )}
         </View>
         <Text style={[styles.title, { marginTop: 20 }]}>
-          Current Set Points
+          Current Set {pointsOrError === "points" ? "Points" : "Errors"}
         </Text>
-        {pieHasData ? (
+        {(
+          pointsOrError === "points"
+            ? currentSetPieHasData
+            : currentSetErrorPieHasData
+        ) ? (
           <>
             <PieChart
-              data={pieData}
+              data={
+                pointsOrError === "points"
+                  ? currentSetPieData
+                  : currentSetErrorPieData
+              }
               width={Dimensions.get("window").width * 0.85}
               height={220}
               chartConfig={chartConfig}
@@ -120,20 +197,30 @@ const IndividualStats = ({ player, set }) => {
               // center={[10, 50]}
               absolute
             />
-            <Text style={styles.placeholder}>Type of point</Text>
+            <Text style={styles.placeholder}>
+              Type of {pointsOrError === "points" ? "point" : "error"}
+            </Text>
           </>
         ) : (
-          <Text style={styles.placeholder}>
-            No player {player} points to show in pie chart.
-          </Text>
+          <Text style={styles.placeholder}>No data to show in pie chart.</Text>
         )}
       </View>
       <View>
-        <Text style={styles.title}>All Sets Points</Text>
-        {pieHasData2 ? (
+        <Text style={styles.title}>
+          All Sets {pointsOrError === "points" ? "Points" : "Errors"}
+        </Text>
+        {(
+          pointsOrError === "points"
+            ? geenralPieHasData
+            : geenralErrorPieHasData
+        ) ? (
           <>
             <PieChart
-              data={pieData2}
+              data={
+                pointsOrError === "points"
+                  ? generalPointPieData
+                  : generalErrorPieData
+              }
               width={Dimensions.get("window").width * 0.85}
               height={220}
               chartConfig={chartConfig}
@@ -146,9 +233,7 @@ const IndividualStats = ({ player, set }) => {
             <Text style={styles.placeholder}>Type of point</Text>
           </>
         ) : (
-          <Text style={styles.placeholder}>
-            No player {player} points to show in pie chart.
-          </Text>
+          <Text style={styles.placeholder}>No data to show in pie chart.</Text>
         )}
       </View>
     </View>
