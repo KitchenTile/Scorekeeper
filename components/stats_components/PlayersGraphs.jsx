@@ -98,7 +98,7 @@ const PlayersGraphs = ({ set }) => {
           </>
         ) : (
           <Text style={styles.placeholder}>
-            No error data to show in pie chart.
+            No point data to show in pie chart.
           </Text>
         )}
       </View>
