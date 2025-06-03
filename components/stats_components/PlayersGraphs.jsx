@@ -61,7 +61,7 @@ const PlayersGraphs = ({ set }) => {
       <View>
         {barHasData ? (
           <>
-            <BarChart
+            {/* <BarChart
               style={{
                 // paddingRight: 0,
                 borderBlockColor: "red",
@@ -71,6 +71,42 @@ const PlayersGraphs = ({ set }) => {
               width={Dimensions.get("window").width * 0.85}
               height={220}
               chartConfig={chartConfig}
+            /> */}
+            <BarChart
+              data={barData}
+              width={Dimensions.get("window").width * 0.9}
+              height={240}
+              fromZero
+              showValuesOnTopOfBars
+              withInnerLines={false}
+              withHorizontalLabels
+              chartConfig={{
+                backgroundGradientFrom: "#1c1c1e",
+                backgroundGradientTo: "#1c1c1e",
+                decimalPlaces: 0,
+                color: (opacity = 1) => `rgba(98, 179, 255, ${opacity})`,
+                labelColor: () => "#b0b0b0",
+                barPercentage: 0.7,
+                barRadius: 6,
+                style: {
+                  borderRadius: 10,
+                },
+                propsForBackgroundLines: {
+                  stroke: "transparent",
+                },
+                propsForLabels: {
+                  fontSize: 13,
+                  fontWeight: "600",
+                },
+              }}
+              style={{
+                borderRadius: 12,
+                marginVertical: 12,
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.1,
+                shadowRadius: 8,
+              }}
             />
             <Text style={styles.placeholder}>Points per player</Text>
           </>
