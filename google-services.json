@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1022064983531",
+    "project_id": "vb-scorekeeper-659a7",
+    "storage_bucket": "vb-scorekeeper-659a7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022064983531:android:958fcfe2a1a32ee9616dae",
+        "android_client_info": {
+          "package_name": "Blue.VB_scorekeeper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEhT4J6xpQ5ts_BhB25hnZ2GjqLt6Hf6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
