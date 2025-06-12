@@ -1,3 +1,4 @@
+import { isLoading } from "expo-font";
 import { create } from "zustand";
 
 const initialScore = {
@@ -106,4 +107,35 @@ export const useMatchStore = create((set, get) => ({
       modalVisible: { ...get().modalVisible, setScore: false },
     });
   },
+}));
+
+export const useAuthStore = create((set, get) => ({
+  isLoggedIn: false,
+  isLoading: false,
+  user: null,
+
+  login: async (email, password) => {
+    set({ isLoading: true });
+
+    try {
+      const response = await fetch("API", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+      } else {
+        throw new Error(data.message);
+      }
+
+      set({ user: data.user, isLoading: false, isLoggedIn: true });
+    } catch {
+      set({ isLoading: false });
+      alert("Login failed: " + error.message);
+    }
+  },
+
+  logout: () => set({ user: null, isLoggedIn: false }),
 }));

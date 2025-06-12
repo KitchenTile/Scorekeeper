@@ -1,4 +1,4 @@
-import { useMatchStore } from "@/store";
+import { useMatchStore } from "@/stores/store";
 import { useEffect } from "react";
 import { StyleSheet, Text } from "react-native";
 import { TextInput, View } from "react-native-web";

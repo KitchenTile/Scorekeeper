@@ -9,7 +9,7 @@ import {
   SafeAreaView,
   TextInput,
 } from "react-native";
-import { useMatchStore } from "@/store";
+import { useMatchStore } from "@/stores/store";
 
 const SetPlayersModal = () => {
   const modalVisible = useMatchStore((state) => state.modalVisible);

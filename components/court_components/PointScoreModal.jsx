@@ -1,4 +1,4 @@
-import { useMatchStore } from "@/store";
+import { useMatchStore } from "@/stores/store";
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Modal } from "react-native";
 

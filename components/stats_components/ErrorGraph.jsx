@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, View, Text } from "react-native-web";
-import { useMatchStore } from "../../store";
+import { useMatchStore } from "../../stores/store";
 import { StyleSheet } from "react-native";
 import { PieChart, BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";

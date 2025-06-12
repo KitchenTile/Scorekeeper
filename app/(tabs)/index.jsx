@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import SetPlayersModal from "../../components/court_components/SetPlayersModal";
 import TeamsCompoenent from "@/components/court_components/TeamsComponent";
 import InfoComponent from "../../components/court_components/InfoComponent";
-import { useMatchStore } from "../../store";
+import { useMatchStore } from "../../stores/store";
 
 const app = () => {
   const sets = useMatchStore((state) => state.sets);

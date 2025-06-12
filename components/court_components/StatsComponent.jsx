@@ -1,4 +1,4 @@
-import { useMatchStore } from "@/store";
+import { useMatchStore } from "@/stores/store";
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 // import MISTAKEMETHODS from "@/utils/statsProcessor.js";

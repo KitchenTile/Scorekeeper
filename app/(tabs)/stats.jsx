@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, View, Text } from "react-native-web";
-import { useMatchStore } from "../../store";
+import { useMatchStore } from "../../stores/store";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";

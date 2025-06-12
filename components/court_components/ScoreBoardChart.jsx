@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { LineChart } from "react-native-chart-kit";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
-import { useMatchStore } from "@/store";
+import { useMatchStore } from "@/stores/store";
 
 const ScoreBoardChart = () => {
   const [selectedPoint, setSelectedPoint] = useState(null);
