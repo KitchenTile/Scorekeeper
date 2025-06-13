@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import { TextInput } from "react-native-web";
 import { useAuthStore } from "../../stores/store";
 
@@ -7,6 +7,10 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const login = useAuthStore((state) => state.login);
+
+  useEffect(() => {
+    console.log({ email, password });
+  }, [email, password]);
 
   return (
     <View>
