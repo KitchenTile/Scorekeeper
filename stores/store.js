@@ -1,5 +1,8 @@
-import { isLoading } from "expo-font";
 import { create } from "zustand";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 const initialScore = {
   score: 0,
@@ -114,15 +117,16 @@ export const useAuthStore = create((set, get) => ({
   isLoading: false,
   user: null,
 
-  login: async (email, password) => {
+  login: async (auth, email, password) => {
     set({ isLoading: true });
 
     try {
-      const response = await fetch("API", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      // const response = await fetch("API", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ email, password }),
+      // });
+      const response = await signInWithEmailAndPassword(auth, email, password);
 
       if (response.ok) {
         const data = await response.json();
@@ -131,7 +135,35 @@ export const useAuthStore = create((set, get) => ({
       }
 
       set({ user: data.user, isLoading: false, isLoggedIn: true });
-    } catch {
+    } catch (error) {
+      set({ isLoading: false });
+      alert("Login failed: " + error.message);
+    }
+  },
+
+  signUp: async (auth, email, password) => {
+    set({ isLoading: true });
+
+    try {
+      // const response = await fetch("API", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ email, password }),
+      // });
+      const response = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log(response);
+      if (response.ok) {
+        const data = await response.json();
+      } else {
+        throw new Error(data.message);
+      }
+
+      set({ user: data.user, isLoading: false, isLoggedIn: true });
+    } catch (error) {
       set({ isLoading: false });
       alert("Login failed: " + error.message);
     }
