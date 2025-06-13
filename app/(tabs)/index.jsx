@@ -7,7 +7,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import SetPlayersModal from "../../components/court_components/SetPlayersModal";
 import TeamsCompoenent from "@/components/court_components/TeamsComponent";
 import InfoComponent from "../../components/court_components/InfoComponent";
-import { useMatchStore } from "../../stores/store";
+import LoginScreen from "@/components/misc/LoginScreen";
+import { useAuthStore, useMatchStore } from "../../stores/store";
 
 const app = () => {
   const sets = useMatchStore((state) => state.sets);
@@ -18,6 +19,7 @@ const app = () => {
   const setCurrentPoint = useMatchStore((state) => state.setCurrentPoint);
   const currentSetIndex = useMatchStore((state) => state.currentSetIndex);
   const [infoVisible, setInfoVisible] = useState(false);
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   const currentSet = sets[currentSetIndex];
 
@@ -27,54 +29,65 @@ const app = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <SetPlayersModal />
-      <TeamsCompoenent />
-      <ScoreBoardChart />
-      <SafeAreaView style={styles.infoContainer}>
-        <TouchableOpacity
-          style={styles.infoIcon}
-          onPress={() => setInfoVisible(!infoVisible)}
-        >
-          <Text style={{ color: "white", textAlign: "center", lineHeight: 26 }}>
-            ?
-          </Text>
-        </TouchableOpacity>
-        {infoVisible ? (
-          <InfoComponent />
-        ) : (
-          <>
-            <StatsComponent team={teams[0]} score={currentSet.scores.myScore} />
-            <StatsComponent
-              team={teams[1]}
-              score={currentSet.scores.oppScore}
-            />
-          </>
-        )}
-      </SafeAreaView>
-      <SafeAreaView style={styles.bttnsContainer}>
-        <TouchableOpacity
-          style={styles.bttn}
-          onPress={() => {
-            setCurrentPoint({ ...currentPoint, type: `${teams[0]}` });
-            setModalVisible({ ...modalVisible, setScore: true });
-          }}
-        >
-          <Text style={styles.bttnTxt}>+</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.bttn,
-            { backgroundColor: "#DC605B", borderColor: "#B52924" },
-          ]}
-          onPress={() => {
-            setCurrentPoint({ ...currentPoint, type: `${teams[1]}` });
-            setModalVisible({ ...modalVisible, setScore: true });
-          }}
-        >
-          <Text style={styles.bttnTxt}>-</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
-      <PointScoreModal />
+      {isLoggedIn ? (
+        <>
+          <SetPlayersModal />
+          <TeamsCompoenent />
+          <ScoreBoardChart />
+          <SafeAreaView style={styles.infoContainer}>
+            <TouchableOpacity
+              style={styles.infoIcon}
+              onPress={() => setInfoVisible(!infoVisible)}
+            >
+              <Text
+                style={{ color: "white", textAlign: "center", lineHeight: 26 }}
+              >
+                ?
+              </Text>
+            </TouchableOpacity>
+            {infoVisible ? (
+              <InfoComponent />
+            ) : (
+              <>
+                <StatsComponent
+                  team={teams[0]}
+                  score={currentSet.scores.myScore}
+                />
+                <StatsComponent
+                  team={teams[1]}
+                  score={currentSet.scores.oppScore}
+                />
+              </>
+            )}
+          </SafeAreaView>
+          <SafeAreaView style={styles.bttnsContainer}>
+            <TouchableOpacity
+              style={styles.bttn}
+              onPress={() => {
+                setCurrentPoint({ ...currentPoint, type: `${teams[0]}` });
+                setModalVisible({ ...modalVisible, setScore: true });
+              }}
+            >
+              <Text style={styles.bttnTxt}>+</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.bttn,
+                { backgroundColor: "#DC605B", borderColor: "#B52924" },
+              ]}
+              onPress={() => {
+                setCurrentPoint({ ...currentPoint, type: `${teams[1]}` });
+                setModalVisible({ ...modalVisible, setScore: true });
+              }}
+            >
+              <Text style={styles.bttnTxt}>-</Text>
+            </TouchableOpacity>
+          </SafeAreaView>
+          <PointScoreModal />
+        </>
+      ) : (
+        <LoginScreen />
+      )}
     </ScrollView>
   );
 };
