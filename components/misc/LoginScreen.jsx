@@ -2,11 +2,13 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { TextInput } from "react-native-web";
 import { useAuthStore } from "../../stores/store";
+import { auth } from "../../firebase";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const login = useAuthStore((state) => state.login);
+  const signUp = useAuthStore((state) => state.signUp);
 
   useEffect(() => {
     console.log({ email, password });
@@ -32,9 +34,16 @@ const LoginScreen = () => {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => login(email, password)}
+        onPress={() => login(auth, email, password)}
       >
-        <Text style={styles.buttonText}>Login</Text>
+        <Text style={styles.buttonText}>Log In</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => signUp(auth, email, password)}
+      >
+        <Text style={styles.buttonText}>Create Account</Text>
       </TouchableOpacity>
     </View>
   );
