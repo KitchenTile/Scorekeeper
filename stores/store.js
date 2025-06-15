@@ -128,15 +128,7 @@ export const useAuthStore = create((set, get) => ({
 
       console.log(response);
 
-      set({ user: User, isLoading: false, isLoggedIn: true });
-
-      // if (response.ok) {
-      //   const data = await response.json();
-      //   console.log(data);
-      // set({ user: data.user, isLoading: false, isLoggedIn: true });
-      // } else {
-      //   throw new Error(data.message);
-      // }
+      set({ user: response.user, isLoading: false, isLoggedIn: true });
     } catch (error) {
       set({ isLoading: false });
       alert("Login failed: " + error.message);
@@ -147,24 +139,14 @@ export const useAuthStore = create((set, get) => ({
     set({ isLoading: true });
 
     try {
-      // const response = await fetch("API", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ email, password }),
-      // });
       const response = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
       console.log(response);
-      // if (response.ok) {
-      //   const data = await response.json();
-      // } else {
-      //   throw new Error(data.message);
-      // }
 
-      set({ user: User, isLoading: false, isLoggedIn: true });
+      set({ user: response.user, isLoading: false, isLoggedIn: true });
     } catch (error) {
       set({ isLoading: false });
       alert("Login failed: " + error.message);
