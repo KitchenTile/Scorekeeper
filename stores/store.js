@@ -3,8 +3,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-
-import { User } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
 
 const initialScore = {
   score: 0,
