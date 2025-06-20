@@ -8,7 +8,9 @@ import SetPlayersModal from "../../components/court_components/SetPlayersModal";
 import TeamsCompoenent from "@/components/court_components/TeamsComponent";
 import InfoComponent from "../../components/court_components/InfoComponent";
 import LoginScreen from "@/components/misc/LoginScreen";
+import { collection, addDoc } from "firebase/firestore";
 import { useAuthStore, useMatchStore } from "../../stores/store";
+import { db } from "@/firebase";
 
 const app = () => {
   const sets = useMatchStore((state) => state.sets);
@@ -28,9 +30,32 @@ const app = () => {
     console.log("User");
     console.log(user);
   }, [user]);
+
   useEffect(() => {
     console.log(sets);
   }, [sets]);
+
+  useEffect(() => {
+    const submit = async () => {
+      try {
+        await addDoc(collection(db, "match_history"), {
+          user_id: auth.currentUser.uid,
+          time_created: Date.now(),
+          winner: sets[0].winner,
+          scores: sets[0].scores,
+          lineChartScore: sets[0].lineChartScore,
+        });
+        console.log("submitted");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const isFinished = sets.length > 3;
+    if (isFinished) {
+      submit();
+    }
+  }, [sets.length]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
