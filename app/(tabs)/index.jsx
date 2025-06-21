@@ -10,7 +10,7 @@ import InfoComponent from "../../components/court_components/InfoComponent";
 import LoginScreen from "@/components/misc/LoginScreen";
 import { collection, addDoc } from "firebase/firestore";
 import { useAuthStore, useMatchStore } from "../../stores/store";
-import { db } from "@/firebase";
+import { db, auth } from "@/firebase";
 
 const app = () => {
   const sets = useMatchStore((state) => state.sets);
@@ -36,15 +36,22 @@ const app = () => {
   }, [sets]);
 
   useEffect(() => {
+    const getSets = () => {
+      let gameSets = {};
+
+      for (var index in sets) {
+        gameSets[index] = sets[index];
+      }
+      return {
+        ...gameSets,
+        timeCreated: Date.now(),
+        user_id: auth.currentUser.uid,
+      };
+    };
+
     const submit = async () => {
       try {
-        await addDoc(collection(db, "match_history"), {
-          user_id: auth.currentUser.uid,
-          time_created: Date.now(),
-          winner: sets[0].winner,
-          scores: sets[0].scores,
-          lineChartScore: sets[0].lineChartScore,
-        });
+        await addDoc(collection(db, "match_history"), getSets());
         console.log("submitted");
       } catch (error) {
         console.log(error);
