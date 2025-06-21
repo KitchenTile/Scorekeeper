@@ -37,15 +37,29 @@ const app = () => {
 
   useEffect(() => {
     const getSets = () => {
-      let gameSets = {};
+      const matchWinner = (teams, sets) => {
+        const wins = { [teams[0]]: 0, [teams[1]]: 0 };
 
-      for (var index in sets) {
-        gameSets[index] = sets[index];
-      }
+        sets.forEach((set) => {
+          if (set.winner === teams[0]) {
+            wins[teams[0]]++;
+          } else if (set.winner === teams[1]) {
+            wins[teams[1]]++;
+          }
+        });
+
+        if (wins[teams[0]] >= 3) return teams[0];
+        if (wins[teams[1]] >= 3) return teams[1];
+        return null;
+      };
+
+      const gameSets = Object.fromEntries(sets.map((set, i) => [i, set]));
+
       return {
         ...gameSets,
-        timeCreated: Date.now(),
+        time_created: Date.now(),
         user_id: auth.currentUser.uid,
+        match_winner: matchWinner(teams, sets),
       };
     };
 
@@ -58,7 +72,7 @@ const app = () => {
       }
     };
 
-    const isFinished = sets.length > 3;
+    const isFinished = getSets().match_winner !== null;
     if (isFinished) {
       submit();
     }
