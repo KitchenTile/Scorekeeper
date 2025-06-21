@@ -20,6 +20,8 @@ const app = () => {
   const currentPoint = useMatchStore((state) => state.currentPoint);
   const setCurrentPoint = useMatchStore((state) => state.setCurrentPoint);
   const currentSetIndex = useMatchStore((state) => state.currentSetIndex);
+  const matchWinner = useMatchStore((state) => state.matchWinner);
+
   const [infoVisible, setInfoVisible] = useState(false);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
@@ -27,9 +29,9 @@ const app = () => {
   const user = useAuthStore((state) => state.user);
 
   useEffect(() => {
-    console.log("User");
-    console.log(user);
-  }, [user]);
+    console.log("match winner");
+    console.log(matchWinner);
+  }, [sets.length]);
 
   useEffect(() => {
     console.log(sets);
@@ -37,29 +39,29 @@ const app = () => {
 
   useEffect(() => {
     const getSets = () => {
-      const matchWinner = (teams, sets) => {
-        const wins = { [teams[0]]: 0, [teams[1]]: 0 };
+      // const matchWinner = (teams, sets) => {
+      //   const wins = { [teams[0]]: 0, [teams[1]]: 0 };
 
-        sets.forEach((set) => {
-          if (set.winner === teams[0]) {
-            wins[teams[0]]++;
-          } else if (set.winner === teams[1]) {
-            wins[teams[1]]++;
-          }
-        });
+      //   sets.forEach((set) => {
+      //     if (set.winner === teams[0]) {
+      //       wins[teams[0]]++;
+      //     } else if (set.winner === teams[1]) {
+      //       wins[teams[1]]++;
+      //     }
+      //   });
 
-        if (wins[teams[0]] >= 3) return teams[0];
-        if (wins[teams[1]] >= 3) return teams[1];
-        return null;
-      };
+      //   if (wins[teams[0]] >= 3) return teams[0];
+      //   if (wins[teams[1]] >= 3) return teams[1];
+      //   return null;
+      // };
 
       const gameSets = Object.fromEntries(sets.map((set, i) => [i, set]));
 
       return {
         ...gameSets,
         time_created: Date.now(),
-        user_id: auth.currentUser.uid,
-        match_winner: matchWinner(teams, sets),
+        user_id: isLoggedIn ?? auth.currentUser.uid,
+        match_winner: matchWinner,
       };
     };
 
@@ -74,7 +76,7 @@ const app = () => {
 
     const isFinished = getSets().match_winner !== null;
     if (isFinished) {
-      submit();
+      // submit();
     }
   }, [sets.length]);
 
