@@ -3,7 +3,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
 
 const initialScore = {
   score: 0,
@@ -27,6 +26,22 @@ const initialSet = () => ({
   number: 1,
 });
 
+const calculateMatchWinner = (teams, sets) => {
+  const wins = { [teams[0]]: 0, [teams[1]]: 0 };
+
+  sets.forEach((set) => {
+    if (set.winner === teams[0]) {
+      wins[teams[0]]++;
+    } else if (set.winner === teams[1]) {
+      wins[teams[1]]++;
+    }
+  });
+
+  if (wins[teams[0]] >= 3) return teams[0];
+  if (wins[teams[1]] >= 3) return teams[1];
+  return null;
+};
+
 export const useMatchStore = create((set, get) => ({
   teams: ["", ""],
   players: [],
@@ -40,12 +55,19 @@ export const useMatchStore = create((set, get) => ({
     isMistake: null,
   },
   modalVisible: { setScore: false, setPlayers: true },
+  matchWinner: null,
 
   // State setters
   setModalVisible: (modal) => set({ modalVisible: modal }),
   setCurrentPoint: (point) => set({ currentPoint: point }),
   setTeams: (teams) => set({ teams }),
   setPlayers: (players) => set({ players }),
+
+  updateMatchWinner: () => {
+    const { sets, teams } = get();
+    const winner = calculateMatchWinner(sets, teams);
+    set({ matchWinner: winner });
+  },
 
   // Player handlers
   addPlayer: (player) =>
@@ -76,8 +98,8 @@ export const useMatchStore = create((set, get) => ({
     // Check win
     let winner = "";
     if (
-      (isTeamA && newScores.myScore >= 5 && newScores.score >= 1) ||
-      (!isTeamA && newScores.oppScore >= 5 && newScores.score <= -1)
+      (isTeamA && newScores.myScore >= 2 && newScores.score >= 1) ||
+      (!isTeamA && newScores.oppScore >= 2 && newScores.score <= -1)
     ) {
       winner = currentPoint.type;
       const newSet = initialSet();
@@ -110,6 +132,8 @@ export const useMatchStore = create((set, get) => ({
       },
       modalVisible: { ...get().modalVisible, setScore: false },
     });
+
+    get().updateMatchWinner();
   },
 }));
 
