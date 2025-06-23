@@ -28,6 +28,7 @@ const initialSet = () => ({
 
 const calculateMatchWinner = (teams, sets) => {
   const wins = { [teams[0]]: 0, [teams[1]]: 0 };
+  console.log(teams);
 
   sets.forEach((set) => {
     if (set.winner === teams[0]) {
@@ -39,6 +40,7 @@ const calculateMatchWinner = (teams, sets) => {
 
   if (wins[teams[0]] >= 3) return teams[0];
   if (wins[teams[1]] >= 3) return teams[1];
+  console.log(wins);
   return null;
 };
 
@@ -65,7 +67,8 @@ export const useMatchStore = create((set, get) => ({
 
   updateMatchWinner: () => {
     const { sets, teams } = get();
-    const winner = calculateMatchWinner(sets, teams);
+    const winner = calculateMatchWinner(teams, sets);
+    console.log(winner);
     set({ matchWinner: winner });
   },
 
