@@ -28,10 +28,10 @@ const app = () => {
   const currentSet = sets[currentSetIndex];
   const user = useAuthStore((state) => state.user);
 
-  useEffect(() => {
-    console.log("match winner");
-    console.log(matchWinner);
-  }, [sets.length]);
+  // useEffect(() => {
+  //   console.log("match winner");
+  //   console.log(matchWinner);
+  // }, [sets.length]);
 
   useEffect(() => {
     console.log(sets);
@@ -39,22 +39,6 @@ const app = () => {
 
   useEffect(() => {
     const getSets = () => {
-      // const matchWinner = (teams, sets) => {
-      //   const wins = { [teams[0]]: 0, [teams[1]]: 0 };
-
-      //   sets.forEach((set) => {
-      //     if (set.winner === teams[0]) {
-      //       wins[teams[0]]++;
-      //     } else if (set.winner === teams[1]) {
-      //       wins[teams[1]]++;
-      //     }
-      //   });
-
-      //   if (wins[teams[0]] >= 3) return teams[0];
-      //   if (wins[teams[1]] >= 3) return teams[1];
-      //   return null;
-      // };
-
       const gameSets = Object.fromEntries(sets.map((set, i) => [i, set]));
 
       return {
@@ -74,11 +58,8 @@ const app = () => {
       }
     };
 
-    const isFinished = getSets().match_winner !== null;
-    if (isFinished) {
-      // submit();
-    }
-  }, [sets.length]);
+    submit();
+  }, [matchWinner]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
