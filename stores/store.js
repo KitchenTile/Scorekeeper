@@ -28,7 +28,6 @@ const initialSet = () => ({
 
 const calculateMatchWinner = (teams, sets) => {
   const wins = { [teams[0]]: 0, [teams[1]]: 0 };
-  console.log(teams);
 
   sets.forEach((set) => {
     if (set.winner === teams[0]) {
@@ -40,7 +39,6 @@ const calculateMatchWinner = (teams, sets) => {
 
   if (wins[teams[0]] >= 3) return teams[0];
   if (wins[teams[1]] >= 3) return teams[1];
-  console.log(wins);
   return null;
 };
 
@@ -86,10 +84,12 @@ export const useMatchStore = create((set, get) => ({
 
   // Confirm point
   handleConfirm: () => {
-    const { teams, currentPoint, sets, currentSetIndex } = get();
+    const { teams, currentPoint, sets, currentSetIndex, matchWinner } = get();
     const updatedSets = [...sets];
     const setObj = updatedSets[currentSetIndex];
     const isTeamA = currentPoint.type === teams[0];
+
+    if (matchWinner) return;
 
     // Update scores
     const newScores = {
@@ -105,11 +105,7 @@ export const useMatchStore = create((set, get) => ({
       (!isTeamA && newScores.oppScore >= 2 && newScores.score <= -1)
     ) {
       winner = currentPoint.type;
-      const newSet = initialSet();
-      newSet.number = updatedSets.length + 1;
-
-      updatedSets.push(newSet);
-      set({ currentSetIndex: updatedSets.length - 1 });
+      setObj.winner = winner;
     }
 
     setObj.scores = newScores;
@@ -121,8 +117,14 @@ export const useMatchStore = create((set, get) => ({
       reason: currentPoint.reason,
       isMistake: currentPoint.reason === "Defence Mistake",
     });
-    setObj.winner = winner;
     setObj.number = currentSetIndex + 1;
+
+    get().updateMatchWinner();
+
+    if (!get().matchWinner && winner) {
+      updatedSets.push(initialSet());
+      set({ currentSetIndex: updatedSets.length - 1 });
+    }
 
     set({
       sets: updatedSets,
@@ -135,8 +137,6 @@ export const useMatchStore = create((set, get) => ({
       },
       modalVisible: { ...get().modalVisible, setScore: false },
     });
-
-    get().updateMatchWinner();
   },
 }));
 
