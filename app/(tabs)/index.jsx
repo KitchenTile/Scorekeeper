@@ -28,11 +28,6 @@ const app = () => {
   const currentSet = sets[currentSetIndex];
   const user = useAuthStore((state) => state.user);
 
-  // useEffect(() => {
-  //   console.log("match winner");
-  //   console.log(matchWinner);
-  // }, [sets.length]);
-
   useEffect(() => {
     console.log(sets);
   }, [sets]);
