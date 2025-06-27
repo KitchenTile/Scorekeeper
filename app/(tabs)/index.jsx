@@ -26,7 +26,6 @@ const app = () => {
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
 
   const currentSet = sets[currentSetIndex];
-  const user = useAuthStore((state) => state.user);
 
   useEffect(() => {
     console.log(sets);
