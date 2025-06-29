@@ -10,10 +10,6 @@ const LoginScreen = () => {
   const login = useAuthStore((state) => state.login);
   const signUp = useAuthStore((state) => state.signUp);
 
-  useEffect(() => {
-    console.log({ email, password });
-  }, [email, password]);
-
   return (
     <View>
       <Text style={styles.title}>Welcome Back</Text>
