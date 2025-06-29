@@ -18,10 +18,6 @@ const stats = () => {
   const [pointOrError, setPointOrError] = useState("points");
   const [selectedPlayer, setSelectedPlayer] = useState(players[0]);
 
-  // useEffect(() => {
-  //   console.log(sets);
-  // }, [sets]);
-
   const activeTabToggle = (index) => {
     setActiveTab((prev) => {
       if (prev === index) {
