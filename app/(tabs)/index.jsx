@@ -53,7 +53,7 @@ const app = () => {
     };
 
     submit();
-  }, [matchWinner]);
+  }, [matchWinner, sets.number > 3]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
