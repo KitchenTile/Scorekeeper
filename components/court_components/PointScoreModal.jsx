@@ -272,6 +272,11 @@ const ScoreModal = () => {
               <TouchableOpacity
                 style={styles.confirmButton}
                 onPress={() => handleConfirm()}
+                disabled={
+                  currentPoint.reason &&
+                  currentPoint.method &&
+                  currentPoint.author
+                }
               >
                 <Text style={styles.bttnText}>Confirm</Text>
               </TouchableOpacity>
