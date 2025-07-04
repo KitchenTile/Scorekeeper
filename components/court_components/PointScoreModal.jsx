@@ -11,6 +11,11 @@ const ScoreModal = () => {
   const teams = useMatchStore((state) => state.teams);
   const handleConfirm = useMatchStore((state) => state.handleConfirm);
 
+  const pointReady =
+    currentPoint.reason !== null &&
+    currentPoint.author !== null &&
+    currentPoint.method !== null;
+
   return (
     <Modal visible={modalVisible.setScore} transparent animationType="slide">
       {currentPoint.type === teams[0] ? (
@@ -143,7 +148,21 @@ const ScoreModal = () => {
 
             <View style={styles.bttnContainer}>
               <TouchableOpacity
-                style={styles.confirmButton}
+                disabled={
+                  currentPoint.reason === "Defence Mistake"
+                    ? false
+                    : !pointReady
+                }
+                style={[
+                  styles.confirmButton,
+                  currentPoint.reason !== "Defence Mistake" &&
+                    !pointReady && {
+                      backgroundColor: "transparent",
+                      borderColor: "#3A464E",
+                      borderStyle: "solid",
+                      borderWidth: 2,
+                    },
+                ]}
                 onPress={() => handleConfirm()}
               >
                 <Text style={styles.bttnText}>Confirm</Text>
@@ -270,13 +289,22 @@ const ScoreModal = () => {
             </View>
             <View style={styles.bttnContainer}>
               <TouchableOpacity
-                style={styles.confirmButton}
-                onPress={() => handleConfirm()}
                 disabled={
-                  currentPoint.reason &&
-                  currentPoint.method &&
-                  currentPoint.author
+                  currentPoint.reason === "Opp's Point" &&
+                  currentPoint.method !== null
+                    ? false
+                    : !pointReady
                 }
+                style={[
+                  styles.confirmButton,
+                  !pointReady && {
+                    backgroundColor: "transparent",
+                    borderColor: "#3A464E",
+                    borderStyle: "solid",
+                    borderWidth: 2,
+                  },
+                ]}
+                onPress={() => handleConfirm()}
               >
                 <Text style={styles.bttnText}>Confirm</Text>
               </TouchableOpacity>
