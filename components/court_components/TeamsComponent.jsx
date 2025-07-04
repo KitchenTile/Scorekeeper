@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { StyleSheet, Text } from "react-native";
 import { TextInput, View } from "react-native-web";
 
-const TeamsCompoenent = () => {
-  const teams = useMatchStore((state) => state.teams);
+const TeamsCompoenent = ({ teams }) => {
+  // const teams = useMatchStore((state) => state.teams);
   const setTeams = useMatchStore((state) => state.setTeams);
 
   const handleTeamSubmit = (input, idx) => {
