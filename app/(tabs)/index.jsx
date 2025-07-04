@@ -37,8 +37,9 @@ const app = () => {
 
       return {
         ...gameSets,
+        teams: teams,
         time_created: Date.now(),
-        user_id: isLoggedIn ?? auth.currentUser.uid,
+        user_id: isLoggedIn ? auth.currentUser.uid : "No User ID",
         match_winner: matchWinner,
       };
     };
@@ -60,7 +61,7 @@ const app = () => {
       {isLoggedIn ? (
         <>
           <SetPlayersModal />
-          <TeamsCompoenent />
+          <TeamsCompoenent teams={teams} />
           <ScoreBoardChart />
           <SafeAreaView style={styles.infoContainer}>
             <TouchableOpacity
