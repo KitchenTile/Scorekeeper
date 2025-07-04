@@ -9,14 +9,46 @@ import ErrorGraph from "../../components/stats_components/ErrorGraph";
 import TeamsCompoenent from "@/components/court_components/TeamsComponent";
 import IndividualStats from "../../components/stats_components/IndividualStats";
 import DisplayToggle from "../../components/misc/DisplayToggle";
+import { db } from "@/firebase";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 
 const stats = () => {
   const sets = useMatchStore((state) => state.sets);
+  const teams = useMatchStore((state) => state.teams);
   const players = useMatchStore((state) => state.players);
   const [activeTab, setActiveTab] = useState(sets.length - 1);
   const [statView, setStatView] = useState("team");
   const [pointOrError, setPointOrError] = useState("points");
   const [selectedPlayer, setSelectedPlayer] = useState(players[0]);
+  const [currentMatch, setCurrentMatch] = useState(true);
+  const [matchList, setMatchList] = useState(null);
+  const [selectedMatchId, setSelectedMatchId] = useState(null);
+  const [selectedMatch, setSelectedMatch] = useState(null);
+
+  useEffect(() => {
+    const fetchMatches = async () => {
+      const res = await getDocs(collection(db, "match_history"));
+      const matches = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setMatchList(matches);
+      console.log(matchList);
+    };
+
+    fetchMatches();
+  }, []);
+
+  useEffect(() => {
+    const fetchMatch = async () => {
+      if (selectedMatchId) {
+        const res = await getDoc(doc(db, "match_history", selectedMatchId));
+        if (res.exists()) {
+          setSelectedMatch(res.data());
+          setCurrentMatch(false);
+        }
+      }
+    };
+
+    fetchMatch();
+  }, [selectedMatchId]);
 
   const activeTabToggle = (index) => {
     setActiveTab((prev) => {
@@ -50,7 +82,7 @@ const stats = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <TeamsCompoenent />
+      <TeamsCompoenent teams={teams} />
       {sets.map((set, index) => (
         <View
           style={[
@@ -81,6 +113,7 @@ const stats = () => {
                 {
                   textAlign: "center",
                   padding: activeTab === index ? 3 : 0,
+                  paddingLeft: 3,
                   paddingTop: activeTab === index ? 3 : 0,
                 },
               ]}
