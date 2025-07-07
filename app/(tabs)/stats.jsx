@@ -30,7 +30,7 @@ const stats = () => {
       const res = await getDocs(collection(db, "match_history"));
       const matches = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setMatchList(matches);
-      console.log(matchList);
+      // console.log(matchList);
     };
 
     fetchMatches();
