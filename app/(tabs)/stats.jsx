@@ -30,9 +30,8 @@ const stats = () => {
       const res = await getDocs(collection(db, "match_history"));
       const matches = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setMatchList(matches);
-      // console.log(matchList);
+      console.log(matchList);
     };
-
     fetchMatches();
   }, []);
 
@@ -82,134 +81,155 @@ const stats = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <TeamsCompoenent teams={teams} />
-      {sets.map((set, index) => (
-        <View
-          style={[
-            styles.pointInfoContainer,
-            {
-              height: index === activeTab ? "" : 65,
-              display: "flex",
-              flexDirection: "column",
-            },
-          ]}
-        >
-          <View
-            style={{
-              maxHeight: 65,
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-around",
-            }}
-          >
-            <>
-              <Text style={[styles.title, { lineHeight: 42 }]}>
-                SET {index + 1} BREAKDOWN
-              </Text>
-            </>
-            <TouchableOpacity
+      <TouchableOpacity onPress={() => setCurrentMatch(true)}>
+        <Text>Current Game</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => setCurrentMatch(false)}>
+        <Text>Game History</Text>
+      </TouchableOpacity>
+
+      {currentMatch === true ? (
+        <>
+          <TeamsCompoenent />
+
+          {sets.map((set, index) => (
+            <View
               style={[
-                styles.smallOptionButton,
+                styles.pointInfoContainer,
                 {
-                  textAlign: "center",
-                  padding: activeTab === index ? 3 : 0,
-                  paddingLeft: 3,
-                  paddingTop: activeTab === index ? 3 : 0,
+                  height: index === activeTab ? "" : 65,
+                  display: "flex",
+                  flexDirection: "column",
                 },
               ]}
-              onPress={() => {
-                activeTabToggle(index);
-                activeStatToggle("team");
-              }}
             >
               <View
-                style={{ rotate: activeTab === index ? "180deg" : "360deg" }}
+                style={{
+                  maxHeight: 65,
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                }}
               >
-                <AntDesign name="caretdown" size={20} color="white" />
+                <>
+                  <Text style={[styles.title, { lineHeight: 42 }]}>
+                    SET {index + 1} BREAKDOWN
+                  </Text>
+                </>
+                <TouchableOpacity
+                  style={[
+                    styles.smallOptionButton,
+                    {
+                      textAlign: "center",
+                      padding: activeTab === index ? 3 : 0,
+                      paddingLeft: 3,
+                      paddingTop: activeTab === index ? 3 : 0,
+                    },
+                  ]}
+                  onPress={() => {
+                    activeTabToggle(index);
+                    activeStatToggle("team");
+                  }}
+                >
+                  <View
+                    style={{
+                      rotate: activeTab === index ? "180deg" : "360deg",
+                    }}
+                  >
+                    <AntDesign name="caretdown" size={20} color="white" />
+                  </View>
+                </TouchableOpacity>
               </View>
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              display: index === activeTab ? "flex" : "none",
-            }}
-          >
-            <View style={styles.bttnsContainer}>
-              <DisplayToggle
-                label={"TEAM"}
-                active={statView === "team"}
-                onPress={() => activeStatToggle("team")}
-              />
-              <DisplayToggle
-                label={"PLAYERS"}
-                active={statView === "players"}
-                onPress={() => activeStatToggle("players")}
-              />
-            </View>
-            {statView === "team" ? (
-              <View>
+              <View
+                style={{
+                  display: index === activeTab ? "flex" : "none",
+                }}
+              >
                 <View style={styles.bttnsContainer}>
                   <DisplayToggle
-                    label={"POINTS"}
-                    active={pointOrError === "points"}
-                    onPress={() => pointOrErrorToggle("points")}
+                    label={"TEAM"}
+                    active={statView === "team"}
+                    onPress={() => activeStatToggle("team")}
                   />
                   <DisplayToggle
-                    label={"ERRORS"}
-                    active={pointOrError === "errors"}
-                    onPress={() => pointOrErrorToggle("errors")}
+                    label={"PLAYERS"}
+                    active={statView === "players"}
+                    onPress={() => activeStatToggle("players")}
                   />
                 </View>
-                {pointOrError === "points" ? (
-                  <PlayersGraphs set={sets[index]} />
+                {statView === "team" ? (
+                  <View>
+                    <View style={styles.bttnsContainer}>
+                      <DisplayToggle
+                        label={"POINTS"}
+                        active={pointOrError === "points"}
+                        onPress={() => pointOrErrorToggle("points")}
+                      />
+                      <DisplayToggle
+                        label={"ERRORS"}
+                        active={pointOrError === "errors"}
+                        onPress={() => pointOrErrorToggle("errors")}
+                      />
+                    </View>
+                    {pointOrError === "points" ? (
+                      <PlayersGraphs set={sets[index]} />
+                    ) : (
+                      <ErrorGraph set={sets[index]} />
+                    )}
+                  </View>
                 ) : (
-                  <ErrorGraph set={sets[index]} />
+                  <>
+                    <View style={styles.optionContainer}>
+                      {players.map((player) => (
+                        <TouchableOpacity
+                          key={player}
+                          style={[
+                            styles.playersButton,
+                            selectedPlayer === player
+                              ? styles.selectedOption
+                              : styles.playersButton,
+                          ]}
+                          onPress={() => {
+                            setSelectedPlayer(player);
+                          }}
+                        >
+                          <Text style={[styles.optionText]}>{player}</Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                    <View style={styles.bttnsContainer}>
+                      <DisplayToggle
+                        label={"POINTS"}
+                        active={pointOrError === "points"}
+                        onPress={() => pointOrErrorToggle("points")}
+                      />
+                      <DisplayToggle
+                        label={"ERRORS"}
+                        active={pointOrError === "errors"}
+                        onPress={() => pointOrErrorToggle("errors")}
+                      />
+                    </View>
+                    <View>
+                      <IndividualStats
+                        player={selectedPlayer}
+                        set={sets[index]}
+                        pointsOrError={pointOrError}
+                      />
+                    </View>
+                  </>
                 )}
               </View>
-            ) : (
-              <>
-                <View style={styles.optionContainer}>
-                  {players.map((player) => (
-                    <TouchableOpacity
-                      key={player}
-                      style={[
-                        styles.playersButton,
-                        selectedPlayer === player
-                          ? styles.selectedOption
-                          : styles.playersButton,
-                      ]}
-                      onPress={() => {
-                        setSelectedPlayer(player);
-                      }}
-                    >
-                      <Text style={[styles.optionText]}>{player}</Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-                <View style={styles.bttnsContainer}>
-                  <DisplayToggle
-                    label={"POINTS"}
-                    active={pointOrError === "points"}
-                    onPress={() => pointOrErrorToggle("points")}
-                  />
-                  <DisplayToggle
-                    label={"ERRORS"}
-                    active={pointOrError === "errors"}
-                    onPress={() => pointOrErrorToggle("errors")}
-                  />
-                </View>
-                <View>
-                  <IndividualStats
-                    player={selectedPlayer}
-                    set={sets[index]}
-                    pointsOrError={pointOrError}
-                  />
-                </View>
-              </>
-            )}
-          </View>
-        </View>
-      ))}
+            </View>
+          ))}
+        </>
+      ) : (
+        <>
+          <Text>Match History</Text>
+          {matchList.map((match) => (
+            <Text>{match.id}</Text>
+          ))}
+        </>
+      )}
     </ScrollView>
   );
 };
