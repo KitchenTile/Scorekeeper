@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { TouchableOpacity } from "react-native";
 
-const MatchHistryCards = ({ match }) => {
+const MatchHistryCards = ({ match, setSelectedMatchId }) => {
   const matchDate = new Date(match.time_created);
 
   //   const gameSets = Object.fromEntries(
@@ -17,7 +18,7 @@ const MatchHistryCards = ({ match }) => {
     });
 
     Object.fromEntries(
-      Object.entries(gameSets).map(([key, value]) => {
+      Object.entries(match.gameSets).map(([key, value]) => {
         setResults[value.winner]++;
         return [key, value];
       })
@@ -25,27 +26,27 @@ const MatchHistryCards = ({ match }) => {
 
     return setResults;
   };
-
-  console.log(gameSets);
-  console.log(getSetResults());
-
   return (
     <View style={styles.cardContainer}>
       <Text
-        style={{
-          color: match.match_winner === match.teams[0] ? "white" : "#3A464E",
-        }}
+        style={[
+          styles.teamsText,
+          {
+            color: match.match_winner === match.teams[0] ? "white" : "#3A464E",
+          },
+        ]}
       >
-        {match.teams[0]}
+        {match.teams[0]} - {getSetResults()[match.teams[0]]}
       </Text>
       <Text
         style={{
-          color: match.match_winner === match.teams[1] ? "white" : "#3A464E",
+          color: "white",
+          fontSize: 15,
+          textAlign: "end",
+          lineHeight: 28,
+          paddingRight: 10,
         }}
       >
-        {match.teams[1]}
-      </Text>
-      <Text style={{ color: "white" }}>
         {matchDate.toLocaleString("en-GB", {
           timeZone: "UTC",
           day: "2-digit",
@@ -56,6 +57,34 @@ const MatchHistryCards = ({ match }) => {
           hour12: false,
         })}
       </Text>
+      <Text
+        style={[
+          styles.teamsText,
+          ,
+          {
+            color: match.match_winner === match.teams[1] ? "white" : "#3A464E",
+          },
+        ]}
+      >
+        {match.teams[1]} - {getSetResults()[match.teams[1]]}
+      </Text>
+      <TouchableOpacity
+        onPress={() => {
+          setSelectedMatchId(match.id);
+        }}
+      >
+        <Text
+          style={{
+            color: "white",
+            fontSize: 15,
+            textAlign: "end",
+            lineHeight: 28,
+            paddingRight: 10,
+          }}
+        >
+          See Details
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -64,12 +93,20 @@ export default MatchHistryCards;
 
 const styles = StyleSheet.create({
   cardContainer: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 50%)",
+    gridTemplateRows: "repeat(2, 50%)",
     width: "100%",
-    height: 100,
+    height: 80,
     borderWidth: 2,
     borderColor: "#3A464E",
     borderRadius: 20,
     marginTop: 15,
     padding: 10,
+  },
+
+  teamsText: {
+    fontSize: 20,
+    paddingLeft: 5,
   },
 });
