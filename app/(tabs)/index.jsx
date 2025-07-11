@@ -27,16 +27,16 @@ const app = () => {
 
   const currentSet = sets[currentSetIndex];
 
-  useEffect(() => {
-    console.log(sets);
-  }, [sets]);
+  // useEffect(() => {
+  //   console.log(teams);
+  // }, []);
 
   useEffect(() => {
     const getSets = () => {
       const gameSets = Object.fromEntries(sets.map((set, i) => [i, set]));
 
       return {
-        ...gameSets,
+        gameSets: { ...gameSets },
         teams: teams,
         time_created: Date.now(),
         user_id: isLoggedIn ? auth.currentUser.uid : "No User ID",
@@ -53,15 +53,15 @@ const app = () => {
       }
     };
 
-    submit();
-  }, [matchWinner, sets.number > 3]);
+    // submit();
+  }, [matchWinner]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {isLoggedIn ? (
         <>
           <SetPlayersModal />
-          <TeamsCompoenent teams={teams} />
+          <TeamsCompoenent />
           <ScoreBoardChart />
           <SafeAreaView style={styles.infoContainer}>
             <TouchableOpacity
