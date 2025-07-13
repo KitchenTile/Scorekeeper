@@ -11,6 +11,9 @@ import IndividualStats from "../../components/stats_components/IndividualStats";
 import DisplayToggle from "../../components/misc/DisplayToggle";
 import { db } from "@/firebase";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import MatchHistryCards from "../../components/cards/MatchHistryCards";
+import SetBreakdownCard from "../../components/cards/SetBreakdownCard";
+import PrevMatchModal from "../../components/stats_components/PrevMatchModal";
 
 const stats = () => {
   const sets = useMatchStore((state) => state.sets);
@@ -24,6 +27,7 @@ const stats = () => {
   const [matchList, setMatchList] = useState(null);
   const [selectedMatchId, setSelectedMatchId] = useState(null);
   const [selectedMatch, setSelectedMatch] = useState(null);
+  const [prevMatchModalVisible, setPrevMatchModalVisible] = useState(false);
 
   useEffect(() => {
     const fetchMatches = async () => {
@@ -42,12 +46,17 @@ const stats = () => {
         if (res.exists()) {
           setSelectedMatch(res.data());
           setCurrentMatch(false);
+          setPrevMatchModalVisible(true);
         }
       }
     };
 
     fetchMatch();
   }, [selectedMatchId]);
+
+  useEffect(() => {
+    console.log(selectedMatch);
+  }, [selectedMatch]);
 
   const activeTabToggle = (index) => {
     setActiveTab((prev) => {
@@ -93,141 +102,171 @@ const stats = () => {
           <TeamsCompoenent />
 
           {sets.map((set, index) => (
-            <View
-              style={[
-                styles.pointInfoContainer,
-                {
-                  height: index === activeTab ? "" : 65,
-                  display: "flex",
-                  flexDirection: "column",
-                },
-              ]}
-            >
-              <View
-                style={{
-                  maxHeight: 65,
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-around",
+            // <View
+            //   style={[
+            //     styles.pointInfoContainer,
+            //     {
+            //       height: index === activeTab ? "" : 65,
+            //       display: "flex",
+            //       flexDirection: "column",
+            //     },
+            //   ]}
+            // >
+            //   <View
+            //     style={{
+            //       maxHeight: 65,
+            //       display: "flex",
+            //       flexDirection: "row",
+            //       justifyContent: "space-around",
+            //     }}
+            //   >
+            //     <>
+            //       <Text style={[styles.title, { lineHeight: 42 }]}>
+            //         SET {index + 1} BREAKDOWN
+            //       </Text>
+            //     </>
+            //     <TouchableOpacity
+            //       style={[
+            //         styles.smallOptionButton,
+            //         {
+            //           textAlign: "center",
+            //           padding: activeTab === index ? 3 : 0,
+            //           paddingLeft: 3,
+            //           paddingTop: activeTab === index ? 3 : 0,
+            //         },
+            //       ]}
+            //       onPress={() => {
+            //         activeTabToggle(index);
+            //         activeStatToggle("team");
+            //       }}
+            //     >
+            //       <View
+            //         style={{
+            //           rotate: activeTab === index ? "180deg" : "360deg",
+            //         }}
+            //       >
+            //         <AntDesign name="caretdown" size={20} color="white" />
+            //       </View>
+            //     </TouchableOpacity>
+            //   </View>
+            //   <View
+            //     style={{
+            //       display: index === activeTab ? "flex" : "none",
+            //     }}
+            //   >
+            //     <View style={styles.bttnsContainer}>
+            //       <DisplayToggle
+            //         label={"TEAM"}
+            //         active={statView === "team"}
+            //         onPress={() => activeStatToggle("team")}
+            //       />
+            //       <DisplayToggle
+            //         label={"PLAYERS"}
+            //         active={statView === "players"}
+            //         onPress={() => activeStatToggle("players")}
+            //       />
+            //     </View>
+            //     {statView === "team" ? (
+            //       <View>
+            //         <View style={styles.bttnsContainer}>
+            //           <DisplayToggle
+            //             label={"POINTS"}
+            //             active={pointOrError === "points"}
+            //             onPress={() => pointOrErrorToggle("points")}
+            //           />
+            //           <DisplayToggle
+            //             label={"ERRORS"}
+            //             active={pointOrError === "errors"}
+            //             onPress={() => pointOrErrorToggle("errors")}
+            //           />
+            //         </View>
+            //         {pointOrError === "points" ? (
+            //           <PlayersGraphs set={sets[index]} />
+            //         ) : (
+            //           <ErrorGraph set={sets[index]} />
+            //         )}
+            //       </View>
+            //     ) : (
+            //       <>
+            //         <View style={styles.optionContainer}>
+            //           {players.map((player) => (
+            //             <TouchableOpacity
+            //               key={player}
+            //               style={[
+            //                 styles.playersButton,
+            //                 selectedPlayer === player
+            //                   ? styles.selectedOption
+            //                   : styles.playersButton,
+            //               ]}
+            //               onPress={() => {
+            //                 setSelectedPlayer(player);
+            //               }}
+            //             >
+            //               <Text style={[styles.optionText]}>{player}</Text>
+            //             </TouchableOpacity>
+            //           ))}
+            //         </View>
+            //         <View style={styles.bttnsContainer}>
+            //           <DisplayToggle
+            //             label={"POINTS"}
+            //             active={pointOrError === "points"}
+            //             onPress={() => pointOrErrorToggle("points")}
+            //           />
+            //           <DisplayToggle
+            //             label={"ERRORS"}
+            //             active={pointOrError === "errors"}
+            //             onPress={() => pointOrErrorToggle("errors")}
+            //           />
+            //         </View>
+            //         <View>
+            //           <IndividualStats
+            //             player={selectedPlayer}
+            //             set={sets[index]}
+            //             pointsOrError={pointOrError}
+            //           />
+            //         </View>
+            //       </>
+            //     )}
+            //   </View>
+            // </View>
+            <>
+              <SetBreakdownCard
+                set={set}
+                index={index}
+                isActive={activeTab === index}
+                onToggle={() => {
+                  activeTabToggle(index);
+                  activeStatToggle("team");
                 }}
-              >
-                <>
-                  <Text style={[styles.title, { lineHeight: 42 }]}>
-                    SET {index + 1} BREAKDOWN
-                  </Text>
-                </>
-                <TouchableOpacity
-                  style={[
-                    styles.smallOptionButton,
-                    {
-                      textAlign: "center",
-                      padding: activeTab === index ? 3 : 0,
-                      paddingLeft: 3,
-                      paddingTop: activeTab === index ? 3 : 0,
-                    },
-                  ]}
-                  onPress={() => {
-                    activeTabToggle(index);
-                    activeStatToggle("team");
-                  }}
-                >
-                  <View
-                    style={{
-                      rotate: activeTab === index ? "180deg" : "360deg",
-                    }}
-                  >
-                    <AntDesign name="caretdown" size={20} color="white" />
-                  </View>
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  display: index === activeTab ? "flex" : "none",
-                }}
-              >
-                <View style={styles.bttnsContainer}>
-                  <DisplayToggle
-                    label={"TEAM"}
-                    active={statView === "team"}
-                    onPress={() => activeStatToggle("team")}
-                  />
-                  <DisplayToggle
-                    label={"PLAYERS"}
-                    active={statView === "players"}
-                    onPress={() => activeStatToggle("players")}
-                  />
-                </View>
-                {statView === "team" ? (
-                  <View>
-                    <View style={styles.bttnsContainer}>
-                      <DisplayToggle
-                        label={"POINTS"}
-                        active={pointOrError === "points"}
-                        onPress={() => pointOrErrorToggle("points")}
-                      />
-                      <DisplayToggle
-                        label={"ERRORS"}
-                        active={pointOrError === "errors"}
-                        onPress={() => pointOrErrorToggle("errors")}
-                      />
-                    </View>
-                    {pointOrError === "points" ? (
-                      <PlayersGraphs set={sets[index]} />
-                    ) : (
-                      <ErrorGraph set={sets[index]} />
-                    )}
-                  </View>
-                ) : (
-                  <>
-                    <View style={styles.optionContainer}>
-                      {players.map((player) => (
-                        <TouchableOpacity
-                          key={player}
-                          style={[
-                            styles.playersButton,
-                            selectedPlayer === player
-                              ? styles.selectedOption
-                              : styles.playersButton,
-                          ]}
-                          onPress={() => {
-                            setSelectedPlayer(player);
-                          }}
-                        >
-                          <Text style={[styles.optionText]}>{player}</Text>
-                        </TouchableOpacity>
-                      ))}
-                    </View>
-                    <View style={styles.bttnsContainer}>
-                      <DisplayToggle
-                        label={"POINTS"}
-                        active={pointOrError === "points"}
-                        onPress={() => pointOrErrorToggle("points")}
-                      />
-                      <DisplayToggle
-                        label={"ERRORS"}
-                        active={pointOrError === "errors"}
-                        onPress={() => pointOrErrorToggle("errors")}
-                      />
-                    </View>
-                    <View>
-                      <IndividualStats
-                        player={selectedPlayer}
-                        set={sets[index]}
-                        pointsOrError={pointOrError}
-                      />
-                    </View>
-                  </>
-                )}
-              </View>
-            </View>
+                statView={statView}
+                onStatChange={activeStatToggle}
+                pointOrError={pointOrError}
+                onPointToggle={pointOrErrorToggle}
+                players={players}
+                selectedPlayer={selectedPlayer}
+                onSelectPlayer={setSelectedPlayer}
+              />{" "}
+            </>
           ))}
         </>
       ) : (
         <>
-          <Text>Match History</Text>
+          <Text style={styles.title}>Match History</Text>
           {matchList.map((match) => (
-            <Text>{match.id}</Text>
+            // <Text style={{ color: "white" }}>{match.id}</Text>
+            <MatchHistryCards
+              match={match}
+              setSelectedMatchId={setSelectedMatchId}
+            />
           ))}
+          {selectedMatch !== null ? (
+            <PrevMatchModal
+              isVisible={prevMatchModalVisible}
+              match={selectedMatch}
+            />
+          ) : (
+            <text></text>
+          )}
         </>
       )}
     </ScrollView>
