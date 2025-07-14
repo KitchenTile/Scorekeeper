@@ -15,6 +15,7 @@ import { db, auth } from "@/firebase";
 const app = () => {
   const sets = useMatchStore((state) => state.sets);
   const setModalVisible = useMatchStore((state) => state.setModalVisible);
+  const players = useMatchStore((state) => state.players);
   const modalVisible = useMatchStore((state) => state.modalVisible);
   const teams = useMatchStore((state) => state.teams);
   const currentPoint = useMatchStore((state) => state.currentPoint);
@@ -41,6 +42,7 @@ const app = () => {
         time_created: Date.now(),
         user_id: isLoggedIn ? auth.currentUser.uid : "No User ID",
         match_winner: matchWinner,
+        players: players,
       };
     };
 
