@@ -36,7 +36,7 @@ const LoginScreen = () => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.button}
+        style={[styles.button, { marginTop: 10 }]}
         onPress={() => signUp(auth, email, password)}
       >
         <Text style={styles.buttonText}>Create Account</Text>
