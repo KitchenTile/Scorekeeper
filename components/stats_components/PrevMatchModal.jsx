@@ -56,10 +56,9 @@ const PrevMatchModal = ({
               setSelectedMatchId(null);
             }}
           >
-            {/* <text style={styles.arrowBack}>BACK</text> */}
             <AntDesign
-              name="caretdown"
-              size={20}
+              name="left"
+              size={22}
               color="white"
               style={styles.arrowBack}
             />
@@ -110,6 +109,7 @@ const styles = StyleSheet.create({
     gap: 10,
     backgroundColor: "#161F23",
     paddingBlock: 20,
+    paddingInline: 20,
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
-  arrowBack: { position: "absolute", left: -190, top: 13, color: "white" },
+  arrowBack: { position: "absolute", left: 0, top: 12, color: "white" },
 
   halfMoon: {},
 });
