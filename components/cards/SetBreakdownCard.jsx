@@ -1,19 +1,3 @@
-// import { StyleSheet, Text, View } from 'react-native'
-// import React from 'react'
-
-// const SetBreakdownCard = () => {
-//   return (
-//     <View>
-//       <Text>SetBreakdownCard</Text>
-//     </View>
-//   )
-// }
-
-// export default SetBreakdownCard
-
-// const styles = StyleSheet.create({})
-
-// components/stats_components/SetBreakdownCard.jsx
 import React, { useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
@@ -34,13 +18,10 @@ const SetBreakdownCard = ({
   selectedPlayer,
   onSelectPlayer,
 }) => {
-  useEffect(() => {
-    console.log(selectedPlayer);
-  }, [selectedPlayer]);
   return (
     <View style={[styles.container, { height: isActive ? "auto" : 65 }]}>
       <View style={styles.header}>
-        <Text style={styles.title}>SET {index + 1} BREAKDOWN</Text>
+        <Text style={styles.title}>SET {Number(index) + 1} BREAKDOWN</Text>
         <TouchableOpacity style={styles.iconBtn} onPress={onToggle}>
           <AntDesign
             name="caretdown"
@@ -145,7 +126,7 @@ const styles = StyleSheet.create({
     borderColor: "#3A464E",
     borderRadius: 20,
     marginTop: 20,
-    padding: 10,
+    paddingInline: 10,
   },
   header: {
     height: 65,
