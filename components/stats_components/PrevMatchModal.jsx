@@ -2,8 +2,15 @@ import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { Modal } from "react-native-web";
 import SetBreakdownCard from "../cards/SetBreakdownCard";
+import { TouchableOpacity } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
-const PrevMatchModal = ({ isVisible, match }) => {
+const PrevMatchModal = ({
+  isVisible,
+  setIsVisible,
+  setSelectedMatchId,
+  match,
+}) => {
   const [selectedPlayer, setSelectedPlayer] = useState(match.players[0]);
   const [pointOrError, setPointOrError] = useState("points");
   const [statView, setStatView] = useState("team");
@@ -39,58 +46,47 @@ const PrevMatchModal = ({ isVisible, match }) => {
     });
   };
 
-  //   match.gameSets.map((sets) => {
-  //     console.log(sets.lineChartScore);
-  //   });
-
-  //   const sets =
-
-  Object.entries(match.gameSets).map(([key, value]) => {
-    console.log([key, value]);
-  });
-
   return (
     <Modal visible={isVisible} transparent animationType="slide">
       <View style={styles.modalBackground}>
         <View style={styles.modalContainer}>
+          <TouchableOpacity
+            onPress={() => {
+              setIsVisible(false);
+              setSelectedMatchId(null);
+            }}
+          >
+            {/* <text style={styles.arrowBack}>BACK</text> */}
+            <AntDesign
+              name="caretdown"
+              size={20}
+              color="white"
+              style={styles.arrowBack}
+            />
+          </TouchableOpacity>
           <Text style={styles.modalTxt}>{match.teams[0]}</Text>
 
-          {Object.entries(match.gameSets).map(([key, value]) => {
-            <SetBreakdownCard
-              set={value}
-              index={key}
-              isActive={activeTab === key}
-              onToggle={() => {
-                activeTabToggle(index);
-                activeStatToggle("team");
-              }}
-              statView={statView}
-              onStatChange={activeStatToggle}
-              pointOrError={pointOrError}
-              onPointToggle={pointOrErrorToggle}
-              players={match.players}
-              selectedPlayer={selectedPlayer}
-              onSelectPlayer={setSelectedPlayer}
-            />;
-          })}
-          {/* {match.gamesets.lineChartScore.map((set, index) => {
-            <SetBreakdownCard
-              set={set}
-              index={index}
-              isActive={activeTab === index}
-              onToggle={() => {
-                activeTabToggle(index);
-                activeStatToggle("team");
-              }}
-              statView={statView}
-              onStatChange={activeStatToggle}
-              pointOrError={pointOrError}
-              onPointToggle={pointOrErrorToggle}
-              //   players={match.players}
-              selectedPlayer={selectedPlayer}
-              onSelectPlayer={setSelectedPlayer}
-            />;
-          })} */}
+          {Object.entries(match.gameSets).map(([key, value]) => (
+            <>
+              <SetBreakdownCard
+                key={key}
+                set={value}
+                index={key}
+                isActive={activeTab === key}
+                onToggle={() => {
+                  activeTabToggle(key);
+                  activeStatToggle("team");
+                }}
+                statView={statView}
+                onStatChange={activeStatToggle}
+                pointOrError={pointOrError}
+                onPointToggle={pointOrErrorToggle}
+                players={match.players}
+                selectedPlayer={selectedPlayer}
+                onSelectPlayer={setSelectedPlayer}
+              />
+            </>
+          ))}
         </View>
       </View>
     </Modal>
@@ -109,14 +105,16 @@ const styles = StyleSheet.create({
 
   modalContainer: {
     width: "100%",
-    minHeight: "95%",
-    gap: 20,
+    height: "95%",
+    maxHeight: "95%",
+    gap: 10,
     backgroundColor: "#161F23",
     paddingBlock: 20,
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
+    overflow: "scroll",
+    // justifyContent: "space-between",
   },
 
   modalTxt: {
@@ -126,7 +124,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
-  arrowBack: {},
+  arrowBack: { position: "absolute", left: -190, top: 13, color: "white" },
 
   halfMoon: {},
 });
