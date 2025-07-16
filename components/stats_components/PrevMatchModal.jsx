@@ -46,6 +46,22 @@ const PrevMatchModal = ({
     });
   };
 
+  const getSetResults = () => {
+    const setResults = {};
+    match.teams.forEach((team) => {
+      setResults[team] = 0;
+    });
+
+    Object.fromEntries(
+      Object.entries(match.gameSets).map(([key, value]) => {
+        setResults[value.winner]++;
+        return [key, value];
+      })
+    );
+
+    return setResults;
+  };
+
   return (
     <Modal visible={isVisible} transparent animationType="slide">
       <View style={styles.modalBackground}>
@@ -63,8 +79,37 @@ const PrevMatchModal = ({
               style={styles.arrowBack}
             />
           </TouchableOpacity>
-          <Text style={styles.modalTxt}>{match.teams[0]}</Text>
-
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 20,
+              textAlign: "center",
+            }}
+          >
+            <Text
+              style={[
+                styles.modalTxt,
+                {
+                  color:
+                    match.match_winner === match.teams[0] ? "white" : "#3A464E",
+                },
+              ]}
+            >
+              {match.teams[0]} - {getSetResults()[match.teams[0]]}
+            </Text>
+            <Text
+              style={[
+                styles.modalTxt,
+                {
+                  color:
+                    match.match_winner === match.teams[1] ? "white" : "#3A464E",
+                },
+              ]}
+            >
+              {match.teams[1]} - {getSetResults()[match.teams[1]]}
+            </Text>
+          </View>
           {Object.entries(match.gameSets).map(([key, value]) => (
             <>
               <SetBreakdownCard
@@ -106,7 +151,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "95%",
     maxHeight: "95%",
-    gap: 10,
+    // gap: 10,
     backgroundColor: "#161F23",
     paddingBlock: 20,
     paddingInline: 20,
@@ -114,7 +159,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     overflow: "scroll",
-    // justifyContent: "space-between",
+    justifyContent: "flex-start ",
   },
 
   modalTxt: {
@@ -124,7 +169,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
-  arrowBack: { position: "absolute", left: 0, top: 12, color: "white" },
+  arrowBack: { position: "relative", left: "-850%", color: "white" },
 
   halfMoon: {},
 });
