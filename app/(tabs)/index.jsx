@@ -55,7 +55,9 @@ const app = () => {
       }
     };
 
-    // submit();
+    if (matchWinner !== null) {
+      submit();
+    }
   }, [matchWinner]);
 
   return (
