@@ -90,13 +90,21 @@ const stats = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity onPress={() => setCurrentMatch(true)}>
-        <Text>Current Game</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => setCurrentMatch(false)}>
-        <Text>Game History</Text>
-      </TouchableOpacity>
-
+      <View style={styles.screenToggle}>
+        <TouchableOpacity onPress={() => setCurrentMatch(!currentMatch)}>
+          <Text style={styles.title}>
+            {currentMatch ? "Current Game" : "Match History"}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setCurrentMatch(!currentMatch)}>
+          <AntDesign
+            name="swap"
+            size={26}
+            color="white"
+            style={{ position: "relative", top: 3, left: 75 }}
+          />
+        </TouchableOpacity>
+      </View>
       {currentMatch === true ? (
         <>
           <TeamsCompoenent />
@@ -125,7 +133,6 @@ const stats = () => {
         </>
       ) : (
         <>
-          <Text style={styles.title}>Match History</Text>
           {matchList.map((match) => (
             <MatchHistryCards
               match={match}
@@ -159,15 +166,14 @@ const styles = StyleSheet.create({
     padding: 20,
     height: "100%",
     overflow: "scroll",
-    // maxWidth: "800px",
   },
 
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    marginBottom: 20,
     textAlign: "center",
     color: "white",
+    width: 150,
   },
 
   pointInfoContainer: {
@@ -289,5 +295,19 @@ const styles = StyleSheet.create({
     borderColor: "#28a745",
     borderStyle: "solid",
     borderWidth: 2,
+  },
+
+  screenToggle: {
+    borderWidth: 2,
+    borderColor: "#3A464E",
+    borderStyle: "solid",
+    borderRadius: 20,
+    padding: 10,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 62,
+    // gap: 90,
   },
 });
