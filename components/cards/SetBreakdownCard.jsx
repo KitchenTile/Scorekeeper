@@ -126,10 +126,10 @@ const styles = StyleSheet.create({
     borderColor: "#3A464E",
     borderRadius: 20,
     marginTop: 20,
-    paddingInline: 10,
+    paddingInline: 20,
   },
   header: {
-    height: 65,
+    height: 60,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   toggleRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginVertical: 10,
+    marginVertical: 5,
   },
   toggleBtn: {
     flex: 1,
@@ -161,22 +161,14 @@ const styles = StyleSheet.create({
   activeText: {
     color: "white",
   },
-  // playerBtn: {
-  //   padding: 10,
-  //   borderRadius: 5,
-  //   margin: 5,
-  //   borderWidth: 2,
-  //   borderColor: "#3c4cbb",
-  //   backgroundColor: "#586DFF",
-  // },
   playerBtn: {
     backgroundColor: "#586DFF",
-    padding: 10,
+    // padding: 10,
     margin: 5,
     marginBlock: 10,
     borderRadius: 5,
-    minWidth: 51,
-    minHeight: 51,
+    minWidth: 47,
+    minHeight: 47,
     borderStyle: "solid",
     borderWidth: 2,
     borderColor: "#3c4cbb",
@@ -189,6 +181,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     textAlign: "center",
+    lineHeight: 47,
   },
 });
 
