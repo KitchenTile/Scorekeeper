@@ -28,10 +28,6 @@ const app = () => {
 
   const currentSet = sets[currentSetIndex];
 
-  // useEffect(() => {
-  //   console.log(teams);
-  // }, []);
-
   useEffect(() => {
     const getSets = () => {
       const gameSets = Object.fromEntries(sets.map((set, i) => [i, set]));
