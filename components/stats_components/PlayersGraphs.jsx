@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ScrollView, View, Text } from "react-native-web";
 import { useMatchStore } from "../../stores/store";
 import { StyleSheet } from "react-native";
@@ -57,24 +57,18 @@ const PlayersGraphs = ({ set }) => {
 
   return (
     <>
-      <Text style={styles.title}>Points Graph</Text>
-      <View>
+      <Text style={styles.title}>Points Graphs</Text>
+      <View
+        style={{
+          borderRadius: 12,
+          boxShadow: "rgb(22 22 22) 0px 4px 15px 2px",
+        }}
+      >
         {barHasData ? (
-          <>
-            {/* <BarChart
-              style={{
-                // paddingRight: 0,
-                borderBlockColor: "red",
-                borderWidth: 2,
-              }}
-              data={barData}
-              width={Dimensions.get("window").width * 0.85}
-              height={220}
-              chartConfig={chartConfig}
-            /> */}
+          <View>
             <BarChart
               data={barData}
-              width={Dimensions.get("window").width * 0.9}
+              width={Dimensions.get("window").width * 0.85}
               height={240}
               fromZero
               showValuesOnTopOfBars
@@ -100,16 +94,11 @@ const PlayersGraphs = ({ set }) => {
                 },
               }}
               style={{
-                borderRadius: 12,
-                marginVertical: 12,
-                shadowColor: "#000",
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.1,
-                shadowRadius: 8,
+                transform: [{ translateX: -30 }, { translateY: 20 }],
               }}
             />
             <Text style={styles.placeholder}>Points per player</Text>
-          </>
+          </View>
         ) : (
           <Text style={styles.placeholder}>
             No points data to show in bar chart.
