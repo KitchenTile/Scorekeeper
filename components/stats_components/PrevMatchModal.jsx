@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "react-native-web";
 import SetBreakdownCard from "../cards/SetBreakdownCard";
 import { TouchableOpacity } from "react-native";
@@ -62,6 +62,17 @@ const PrevMatchModal = ({
     return setResults;
   };
 
+  const setsArray = () => {
+    const sets = [];
+    Object.entries(match.gameSets).map(([key, value]) => {
+      sets.push(value);
+    });
+
+    return sets;
+  };
+
+  console.log(setsArray());
+
   return (
     <Modal visible={isVisible} transparent animationType="slide">
       <View style={styles.modalBackground}>
@@ -110,26 +121,27 @@ const PrevMatchModal = ({
               {match.teams[1]} - {getSetResults()[match.teams[1]]}
             </Text>
           </View>
-          {Object.entries(match.gameSets).map(([key, value]) => (
-            <>
-              <SetBreakdownCard
-                key={key}
-                set={value}
-                index={key}
-                isActive={activeTab === key}
-                onToggle={() => {
-                  activeTabToggle(key);
-                  activeStatToggle("team");
-                }}
-                statView={statView}
-                onStatChange={activeStatToggle}
-                pointOrError={pointOrError}
-                onPointToggle={pointOrErrorToggle}
-                players={match.players}
-                selectedPlayer={selectedPlayer}
-                onSelectPlayer={setSelectedPlayer}
-              />
-            </>
+          {setsArray().map((value, index) => (
+            // <>
+            <SetBreakdownCard
+              key={index}
+              set={value}
+              match={setsArray()}
+              index={index}
+              isActive={activeTab === index}
+              onToggle={() => {
+                activeTabToggle(index);
+                activeStatToggle("team");
+              }}
+              statView={statView}
+              onStatChange={activeStatToggle}
+              pointOrError={pointOrError}
+              onPointToggle={pointOrErrorToggle}
+              players={match.players}
+              selectedPlayer={selectedPlayer}
+              onSelectPlayer={setSelectedPlayer}
+            />
+            // </>
           ))}
         </View>
       </View>
