@@ -107,6 +107,7 @@ const stats = () => {
           {sets.map((set, index) => (
             <>
               <SetBreakdownCard
+                match={sets}
                 set={set}
                 key={index}
                 index={index}
