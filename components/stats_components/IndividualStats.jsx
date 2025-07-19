@@ -11,8 +11,8 @@ import {
   playerPointsAcrossSetsOrganizer,
 } from "../../utils/statsProcessor";
 
-const IndividualStats = ({ player, set, pointsOrError }) => {
-  const sets = useMatchStore((state) => state.sets);
+const IndividualStats = ({ player, set, sets, pointsOrError }) => {
+  // const sets = useMatchStore((state) => state.sets);
   const playerPointsPerSet = playerPointsAcrossSetsOrganizer(
     sets,
     player
@@ -28,9 +28,10 @@ const IndividualStats = ({ player, set, pointsOrError }) => {
   const currentSetErrorsObj = playerErrorAcrossSetsOrganizer(sets, player)
     .errorObjPerSet[set.number - 1];
   // console.log(playerErrorAcrossSetsOrganizer(sets, player));
-  //   useEffect(() => {
-  //     console.log(sets);
-  //   }, [sets]);
+  useEffect(() => {
+    console.log("sets");
+    console.log(sets);
+  }, []);
 
   const errorBarData = {
     labels: Object.entries(playerErrorPerSet).map(([key, value]) => {
