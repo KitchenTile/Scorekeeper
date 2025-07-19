@@ -6,6 +6,7 @@ import ErrorGraph from "../../components/stats_components/ErrorGraph";
 import IndividualStats from "../../components/stats_components/IndividualStats";
 
 const SetBreakdownCard = ({
+  match = null,
   set,
   index,
   isActive,
@@ -97,6 +98,7 @@ const SetBreakdownCard = ({
               </View>
               <IndividualStats
                 player={selectedPlayer}
+                sets={match}
                 set={set}
                 pointsOrError={pointOrError}
               />
