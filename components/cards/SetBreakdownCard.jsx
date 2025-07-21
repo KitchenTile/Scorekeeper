@@ -4,6 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 import PlayersGraphs from "../../components/stats_components/PlayersGraphs";
 import ErrorGraph from "../../components/stats_components/ErrorGraph";
 import IndividualStats from "../../components/stats_components/IndividualStats";
+import ButtonRow from "../misc/ButtonRow";
 
 const SetBreakdownCard = ({
   match = null,
@@ -35,18 +36,12 @@ const SetBreakdownCard = ({
 
       {isActive && (
         <>
-          <View style={styles.toggleRow}>
-            <ToggleButton
-              label="TEAM"
-              active={statView === "team"}
-              onPress={() => onStatChange("team")}
-            />
-            <ToggleButton
-              label="PLAYERS"
-              active={statView === "players"}
-              onPress={() => onStatChange("players")}
-            />
-          </View>
+          <ButtonRow
+            active={statView}
+            onChange={(val) => onStatChange(val)}
+            labels={["team", "players"]}
+          />
+          {/* </View> */}
 
           {statView === "team" ? (
             <>
@@ -121,6 +116,21 @@ const ToggleButton = ({ label, active, onPress }) => (
   </TouchableOpacity>
 );
 
+const ToggleRow = ({ labels, active, onPress }) => (
+  <>
+    <ToggleButton
+      label={labels[0]}
+      // active={pointOrError === "points"}
+      // onPress={() => onPointToggle("points")}
+    />
+    <ToggleButton
+      label="ERRORS"
+      // active={pointOrError === "errors"}
+      // onPress={() => onPointToggle("errors")}
+    />
+  </>
+);
+
 const styles = StyleSheet.create({
   container: {
     width: "100%",
@@ -140,16 +150,17 @@ const styles = StyleSheet.create({
   iconBtn: { padding: 5 },
   toggleRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
     marginVertical: 5,
   },
   toggleBtn: {
-    flex: 1,
+    width: "30%",
+    maxHeight: "80%",
     borderWidth: 2,
     borderColor: "#3c4cbb",
-    paddingVertical: 8,
+    // paddingVertical: 6,
     borderRadius: 5,
-    marginHorizontal: 5,
+    // marginHorizontal: 5,
     backgroundColor: "transparent",
   },
   activeBtn: {
@@ -157,8 +168,9 @@ const styles = StyleSheet.create({
   },
   toggleText: {
     color: "#586DFF",
-    fontSize: 16,
+    fontSize: 15,
     textAlign: "center",
+    lineHeight: 24,
   },
   activeText: {
     color: "white",
