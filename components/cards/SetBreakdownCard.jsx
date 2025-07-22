@@ -5,6 +5,7 @@ import PlayersGraphs from "../../components/stats_components/PlayersGraphs";
 import ErrorGraph from "../../components/stats_components/ErrorGraph";
 import IndividualStats from "../../components/stats_components/IndividualStats";
 import ButtonRow from "../misc/ButtonRow";
+import FilterComponent from "../misc/FilterComponent";
 
 const SetBreakdownCard = ({
   match = null,
@@ -36,61 +37,25 @@ const SetBreakdownCard = ({
 
       {isActive && (
         <>
-          <ButtonRow
-            active={statView}
-            onChange={(val) => onStatChange(val)}
-            labels={["team", "players"]}
+          <FilterComponent
+            pointOrError={pointOrError}
+            statView={statView}
+            onStatChange={onStatChange}
+            onPointToggle={onPointToggle}
+            players={players}
+            onSelectPlayer={onSelectPlayer}
+            selectedPlayer={selectedPlayer}
           />
-          {/* </View> */}
-
           {statView === "team" ? (
-            <>
-              <View style={styles.toggleRow}>
-                <ToggleButton
-                  label="POINTS"
-                  active={pointOrError === "points"}
-                  onPress={() => onPointToggle("points")}
-                />
-                <ToggleButton
-                  label="ERRORS"
-                  active={pointOrError === "errors"}
-                  onPress={() => onPointToggle("errors")}
-                />
-              </View>
+            <View>
               {pointOrError === "points" ? (
                 <PlayersGraphs set={set} />
               ) : (
                 <ErrorGraph set={set} />
               )}
-            </>
+            </View>
           ) : (
             <>
-              <View style={styles.toggleRow}>
-                {players.map((player) => (
-                  <TouchableOpacity
-                    key={player}
-                    style={[
-                      styles.playerBtn,
-                      selectedPlayer === player && styles.selected,
-                    ]}
-                    onPress={() => onSelectPlayer(player)}
-                  >
-                    <Text style={styles.playerText}>{player}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-              <View style={styles.toggleRow}>
-                <ToggleButton
-                  label="POINTS"
-                  active={pointOrError === "points"}
-                  onPress={() => onPointToggle("points")}
-                />
-                <ToggleButton
-                  label="ERRORS"
-                  active={pointOrError === "errors"}
-                  onPress={() => onPointToggle("errors")}
-                />
-              </View>
               <IndividualStats
                 player={selectedPlayer}
                 sets={match}
@@ -104,32 +69,6 @@ const SetBreakdownCard = ({
     </View>
   );
 };
-
-const ToggleButton = ({ label, active, onPress }) => (
-  <TouchableOpacity
-    style={[styles.toggleBtn, active && styles.activeBtn]}
-    onPress={onPress}
-  >
-    <Text style={[styles.toggleText, active && styles.activeText]}>
-      {label}
-    </Text>
-  </TouchableOpacity>
-);
-
-const ToggleRow = ({ labels, active, onPress }) => (
-  <>
-    <ToggleButton
-      label={labels[0]}
-      // active={pointOrError === "points"}
-      // onPress={() => onPointToggle("points")}
-    />
-    <ToggleButton
-      label="ERRORS"
-      // active={pointOrError === "errors"}
-      // onPress={() => onPointToggle("errors")}
-    />
-  </>
-);
 
 const styles = StyleSheet.create({
   container: {
@@ -153,16 +92,7 @@ const styles = StyleSheet.create({
     // justifyContent: "space-between",
     marginVertical: 5,
   },
-  toggleBtn: {
-    width: "30%",
-    maxHeight: "80%",
-    borderWidth: 2,
-    borderColor: "#3c4cbb",
-    // paddingVertical: 6,
-    borderRadius: 5,
-    // marginHorizontal: 5,
-    backgroundColor: "transparent",
-  },
+
   activeBtn: {
     backgroundColor: "#586DFF",
   },
