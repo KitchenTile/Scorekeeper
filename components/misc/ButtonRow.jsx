@@ -2,11 +2,12 @@ import { Easing, StyleSheet, Text, View } from "react-native";
 import React, { useRef, useState } from "react";
 import { Animated } from "react-native";
 import { TouchableOpacity } from "react-native";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-const ButtonRow = ({ active, onChange, labels }) => {
-  const [open, setOpen] = useState(true);
+const ButtonRow = ({ active, onChange, labels, icons = null }) => {
+  const [open, setOpen] = useState(false);
 
-  const slideAnim = useRef(new Animated.Value(0)).current; // 0 = collapsed, 1 = expanded
+  const slideAnim = useRef(new Animated.Value(0)).current;
 
   const toggleOpen = () => {
     Animated.timing(slideAnim, {
@@ -33,22 +34,50 @@ const ButtonRow = ({ active, onChange, labels }) => {
 
   return (
     <View style={styles.wrapper}>
-      <TouchableOpacity onPress={toggleOpen} style={styles.btn}>
+      <TouchableOpacity
+        onPress={toggleOpen}
+        style={[
+          styles.btn,
+          open && {
+            borderBottomRightRadius: 0,
+            borderTopRightRadius: 0,
+          },
+        ]}
+      >
+        <FontAwesome
+          name={active === labels[0] ? icons[0] : icons[1]}
+          size={16}
+          color="white"
+          style={{ lineHeight: 21 }}
+        />
         <Text style={styles.text}>{active.toUpperCase()}</Text>
       </TouchableOpacity>
       <Animated.View
         style={[
           styles.hiddenContainer,
-          { width: widthInterpolate, opacity: slideAnim },
+          { opacity: slideAnim, width: widthInterpolate },
         ]}
       >
         <TouchableOpacity
-          style={styles.btn}
+          style={[
+            styles.btn,
+
+            open && {
+              borderBottomLeftRadius: 0,
+              borderTopLeftRadius: 0,
+            },
+          ]}
           onPress={() => {
             onChange(unselectedLable);
             toggleOpen();
           }}
         >
+          <FontAwesome
+            name={active === labels[1] ? icons[0] : icons[1]}
+            size={16}
+            color="white"
+            style={{ lineHeight: 21 }}
+          />
           <Text style={styles.text}>{unselectedLable.toUpperCase()}</Text>
         </TouchableOpacity>
       </Animated.View>
@@ -62,16 +91,23 @@ const styles = StyleSheet.create({
   wrapper: {
     alignItems: "center",
     overflow: "hidden",
-    flex: 1,
+    width: "auto",
     flexDirection: "row",
   },
   btn: {
+    flexDirection: "row",
+    gap: 10,
     backgroundColor: "#3c4cbb",
     paddingVertical: 10,
-    paddingHorizontal: 16,
+    paddingHorizontal: 10,
     borderRadius: 8,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
     marginVertical: 4,
     width: 110,
+    justifyContent: "center",
   },
   active: {
     backgroundColor: "#586DFF",
