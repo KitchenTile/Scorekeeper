@@ -37,7 +37,7 @@ const PlayerButtonRow = ({ labels, active, onChange }) => {
         onPress={toggleOpen}
         style={[
           styles.playerBtn,
-          { position: "absolute", top: -65, left: 235, zIndex: -1 },
+          { position: "absolute", top: -65, left: 235 },
         ]}
       >
         <Text style={styles.playerText}>{active}</Text>
@@ -53,7 +53,7 @@ const PlayerButtonRow = ({ labels, active, onChange }) => {
             key={player}
             style={[styles.playerBtn, active === player && styles.selected]}
             onPress={() => {
-              onChange();
+              onChange(player);
               toggleOpen();
             }}
           >
@@ -73,16 +73,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   playerBtn: {
-    backgroundColor: "#586DFF",
-    // padding: 10,
     margin: 5,
-    // marginBlock: 10,
-    borderRadius: 5,
-    width: 42,
-    height: 42,
-    borderStyle: "solid",
-    borderWidth: 2,
-    borderColor: "#3c4cbb",
+    borderRadius: 8,
+    width: 41,
+    height: 41,
+    backgroundColor: "#3c4cbb",
+    fontWeight: "bold",
   },
   selected: {
     backgroundColor: "#28a745",
