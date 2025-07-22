@@ -49,9 +49,9 @@ const stats = () => {
     fetchMatch();
   }, [selectedMatchId]);
 
-  useEffect(() => {
-    console.log(selectedMatch);
-  }, [selectedMatch]);
+  // useEffect(() => {
+  //   console.log(statView);
+  // }, [statView]);
 
   const activeTabToggle = (index) => {
     setActiveTab((prev) => {
