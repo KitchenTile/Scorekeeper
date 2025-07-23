@@ -11,18 +11,17 @@ const ButtonRow = ({ active, onChange, labels, icons }) => {
   const setOpenedButton = useMatchStore((state) => state.setOpenedButton);
 
   const slideAnim = useRef(new Animated.Value(0)).current;
-  // console.log(active);
-  // console.log(openedButton);
+
+  useEffect(() => {
+    openedButton !== null &&
+      !labels.includes(openedButton.active) &&
+      open &&
+      toggleClose();
+  }, [openedButton]);
 
   useEffect(() => {
     console.log(openedButton);
   }, [openedButton]);
-
-  const closeButton = (active) => {
-    if (openedButton !== null && active === openedButton.active) {
-      setOpen(!open);
-    }
-  };
 
   const toggleOpen = () => {
     Animated.timing(slideAnim, {
@@ -31,7 +30,20 @@ const ButtonRow = ({ active, onChange, labels, icons }) => {
       useNativeDriver: false,
       easing: Easing.ease,
     }).start(() => {
-      setOpen(!open);
+      setOpen(true);
+      setOpenedButton({ ...openedButton, open: true });
+    });
+  };
+
+  const toggleClose = () => {
+    Animated.timing(slideAnim, {
+      toValue: open ? 0 : 1,
+      duration: 250,
+      useNativeDriver: false,
+      easing: Easing.ease,
+    }).start(() => {
+      setOpen(false);
+      setOpenedButton({ ...openedButton, open: false });
     });
   };
 
@@ -46,9 +58,8 @@ const ButtonRow = ({ active, onChange, labels, icons }) => {
     <View style={[styles.wrapper, styles.elevatedElement]}>
       <TouchableOpacity
         onPress={() => {
-          toggleOpen();
           setOpenedButton({ active });
-          closeButton({ active });
+          open ? toggleClose() : toggleOpen();
         }}
         style={[
           styles.btn,
@@ -83,8 +94,7 @@ const ButtonRow = ({ active, onChange, labels, icons }) => {
           ]}
           onPress={() => {
             onChange(unselectedLable);
-            toggleOpen();
-            // setOpenedButton(null);
+            toggleClose();
           }}
         >
           <FontAwesome
