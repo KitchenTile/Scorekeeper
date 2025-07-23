@@ -1,13 +1,28 @@
 import { Easing, StyleSheet, Text, View } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Animated } from "react-native";
 import { TouchableOpacity } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useMatchStore } from "../../stores/store";
 
-const ButtonRow = ({ active, onChange, labels, icons = null }) => {
+const ButtonRow = ({ active, onChange, labels, icons }) => {
   const [open, setOpen] = useState(false);
+  const openedButton = useMatchStore((state) => state.openedButton);
+  const setOpenedButton = useMatchStore((state) => state.setOpenedButton);
 
   const slideAnim = useRef(new Animated.Value(0)).current;
+  // console.log(active);
+  // console.log(openedButton);
+
+  useEffect(() => {
+    console.log(openedButton);
+  }, [openedButton]);
+
+  const closeButton = (active) => {
+    if (openedButton !== null && active === openedButton.active) {
+      setOpen(!open);
+    }
+  };
 
   const toggleOpen = () => {
     Animated.timing(slideAnim, {
@@ -20,11 +35,6 @@ const ButtonRow = ({ active, onChange, labels, icons = null }) => {
     });
   };
 
-  const heightInterpolate = slideAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 50],
-  });
-
   const widthInterpolate = slideAnim.interpolate({
     inputRange: [0, 1],
     outputRange: [0, 110],
@@ -33,9 +43,13 @@ const ButtonRow = ({ active, onChange, labels, icons = null }) => {
   const unselectedLable = labels.find((val) => val !== active);
 
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, styles.elevatedElement]}>
       <TouchableOpacity
-        onPress={toggleOpen}
+        onPress={() => {
+          toggleOpen();
+          setOpenedButton({ active });
+          closeButton({ active });
+        }}
         style={[
           styles.btn,
           open && {
@@ -70,6 +84,7 @@ const ButtonRow = ({ active, onChange, labels, icons = null }) => {
           onPress={() => {
             onChange(unselectedLable);
             toggleOpen();
+            // setOpenedButton(null);
           }}
         >
           <FontAwesome
@@ -94,13 +109,13 @@ const styles = StyleSheet.create({
     width: "auto",
     flexDirection: "row",
   },
+
   btn: {
     flexDirection: "row",
     gap: 10,
     backgroundColor: "#3c4cbb",
     paddingVertical: 10,
     paddingHorizontal: 10,
-    borderRadius: 8,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     borderTopLeftRadius: 8,
