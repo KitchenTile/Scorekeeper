@@ -56,7 +56,7 @@ export const useMatchStore = create((set, get) => ({
   },
   modalVisible: { setScore: false, setPlayers: true },
   matchWinner: null,
-  openedButton: null,
+  openedButton: { open: null, active: null },
 
   // State setters
   setModalVisible: (modal) => set({ modalVisible: modal }),
@@ -65,9 +65,9 @@ export const useMatchStore = create((set, get) => ({
   setPlayers: (players) => set({ players }),
 
   setOpenedButton: (id) =>
-    set((state) => ({
-      openedButton: state.openedButton === id ? null : id,
-    })),
+    set({
+      openedButton: id,
+    }),
 
   updateMatchWinner: () => {
     const { sets, teams } = get();
