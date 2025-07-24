@@ -14,8 +14,7 @@ const PlayerButtonRow = ({ labels, active, onChange }) => {
 
   const openedButton = useMatchStore((state) => state.openedButton);
 
-  const sideIds = ["points", "errors", "team", "players"];
-  const isSideOpen = sideIds.includes(openedButton.active);
+  //   const isSideOpen = sideIds.includes(openedButton.active);
 
   const slideAnim = useRef(new Animated.Value(0)).current;
 
@@ -36,7 +35,7 @@ const PlayerButtonRow = ({ labels, active, onChange }) => {
   });
 
   return (
-    !isSideOpen && (
+    openedButton.open === false && (
       <View>
         <TouchableOpacity
           onPress={toggleOpen}
