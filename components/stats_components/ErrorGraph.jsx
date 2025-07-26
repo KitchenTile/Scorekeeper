@@ -81,6 +81,16 @@ const ErrorGraph = ({ set }) => {
         </Text>
       )}
 
+      <View
+        style={{
+          marginBlock: 15,
+          height: 2,
+          width: "90%",
+          alignSelf: "center",
+          backgroundColor: "rgba(58,70,78,1.00)",
+        }}
+      />
+
       {pieHasData ? (
         <>
           <PieChart
