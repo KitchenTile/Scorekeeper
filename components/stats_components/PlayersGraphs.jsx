@@ -105,7 +105,17 @@ const PlayersGraphs = ({ set }) => {
           </Text>
         )}
       </View>
+
       <View>
+        <View
+          style={{
+            marginBlock: 15,
+            height: 2,
+            width: "90%",
+            alignSelf: "center",
+            backgroundColor: "rgba(58,70,78,1.00)",
+          }}
+        />
         {pieHasData ? (
           <>
             <PieChart
@@ -116,7 +126,6 @@ const PlayersGraphs = ({ set }) => {
               accessor={"errorQty"}
               backgroundColor={"transparent"}
               paddingLeft={"30"}
-              // center={[10, 50]}
               absolute
             />
             <Text style={styles.placeholder}>Type of point</Text>
