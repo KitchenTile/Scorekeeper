@@ -20,10 +20,32 @@ const SetBreakdownCard = ({
   selectedPlayer,
   onSelectPlayer,
 }) => {
+  const setWinner = set.scores.myScore > set.scores.oppScore;
+
   return (
     <View style={[styles.container, { height: isActive ? "auto" : 65 }]}>
       <View style={styles.header}>
-        <Text style={styles.title}>SET {Number(index) + 1} BREAKDOWN</Text>
+        <Text style={styles.title}>SET {Number(index) + 1}</Text>
+        <View style={{ flexDirection: "row", gap: 5 }}>
+          <Text
+            style={[
+              styles.title,
+              { color: setWinner ? "white" : "rgb(58, 70, 78)" },
+            ]}
+          >
+            {set.scores.myScore}
+          </Text>
+          <Text style={styles.title}>-</Text>
+          <Text
+            style={[
+              styles.title,
+              { color: setWinner ? "rgb(58, 70, 78)" : "white" },
+            ]}
+          >
+            {set.scores.oppScore}
+          </Text>
+        </View>
+
         <TouchableOpacity style={styles.iconBtn} onPress={onToggle}>
           <AntDesign
             name="caretdown"
@@ -54,14 +76,12 @@ const SetBreakdownCard = ({
               )}
             </View>
           ) : (
-            <>
-              <IndividualStats
-                player={selectedPlayer}
-                sets={match}
-                set={set}
-                pointsOrError={pointOrError}
-              />
-            </>
+            <IndividualStats
+              player={selectedPlayer}
+              sets={match}
+              set={set}
+              pointsOrError={pointOrError}
+            />
           )}
         </>
       )}
