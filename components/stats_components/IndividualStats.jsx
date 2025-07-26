@@ -143,8 +143,6 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
 
   return (
     <View style={{ marginTop: 20 }}>
-      {/* {pointsOrError === "points" ? (
-        <> */}
       <View>
         <Text style={styles.title}>
           {pointsOrError === "points" ? "Points" : "Errors"} Graph
@@ -154,7 +152,6 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
             <>
               <BarChart
                 style={{
-                  // paddingRight: 0,
                   borderBlockColor: "red",
                   borderWidth: 2,
                 }}
@@ -174,6 +171,15 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
             </Text>
           )}
         </View>
+        <View
+          style={{
+            marginBlock: 15,
+            height: 2,
+            width: "90%",
+            alignSelf: "center",
+            backgroundColor: "rgba(58,70,78,1.00)",
+          }}
+        />
         <Text style={[styles.title, { marginTop: 20 }]}>
           Current Set {pointsOrError === "points" ? "Points" : "Errors"}
         </Text>
@@ -206,6 +212,15 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
           <Text style={styles.placeholder}>No data to show in pie chart.</Text>
         )}
       </View>
+      <View
+        style={{
+          marginBlock: 15,
+          height: 2,
+          width: "90%",
+          alignSelf: "center",
+          backgroundColor: "rgba(58,70,78,1.00)",
+        }}
+      />
       <View>
         <Text style={styles.title}>
           All Sets {pointsOrError === "points" ? "Points" : "Errors"}
@@ -232,6 +247,15 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
               absolute
             />
             <Text style={styles.placeholder}>Type of point</Text>
+            <View
+              style={{
+                marginBlock: 15,
+                height: 2,
+                width: "90%",
+                alignSelf: "center",
+                backgroundColor: "rgba(58,70,78,1.00)",
+              }}
+            />
           </>
         ) : (
           <Text style={styles.placeholder}>No data to show in pie chart.</Text>
