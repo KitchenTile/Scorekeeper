@@ -247,7 +247,7 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
               absolute
             />
             <Text style={styles.placeholder}>Type of point</Text>
-            <View
+            {/* <View
               style={{
                 marginBlock: 15,
                 height: 2,
@@ -255,7 +255,7 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
                 alignSelf: "center",
                 backgroundColor: "rgba(58,70,78,1.00)",
               }}
-            />
+            /> */}
           </>
         ) : (
           <Text style={styles.placeholder}>No data to show in pie chart.</Text>
