@@ -47,14 +47,12 @@ const ErrorGraph = ({ set }) => {
     backgroundGradientTo: "#08130D",
     backgroundGradientToOpacity: 0.5,
     color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    labelColor: () => "rgb(127, 127, 127)",
     strokeWidth: 3,
     barPercentage: 0.8,
 
     backgroundGradientFrom: "#f7f7f7",
     backgroundGradientTo: "#e3e3e3",
-    color: (opacity = 1) => `rgba(120, 80, 220, ${opacity})`,
-    labelColor: (opacity = 1) => `rgba(80, 80, 80, ${opacity})`,
-    strokeWidth: 1,
   };
 
   const pieHasData = pieData.some((entry) => entry.errorQty > 0);
@@ -64,23 +62,50 @@ const ErrorGraph = ({ set }) => {
     <>
       <Text style={styles.title}>Error Graphs</Text>
 
-      {barHasData ? (
-        <>
-          <BarChart
-            data={barData}
-            width={Dimensions.get("window").width * 0.85}
-            height={220}
-            chartConfig={chartConfig}
-            style={{ color: "red" }}
-          />
-          <Text style={styles.placeholder}>Error per player</Text>
-        </>
-      ) : (
-        <Text style={styles.placeholder}>
-          No player error data to show in bar chart.
-        </Text>
-      )}
-
+      <View
+        style={{
+          borderRadius: 12,
+          boxShadow: "rgb(22 22 22) 0px 4px 15px 2px",
+          // marginBottom: 20,
+        }}
+      >
+        {barHasData ? (
+          <>
+            <BarChart
+              data={barData}
+              width={Dimensions.get("window").width * 0.85}
+              height={220}
+              chartConfig={{
+                backgroundGradientFrom: "#1c1c1e",
+                backgroundGradientTo: "#1c1c1e",
+                decimalPlaces: 0,
+                color: (opacity = 1) => `rgba(98, 179, 255, ${opacity})`,
+                labelColor: () => "rgb(127, 127, 127)",
+                barPercentage: 0.7,
+                barRadius: 6,
+                style: {
+                  borderRadius: 10,
+                },
+                propsForBackgroundLines: {
+                  stroke: "transparent",
+                },
+                propsForLabels: {
+                  fontSize: 13,
+                  fontWeight: "600",
+                },
+              }}
+              style={{
+                transform: [{ translateX: -30 }, { translateY: 20 }],
+              }}
+            />
+            <Text style={styles.placeholder}>Error per player</Text>
+          </>
+        ) : (
+          <Text style={styles.placeholder}>
+            No player error data to show in bar chart.
+          </Text>
+        )}
+      </View>
       <View
         style={{
           marginBlock: 15,
@@ -91,24 +116,33 @@ const ErrorGraph = ({ set }) => {
         }}
       />
 
-      {pieHasData ? (
-        <>
-          <PieChart
-            data={pieData}
-            width={Dimensions.get("window").width * 0.85}
-            height={220}
-            chartConfig={chartConfig}
-            accessor={"errorQty"}
-            backgroundColor={"transparent"}
-            absolute
-          />
-          <Text style={styles.placeholder}>Type of Error</Text>
-        </>
-      ) : (
-        <Text style={styles.placeholder}>
-          No error data to show in pie chart.
-        </Text>
-      )}
+      <View
+        style={{
+          borderRadius: 12,
+          boxShadow: "rgb(22 22 22) 0px 4px 15px 2px",
+          marginBottom: 15,
+        }}
+      >
+        {pieHasData ? (
+          <>
+            <PieChart
+              data={pieData}
+              width={Dimensions.get("window").width * 0.8}
+              height={220}
+              center={[10, 0]}
+              chartConfig={chartConfig}
+              accessor={"errorQty"}
+              backgroundColor={"transparent"}
+              absolute
+            />
+            <Text style={styles.placeholder}>Type of Error</Text>
+          </>
+        ) : (
+          <Text style={styles.placeholder}>
+            No error data to show in pie chart.
+          </Text>
+        )}
+      </View>
     </>
   );
 };
@@ -119,7 +153,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     color: "white",
-    marginBottom: 10,
+    marginBlock: 15,
   },
   placeholder: {
     textAlign: "center",
