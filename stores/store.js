@@ -107,8 +107,8 @@ export const useMatchStore = create((set, get) => ({
     // Check win
     let winner = "";
     if (
-      (isTeamA && newScores.myScore >= 2 && newScores.score >= 1) ||
-      (!isTeamA && newScores.oppScore >= 2 && newScores.score <= -1)
+      (isTeamA && newScores.myScore >= 3 && newScores.score > 1) ||
+      (!isTeamA && newScores.oppScore >= 3 && newScores.score < -1)
     ) {
       winner = currentPoint.type;
       setObj.winner = winner;
