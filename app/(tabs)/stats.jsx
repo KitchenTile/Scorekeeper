@@ -13,6 +13,7 @@ import PrevMatchModal from "../../components/stats_components/PrevMatchModal";
 
 const stats = () => {
   const sets = useMatchStore((state) => state.sets);
+  const matchWinner = useMatchStore((state) => state.matchWinner);
   const players = useMatchStore((state) => state.players);
   const [activeTab, setActiveTab] = useState(sets.length - 1);
   const [statView, setStatView] = useState("team");
@@ -24,15 +25,20 @@ const stats = () => {
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [prevMatchModalVisible, setPrevMatchModalVisible] = useState(false);
 
+  // useEffect(() => {
+  //   console.log(matchList);
+  // }, [matchList]);
+
   useEffect(() => {
     const fetchMatches = async () => {
       const res = await getDocs(collection(db, "match_history"));
       const matches = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setMatchList(matches);
+      console.log("match list");
       console.log(matchList);
     };
     fetchMatches();
-  }, []);
+  }, [matchWinner]);
 
   useEffect(() => {
     const fetchMatch = async () => {
@@ -105,32 +111,31 @@ const stats = () => {
           <TeamsCompoenent />
 
           {sets.map((set, index) => (
-            <>
-              <SetBreakdownCard
-                match={sets}
-                set={set}
-                key={index}
-                index={index}
-                isActive={activeTab === index}
-                onToggle={() => {
-                  activeTabToggle(index);
-                  activeStatToggle("team");
-                }}
-                statView={statView}
-                onStatChange={activeStatToggle}
-                pointOrError={pointOrError}
-                onPointToggle={pointOrErrorToggle}
-                players={players}
-                selectedPlayer={selectedPlayer}
-                onSelectPlayer={setSelectedPlayer}
-              />{" "}
-            </>
+            <SetBreakdownCard
+              match={sets}
+              set={set}
+              key={index}
+              index={index}
+              isActive={activeTab === index}
+              onToggle={() => {
+                activeTabToggle(index);
+                activeStatToggle("team");
+              }}
+              statView={statView}
+              onStatChange={activeStatToggle}
+              pointOrError={pointOrError}
+              onPointToggle={pointOrErrorToggle}
+              players={players}
+              selectedPlayer={selectedPlayer}
+              onSelectPlayer={setSelectedPlayer}
+            />
           ))}
         </>
       ) : (
         <>
-          {matchList.map((match) => (
+          {matchList.map((match, index) => (
             <MatchHistryCards
+              key={index}
               match={match}
               setSelectedMatchId={setSelectedMatchId}
             />
