@@ -48,6 +48,8 @@ const PlayersGraphs = ({ set }) => {
     backgroundGradientToOpacity: 0.5,
     // paddingLeft: 10,
     color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    labelColor: () => "rgb(127, 127, 127)",
+
     strokeWidth: 3, // optional, default 3
     barPercentage: 0.8,
   };
@@ -79,7 +81,7 @@ const PlayersGraphs = ({ set }) => {
                 backgroundGradientTo: "#1c1c1e",
                 decimalPlaces: 0,
                 color: (opacity = 1) => `rgba(98, 179, 255, ${opacity})`,
-                labelColor: () => "#b0b0b0",
+                labelColor: () => "rgb(127, 127, 127)",
                 barPercentage: 0.7,
                 barRadius: 6,
                 style: {
@@ -105,17 +107,24 @@ const PlayersGraphs = ({ set }) => {
           </Text>
         )}
       </View>
+      <View
+        style={{
+          marginBlock: 15,
+          height: 2,
+          width: "90%",
+          alignSelf: "center",
+          backgroundColor: "rgba(58,70,78,1.00)",
+        }}
+      />
 
-      <View>
-        <View
-          style={{
-            marginBlock: 15,
-            height: 2,
-            width: "90%",
-            alignSelf: "center",
-            backgroundColor: "rgba(58,70,78,1.00)",
-          }}
-        />
+      {/* <View> */}
+      <View
+        style={{
+          borderRadius: 12,
+          boxShadow: "rgb(22 22 22) 0px 4px 15px 2px",
+          marginBottom: 15,
+        }}
+      >
         {pieHasData ? (
           <>
             <PieChart
