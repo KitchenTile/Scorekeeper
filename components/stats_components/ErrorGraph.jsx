@@ -18,7 +18,7 @@ const ErrorGraph = ({ set }) => {
         name: key,
         errorQty: value,
         color: `hsl(${hue}, 100%, ${lightness}%)`,
-        legendFontColor: "#7F7F7F",
+        legendFontColor: "rgb(204, 204, 204)",
         legendFontSize: 15,
       };
     }
@@ -47,7 +47,7 @@ const ErrorGraph = ({ set }) => {
     backgroundGradientTo: "#08130D",
     backgroundGradientToOpacity: 0.5,
     color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    labelColor: () => "rgb(127, 127, 127)",
+    labelColor: () => "rgb(204, 204, 204)",
     strokeWidth: 3,
     barPercentage: 0.8,
 
@@ -80,7 +80,7 @@ const ErrorGraph = ({ set }) => {
                 backgroundGradientTo: "#1c1c1e",
                 decimalPlaces: 0,
                 color: (opacity = 1) => `rgba(98, 179, 255, ${opacity})`,
-                labelColor: () => "rgb(127, 127, 127)",
+                labelColor: () => "rgb(204, 204, 204)",
                 barPercentage: 0.7,
                 barRadius: 6,
                 style: {
