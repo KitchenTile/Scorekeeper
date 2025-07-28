@@ -27,11 +27,6 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
   const errorObj = playerErrorAcrossSetsOrganizer(sets, player).errorObj;
   const currentSetErrorsObj = playerErrorAcrossSetsOrganizer(sets, player)
     .errorObjPerSet[set.number - 1];
-  // console.log(playerErrorAcrossSetsOrganizer(sets, player));
-  useEffect(() => {
-    console.log("sets");
-    console.log(sets);
-  }, []);
 
   const errorBarData = {
     labels: Object.entries(playerErrorPerSet).map(([key, value]) => {
@@ -68,6 +63,7 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
         name: key,
         points: value,
         color: `hsl(${hue}, 100%, ${lightness}%)`,
+        legendFontColor: "rgb(204, 204, 204)",
         legendFontSize: 15,
       };
     }
@@ -82,6 +78,7 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
         name: key,
         points: value,
         color: `hsl(${hue}, 100%, ${lightness}%)`,
+        legendFontColor: "rgb(204, 204, 204)",
         legendFontSize: 15,
       };
     }
@@ -96,6 +93,7 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
         name: key,
         points: value,
         color: `hsl(${hue}, 100%, ${lightness}%)`,
+        legendFontColor: "rgb(204, 204, 204)",
         legendFontSize: 15,
       };
     }
@@ -110,6 +108,7 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
         name: key,
         points: value,
         color: `hsl(${hue}, 100%, ${lightness}%)`,
+        legendFontColor: "rgb(204, 204, 204)",
         legendFontSize: 15,
       };
     }
@@ -121,7 +120,7 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
     backgroundGradientTo: "#08130D",
     backgroundGradientToOpacity: 0.5,
     // paddingLeft: 10,
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    color: (opacity = 1) => `rgba(25, 255, 146, ${opacity})`,
     strokeWidth: 3, // optional, default 3
     barPercentage: 0.8,
   };
@@ -147,18 +146,40 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
         <Text style={styles.title}>
           {pointsOrError === "points" ? "Points" : "Errors"} Graph
         </Text>
-        <View>
+        <View
+          style={{
+            borderRadius: 12,
+            boxShadow: "rgb(22 22 22) 0px 4px 15px 2px",
+          }}
+        >
           {(pointsOrError === "points" ? barHasData : errorBarHasData) ? (
             <>
               <BarChart
-                style={{
-                  borderBlockColor: "red",
-                  borderWidth: 2,
-                }}
                 data={pointsOrError === "points" ? barData : errorBarData}
                 width={Dimensions.get("window").width * 0.85}
-                height={220}
-                chartConfig={chartConfig}
+                height={240}
+                chartConfig={{
+                  backgroundGradientFrom: "#1c1c1e",
+                  backgroundGradientTo: "#1c1c1e",
+                  decimalPlaces: 0,
+                  color: (opacity = 1) => `rgba(98, 179, 255, ${opacity})`,
+                  labelColor: () => "rgb(204, 204, 204)",
+                  barPercentage: 0.7,
+                  barRadius: 6,
+                  style: {
+                    borderRadius: 10,
+                  },
+                  propsForBackgroundLines: {
+                    stroke: "transparent",
+                  },
+                  propsForLabels: {
+                    fontSize: 13,
+                    fontWeight: "600",
+                  },
+                }}
+                style={{
+                  transform: [{ translateX: -30 }, { translateY: 20 }],
+                }}
                 fromZero={true}
               />
               <Text style={styles.placeholder}>
@@ -183,34 +204,43 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
         <Text style={[styles.title, { marginTop: 20 }]}>
           Current Set {pointsOrError === "points" ? "Points" : "Errors"}
         </Text>
-        {(
-          pointsOrError === "points"
-            ? currentSetPieHasData
-            : currentSetErrorPieHasData
-        ) ? (
-          <>
-            <PieChart
-              data={
-                pointsOrError === "points"
-                  ? currentSetPieData
-                  : currentSetErrorPieData
-              }
-              width={Dimensions.get("window").width * 0.85}
-              height={220}
-              chartConfig={chartConfig}
-              accessor={"points"}
-              backgroundColor={"transparent"}
-              paddingLeft={"30"}
-              // center={[10, 50]}
-              absolute
-            />
+        <View
+          style={{
+            borderRadius: 12,
+            boxShadow: "rgb(22 22 22) 0px 4px 15px 2px",
+          }}
+        >
+          {(
+            pointsOrError === "points"
+              ? currentSetPieHasData
+              : currentSetErrorPieHasData
+          ) ? (
+            <>
+              <PieChart
+                data={
+                  pointsOrError === "points"
+                    ? currentSetPieData
+                    : currentSetErrorPieData
+                }
+                width={Dimensions.get("window").width * 0.85}
+                height={220}
+                chartConfig={chartConfig}
+                accessor={"points"}
+                backgroundColor={"transparent"}
+                paddingLeft={"30"}
+                // center={[10, 50]}
+                absolute
+              />
+              <Text style={styles.placeholder}>
+                Type of {pointsOrError === "points" ? "point" : "error"}
+              </Text>
+            </>
+          ) : (
             <Text style={styles.placeholder}>
-              Type of {pointsOrError === "points" ? "point" : "error"}
+              No data to show in pie chart.
             </Text>
-          </>
-        ) : (
-          <Text style={styles.placeholder}>No data to show in pie chart.</Text>
-        )}
+          )}
+        </View>
       </View>
       <View
         style={{
@@ -225,41 +255,42 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
         <Text style={styles.title}>
           All Sets {pointsOrError === "points" ? "Points" : "Errors"}
         </Text>
-        {(
-          pointsOrError === "points"
-            ? geenralPieHasData
-            : geenralErrorPieHasData
-        ) ? (
-          <>
-            <PieChart
-              data={
-                pointsOrError === "points"
-                  ? generalPointPieData
-                  : generalErrorPieData
-              }
-              width={Dimensions.get("window").width * 0.85}
-              height={220}
-              chartConfig={chartConfig}
-              accessor={"points"}
-              backgroundColor={"transparent"}
-              paddingLeft={"30"}
-              // center={[10, 50]}
-              absolute
-            />
-            <Text style={styles.placeholder}>Type of point</Text>
-            {/* <View
-              style={{
-                marginBlock: 15,
-                height: 2,
-                width: "90%",
-                alignSelf: "center",
-                backgroundColor: "rgba(58,70,78,1.00)",
-              }}
-            /> */}
-          </>
-        ) : (
-          <Text style={styles.placeholder}>No data to show in pie chart.</Text>
-        )}
+        <View
+          style={{
+            borderRadius: 12,
+            boxShadow: "rgb(22 22 22) 0px 4px 15px 2px",
+            marginBottom: 15,
+          }}
+        >
+          {(
+            pointsOrError === "points"
+              ? geenralPieHasData
+              : geenralErrorPieHasData
+          ) ? (
+            <>
+              <PieChart
+                data={
+                  pointsOrError === "points"
+                    ? generalPointPieData
+                    : generalErrorPieData
+                }
+                width={Dimensions.get("window").width * 0.85}
+                height={220}
+                chartConfig={chartConfig}
+                accessor={"points"}
+                backgroundColor={"transparent"}
+                paddingLeft={"30"}
+                // center={[10, 50]}
+                absolute
+              />
+              <Text style={styles.placeholder}>Type of point</Text>
+            </>
+          ) : (
+            <Text style={styles.placeholder}>
+              No data to show in pie chart.
+            </Text>
+          )}
+        </View>
       </View>
     </View>
   );
