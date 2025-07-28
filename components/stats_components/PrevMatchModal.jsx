@@ -77,7 +77,7 @@ const PrevMatchModal = ({
     <Modal visible={isVisible} transparent animationType="slide">
       <View style={styles.modalBackground}>
         <View style={styles.modalContainer}>
-          <View
+          {/* <View
             style={[
               styles.halfMoon,
               {
@@ -85,7 +85,7 @@ const PrevMatchModal = ({
                   match.match_winner === match.teams[0] ? "blue" : "red",
               },
             ]}
-          />
+          /> */}
           <TouchableOpacity
             onPress={() => {
               setIsVisible(false);
