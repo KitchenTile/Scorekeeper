@@ -19,7 +19,7 @@ const ErrorGraph = ({ set }) => {
         errorQty: value,
         color: `hsl(${hue}, 100%, ${lightness}%)`,
         legendFontColor: "rgb(204, 204, 204)",
-        legendFontSize: 15,
+        legendFontSize: 14,
       };
     }
   );
@@ -75,6 +75,7 @@ const ErrorGraph = ({ set }) => {
               data={barData}
               width={Dimensions.get("window").width * 0.85}
               height={220}
+              showValuesOnTopOfBars
               chartConfig={{
                 backgroundGradientFrom: "transparent",
                 backgroundGradientTo: "transparent",
@@ -134,6 +135,9 @@ const ErrorGraph = ({ set }) => {
               accessor={"errorQty"}
               backgroundColor={"transparent"}
               absolute
+              style={{
+                "font-family": "Roboto, Helvetica, Arial, sans-serif",
+              }}
             />
             <Text style={styles.placeholder}>Type of Error</Text>
           </>
