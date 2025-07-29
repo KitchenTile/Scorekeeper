@@ -157,6 +157,7 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
                 data={pointsOrError === "points" ? barData : errorBarData}
                 width={Dimensions.get("window").width * 0.85}
                 height={240}
+                showValuesOnTopOfBars
                 chartConfig={{
                   backgroundGradientFrom: "transparent",
                   backgroundGradientTo: "transparent",
