@@ -12,7 +12,6 @@ import {
 } from "../../utils/statsProcessor";
 
 const IndividualStats = ({ player, set, sets, pointsOrError }) => {
-  // const sets = useMatchStore((state) => state.sets);
   const playerPointsPerSet = playerPointsAcrossSetsOrganizer(
     sets,
     player
@@ -71,8 +70,8 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
 
   const currentSetErrorPieData = Object.entries(currentSetErrorsObj).map(
     ([key, value], index) => {
-      const hue = 205 + index * 4;
-      const lightness = Math.max(30, 60 - value * 5);
+      const hue = 1 + index * 4;
+      const lightness = Math.max(10, 80 - value * 5);
 
       return {
         name: key,
@@ -101,13 +100,13 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
 
   const generalErrorPieData = Object.entries(errorObj).map(
     ([key, value], index) => {
-      const hue = 205 + index * 4;
-      const lightness = Math.max(30, 60 - value * 5);
+      const hue = 1 + index * 4;
+      const lightness = Math.max(10, 80 - value * 5);
 
       return {
         name: key,
         points: value,
-        color: `hsl(${hue}, 100%, ${lightness}%)`,
+        color: `hsl(${hue - 5}, 100%, ${lightness}%)`,
         legendFontColor: "rgb(204, 204, 204)",
         legendFontSize: 15,
       };
@@ -119,9 +118,9 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
     backgroundGradientFromOpacity: 0,
     backgroundGradientTo: "#08130D",
     backgroundGradientToOpacity: 0.5,
-    // paddingLeft: 10,
-    color: (opacity = 1) => `rgba(25, 255, 146, ${opacity})`,
-    strokeWidth: 3, // optional, default 3
+    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    labelColor: () => "rgb(204, 204, 204)",
+    strokeWidth: 3,
     barPercentage: 0.8,
   };
 
@@ -141,7 +140,7 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
   const errorBarHasData = errorBarData.datasets[0].data.some((val) => val > 0);
 
   return (
-    <View style={{ marginTop: 20 }}>
+    <View>
       <View>
         <Text style={styles.title}>
           {pointsOrError === "points" ? "Points" : "Errors"} Graph
@@ -159,10 +158,13 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
                 width={Dimensions.get("window").width * 0.85}
                 height={240}
                 chartConfig={{
-                  backgroundGradientFrom: "#1c1c1e",
-                  backgroundGradientTo: "#1c1c1e",
+                  backgroundGradientFrom: "transparent",
+                  backgroundGradientTo: "transparent",
                   decimalPlaces: 0,
-                  color: (opacity = 1) => `rgba(98, 179, 255, ${opacity})`,
+                  color: (opacity = 1) =>
+                    pointsOrError === "points"
+                      ? `rgba(98, 179, 255, ${opacity})`
+                      : "rgb(253, 98, 95)",
                   labelColor: () => "rgb(204, 204, 204)",
                   barPercentage: 0.7,
                   barRadius: 6,
@@ -222,13 +224,12 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
                     ? currentSetPieData
                     : currentSetErrorPieData
                 }
-                width={Dimensions.get("window").width * 0.85}
+                width={Dimensions.get("window").width * 0.8}
                 height={220}
                 chartConfig={chartConfig}
                 accessor={"points"}
+                center={[10, 0]}
                 backgroundColor={"transparent"}
-                paddingLeft={"30"}
-                // center={[10, 50]}
                 absolute
               />
               <Text style={styles.placeholder}>
@@ -274,13 +275,12 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
                     ? generalPointPieData
                     : generalErrorPieData
                 }
-                width={Dimensions.get("window").width * 0.85}
+                width={Dimensions.get("window").width * 0.8}
                 height={220}
                 chartConfig={chartConfig}
                 accessor={"points"}
+                center={[10, 0]}
                 backgroundColor={"transparent"}
-                paddingLeft={"30"}
-                // center={[10, 50]}
                 absolute
               />
               <Text style={styles.placeholder}>Type of point</Text>
@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     color: "white",
-    marginBottom: 10,
+    marginBlock: 15,
   },
   placeholder: {
     textAlign: "center",
