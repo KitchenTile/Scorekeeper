@@ -25,18 +25,21 @@ const stats = () => {
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [prevMatchModalVisible, setPrevMatchModalVisible] = useState(false);
 
-  useEffect(() => {
-    console.log(matchList);
-  }, [matchList]);
+  // useEffect(() => {
+  //   console.log(matchList);
+  // }, [matchList]);
 
   useEffect(() => {
     const fetchMatches = async () => {
       const res = await getDocs(collection(db, "match_history"));
       const matches = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setMatchList(matches);
-      console.log("match list");
-      console.log(matchList);
+      setMatchList(
+        matches.sort(
+          (a, b) => new Date(b.time_created) - new Date(a.time_created)
+        )
+      );
     };
+
     fetchMatches();
   }, [matchWinner]);
 
