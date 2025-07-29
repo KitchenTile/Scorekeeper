@@ -25,9 +25,9 @@ const stats = () => {
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [prevMatchModalVisible, setPrevMatchModalVisible] = useState(false);
 
-  // useEffect(() => {
-  //   console.log(matchList);
-  // }, [matchList]);
+  useEffect(() => {
+    console.log(matchList);
+  }, [matchList]);
 
   useEffect(() => {
     const fetchMatches = async () => {
