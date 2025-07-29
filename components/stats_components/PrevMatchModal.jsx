@@ -71,8 +71,6 @@ const PrevMatchModal = ({
     return sets;
   };
 
-  console.log(setsArray());
-
   return (
     <Modal visible={isVisible} transparent animationType="slide">
       <View style={styles.modalBackground}>
