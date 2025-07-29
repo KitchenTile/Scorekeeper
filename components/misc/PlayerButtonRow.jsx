@@ -31,7 +31,7 @@ const PlayerButtonRow = ({ labels, active, onChange }) => {
 
   const heightInterpolate = slideAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 50],
+    outputRange: labels.length < 7 ? [0, 50] : [0, 100],
   });
 
   return (
@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
   wrapper: {},
   toggleRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
+    flexWrap: "wrap",
   },
   playerBtn: {
     margin: 5,
