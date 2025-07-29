@@ -77,8 +77,8 @@ const PlayersGraphs = ({ set }) => {
               withInnerLines={false}
               withHorizontalLabels
               chartConfig={{
-                backgroundGradientFrom: "#1c1c1e",
-                backgroundGradientTo: "#1c1c1e",
+                backgroundGradientFrom: "transparent",
+                backgroundGradientTo: "transparent",
                 decimalPlaces: 0,
                 color: (opacity = 1) => `rgba(98, 179, 255, ${opacity})`,
                 labelColor: () => "rgb(204, 204, 204)",
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     color: "white",
-    marginBottom: 10,
+    marginBlock: 15,
   },
   placeholder: {
     textAlign: "center",
