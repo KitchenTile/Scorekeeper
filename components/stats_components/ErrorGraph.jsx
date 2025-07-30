@@ -66,7 +66,7 @@ const ErrorGraph = ({ set }) => {
         style={{
           borderRadius: 12,
           boxShadow: "rgb(22 22 22) 0px 4px 15px 2px",
-          // marginBottom: 20,
+          marginBottom: 15,
         }}
       >
         {barHasData ? (
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     color: "white",
-    marginBlock: 15,
+    marginBlock: 10,
   },
   placeholder: {
     textAlign: "center",
