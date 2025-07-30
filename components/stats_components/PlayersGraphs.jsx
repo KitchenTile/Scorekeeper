@@ -64,6 +64,7 @@ const PlayersGraphs = ({ set }) => {
         style={{
           borderRadius: 12,
           boxShadow: "rgb(22 22 22) 0px 4px 15px 2px",
+          marginBottom: 15,
         }}
       >
         {barHasData ? (
@@ -136,6 +137,9 @@ const PlayersGraphs = ({ set }) => {
               backgroundColor={"transparent"}
               paddingLeft={"30"}
               absolute
+              style={{
+                "font-family": "Roboto, Helvetica, Arial, sans-serif",
+              }}
             />
             <Text style={styles.placeholder}>Type of point</Text>
           </>
@@ -155,7 +159,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     color: "white",
-    marginBlock: 15,
+    marginBlock: 10,
   },
   placeholder: {
     textAlign: "center",
