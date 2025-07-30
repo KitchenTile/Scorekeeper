@@ -78,7 +78,7 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
         points: value,
         color: `hsl(${hue}, 100%, ${lightness}%)`,
         legendFontColor: "rgb(204, 204, 204)",
-        legendFontSize: 15,
+        legendFontSize: 14,
       };
     }
   );
@@ -108,7 +108,7 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
         points: value,
         color: `hsl(${hue - 5}, 100%, ${lightness}%)`,
         legendFontColor: "rgb(204, 204, 204)",
-        legendFontSize: 15,
+        legendFontSize: 14,
       };
     }
   );
@@ -149,6 +149,7 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
           style={{
             borderRadius: 12,
             boxShadow: "rgb(22 22 22) 0px 4px 15px 2px",
+            marginBottom: 15,
           }}
         >
           {(pointsOrError === "points" ? barHasData : errorBarHasData) ? (
@@ -204,13 +205,14 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
             backgroundColor: "rgba(58,70,78,1.00)",
           }}
         />
-        <Text style={[styles.title, { marginTop: 20 }]}>
+        <Text style={[styles.title]}>
           Current Set {pointsOrError === "points" ? "Points" : "Errors"}
         </Text>
         <View
           style={{
             borderRadius: 12,
             boxShadow: "rgb(22 22 22) 0px 4px 15px 2px",
+            marginBottom: 15,
           }}
         >
           {(
@@ -232,6 +234,9 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
                 center={[10, 0]}
                 backgroundColor={"transparent"}
                 absolute
+                style={{
+                  "font-family": "Roboto, Helvetica, Arial, sans-serif",
+                }}
               />
               <Text style={styles.placeholder}>
                 Type of {pointsOrError === "points" ? "point" : "error"}
@@ -283,6 +288,9 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
                 center={[10, 0]}
                 backgroundColor={"transparent"}
                 absolute
+                style={{
+                  "font-family": "Roboto, Helvetica, Arial, sans-serif",
+                }}
               />
               <Text style={styles.placeholder}>Type of point</Text>
             </>
@@ -303,7 +311,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     color: "white",
-    marginBlock: 15,
+    marginBlock: 10,
   },
   placeholder: {
     textAlign: "center",
