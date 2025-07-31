@@ -19,10 +19,6 @@ const ButtonRow = ({ active, onChange, labels, icons }) => {
       toggleClose();
   }, [openedButton]);
 
-  useEffect(() => {
-    console.log(openedButton);
-  }, [openedButton]);
-
   const toggleOpen = () => {
     Animated.timing(slideAnim, {
       toValue: open ? 0 : 1,
