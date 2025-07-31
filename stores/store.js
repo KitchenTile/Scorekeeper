@@ -72,7 +72,6 @@ export const useMatchStore = create((set, get) => ({
   updateMatchWinner: () => {
     const { sets, teams } = get();
     const winner = calculateMatchWinner(teams, sets);
-    console.log(winner);
     set({ matchWinner: winner });
   },
 
@@ -156,9 +155,6 @@ export const useAuthStore = create((set, get) => ({
 
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
-      console.log("response");
-
-      console.log(response);
 
       set({ user: response.user, isLoading: false, isLoggedIn: true });
     } catch (error) {
@@ -176,7 +172,6 @@ export const useAuthStore = create((set, get) => ({
         email,
         password
       );
-      console.log(response);
 
       set({ user: response.user, isLoading: false, isLoggedIn: true });
     } catch (error) {
