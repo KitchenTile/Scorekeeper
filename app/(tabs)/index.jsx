@@ -28,8 +28,6 @@ const app = () => {
 
   const currentSet = sets[currentSetIndex];
 
-  console.log(sets);
-
   useEffect(() => {
     const getSets = () => {
       const gameSets = Object.fromEntries(sets.map((set, i) => [i, set]));
@@ -47,7 +45,6 @@ const app = () => {
     const submit = async () => {
       try {
         await addDoc(collection(db, "match_history"), getSets());
-        console.log("submitted");
       } catch (error) {
         console.log(error);
       }
