@@ -25,10 +25,6 @@ const stats = () => {
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [prevMatchModalVisible, setPrevMatchModalVisible] = useState(false);
 
-  // useEffect(() => {
-  //   console.log(matchList);
-  // }, [matchList]);
-
   useEffect(() => {
     const fetchMatches = async () => {
       const res = await getDocs(collection(db, "match_history"));
@@ -57,10 +53,6 @@ const stats = () => {
 
     fetchMatch();
   }, [selectedMatchId]);
-
-  // useEffect(() => {
-  //   console.log(statView);
-  // }, [statView]);
 
   const activeTabToggle = (index) => {
     setActiveTab((prev) => {
