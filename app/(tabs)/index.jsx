@@ -22,10 +22,8 @@ const app = () => {
   const setCurrentPoint = useMatchStore((state) => state.setCurrentPoint);
   const currentSetIndex = useMatchStore((state) => state.currentSetIndex);
   const matchWinner = useMatchStore((state) => state.matchWinner);
-
   const [infoVisible, setInfoVisible] = useState(false);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
-
   const currentSet = sets[currentSetIndex];
 
   useEffect(() => {
