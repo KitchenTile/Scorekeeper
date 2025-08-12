@@ -1,7 +1,7 @@
 import { useMatchStore } from "@/stores/store";
 import { useEffect } from "react";
-import { StyleSheet, Text } from "react-native";
-import { TextInput, View } from "react-native-web";
+import { StyleSheet, Text, View, TextInput } from "react-native";
+// import { TextInput, View } from "react-native-web";
 
 const TeamsCompoenent = () => {
   const teams = useMatchStore((state) => state.teams);
@@ -13,6 +13,8 @@ const TeamsCompoenent = () => {
     setTeams(updatedTeams);
   };
 
+  const MAXLENGTH = 3;
+
   return (
     <View style={styles.teamsContainer}>
       <View style={styles.team}>
@@ -22,7 +24,7 @@ const TeamsCompoenent = () => {
         ) : (
           <TextInput
             style={styles.teamsNameInput}
-            maxLength="3"
+            maxLength={MAXLENGTH}
             onBlur={(e) =>
               e.nativeEvent.text !== ""
                 ? handleTeamSubmit(e.nativeEvent.text, 0)
@@ -37,7 +39,7 @@ const TeamsCompoenent = () => {
         ) : (
           <TextInput
             style={styles.oppTeamsNameInput}
-            maxLength="3"
+            maxLength={MAXLENGTH}
             onBlur={(e) =>
               e.nativeEvent.text !== ""
                 ? handleTeamSubmit(e.nativeEvent.text, 1)
