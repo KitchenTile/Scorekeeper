@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
 
   //inputs, buttons and labels
   setPlayer: {
-    height: 60,
+    height: "60px",
     width: 60,
     borderColor: "black",
     borderWidth: 1,
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "#586DFF",
     lineHeight: 54,
-    fontSize: "1.2em",
+    fontSize: 10,
     fontWeight: "bold",
   },
 
