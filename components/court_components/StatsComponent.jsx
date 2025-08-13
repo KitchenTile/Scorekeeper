@@ -142,8 +142,8 @@ const styles = StyleSheet.create({
   info: {
     height: "100%",
     width: "50%",
-    paddingBlock: 10,
-    paddingInline: 10,
+    // paddingBlock: 10,
+    // paddingInline: 10,
   },
 
   infoTitle: {
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "50%",
     left: "100%",
-    transform: "translateY(-50%)",
+    transform: "translateY(-60%)",
   },
 
   horizontalLine: {
