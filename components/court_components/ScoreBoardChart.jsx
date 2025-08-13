@@ -23,8 +23,8 @@ const ScoreBoardChart = () => {
                   ? "#DC605B"
                   : "#586DFF"
                 : "#3A464E",
-            transitionTimingFunction: "ease-in-out",
-            transitionDuration: "0.2s",
+            // transitionTimingFunction: "ease-in-out",
+            // transitionDuration: "0.2s",
           },
         ]}
       >
@@ -73,8 +73,8 @@ const ScoreBoardChart = () => {
         yAxisLabel=""
         xAxisLabel=""
         chartConfig={{
-          backgroundGradientFrom: "transparent",
-          backgroundGradientTo: "transparent",
+          backgroundGradientFrom: "#161F23",
+          backgroundGradientTo: "#161F23",
           decimalPlaces: 0,
           color: (opacity = 1) => {
             if (lineChartScore[lineChartScore.length - 1].score > 0) {
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "absolute",
     bottom: "29%",
-    left: "-0.5%",
+    left: "2%",
   },
 
   modalBackground: {
