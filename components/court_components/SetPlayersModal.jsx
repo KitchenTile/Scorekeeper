@@ -19,11 +19,17 @@ const SetPlayersModal = () => {
   const addPlayer = useMatchStore((state) => state.addPlayer);
   const removePlayer = useMatchStore((state) => state.removePlayer);
 
+  useEffect(() => {
+    console.log(players);
+  }, [players]);
+
   return (
     <Modal visible={modalVisible.setPlayers} transparent animationType="slide">
       <View style={styles.modalBackground}>
         <View style={styles.modalContent}>
-          <View>
+          <View
+            style={{ width: "90%", paddingBlock: 20, alignItems: "center" }}
+          >
             <Text style={styles.modalTxt}>
               Enter teams' names (3 letters MAX)
             </Text>
@@ -45,10 +51,8 @@ const SetPlayersModal = () => {
               ) : (
                 <TextInput
                   key={index}
-                  onBlur={(e) =>
-                    e.nativeEvent.text !== ""
-                      ? addPlayer(e.nativeEvent.text)
-                      : null
+                  onEndEditing={(e) =>
+                    e.nativeEvent.text !== "" && addPlayer(e.nativeEvent.text)
                   }
                   style={[
                     styles.setPlayer,
@@ -130,7 +134,7 @@ const styles = StyleSheet.create({
 
   //inputs, buttons and labels
   setPlayer: {
-    height: "60px",
+    height: 60,
     width: 60,
     borderColor: "black",
     borderWidth: 1,
@@ -140,7 +144,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "#586DFF",
     lineHeight: 54,
-    fontSize: 10,
+    fontSize: 18,
     fontWeight: "bold",
   },
 
