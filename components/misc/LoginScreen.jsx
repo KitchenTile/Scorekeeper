@@ -1,6 +1,12 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  TextInput,
+} from "react-native";
 import React, { useEffect, useState } from "react";
-import { TextInput } from "react-native-web";
+// import { TextInput } from "react-native-web";
 import { useAuthStore } from "../../stores/store";
 import { auth } from "../../firebase";
 
@@ -15,14 +21,16 @@ const LoginScreen = () => {
       <Text style={styles.title}>Welcome Back</Text>
       <TextInput
         value={email}
-        placeholder="email"
+        placeholder="Email"
+        placeholderTextColor="#fff"
         autoCapitalize="none"
         onChangeText={setEmail}
         style={styles.input}
       />
       <TextInput
         value={password}
-        placeholder="password"
+        placeholder="Password"
+        placeholderTextColor="#fff"
         secureTextEntry
         onChangeText={setPassword}
         style={styles.input}
@@ -62,7 +70,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: "#1E293B",
-    color: "white",
+    color: "#fff",
     padding: 12,
     borderRadius: 8,
     marginBottom: 20,
