@@ -13,6 +13,10 @@ const TeamsCompoenent = () => {
     setTeams(updatedTeams);
   };
 
+  useEffect(() => {
+    console.log(teams);
+  }, [teams]);
+
   const MAXLENGTH = 3;
 
   return (
@@ -25,10 +29,9 @@ const TeamsCompoenent = () => {
           <TextInput
             style={styles.teamsNameInput}
             maxLength={MAXLENGTH}
-            onBlur={(e) =>
-              e.nativeEvent.text !== ""
-                ? handleTeamSubmit(e.nativeEvent.text, 0)
-                : null
+            onEndEditing={(e) =>
+              e.nativeEvent.text !== "" &&
+              handleTeamSubmit(e.nativeEvent.text, 0)
             }
           />
         )}
@@ -40,10 +43,9 @@ const TeamsCompoenent = () => {
           <TextInput
             style={styles.oppTeamsNameInput}
             maxLength={MAXLENGTH}
-            onBlur={(e) =>
-              e.nativeEvent.text !== ""
-                ? handleTeamSubmit(e.nativeEvent.text, 1)
-                : null
+            onEndEditing={(e) =>
+              e.nativeEvent.text !== "" &&
+              handleTeamSubmit(e.nativeEvent.text, 1)
             }
           />
         )}
