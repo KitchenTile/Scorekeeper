@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import React from "react";
-import { ScrollView, View, Text } from "react-native-web";
+import { ScrollView, View, Text } from "react-native";
 import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
 
