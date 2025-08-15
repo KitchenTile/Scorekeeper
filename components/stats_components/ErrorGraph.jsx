@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, View, Text } from "react-native-web";
+import { ScrollView, View, Text } from "react-native";
 import { useMatchStore } from "../../stores/store";
 import { StyleSheet } from "react-native";
 import { PieChart, BarChart } from "react-native-chart-kit";
@@ -43,8 +43,8 @@ const ErrorGraph = ({ set }) => {
 
   const chartConfig = {
     backgroundGradientFrom: "#1E2923",
-    backgroundGradientFromOpacity: 0,
     backgroundGradientTo: "#08130D",
+    backgroundGradientFromOpacity: 0,
     backgroundGradientToOpacity: 0.5,
     color: (opacity = 1) => `rgb(253, 98, 95)`,
     labelColor: () => "rgb(204, 204, 204)",
@@ -77,8 +77,10 @@ const ErrorGraph = ({ set }) => {
               height={220}
               showValuesOnTopOfBars
               chartConfig={{
-                backgroundGradientFrom: "transparent",
-                backgroundGradientTo: "transparent",
+                backgroundGradientFrom: "rgba(0, 0, 0, 0)",
+                backgroundGradientFromOpacity: 0,
+                backgroundGradientTo: "rgba(0, 0, 0, 0)",
+                backgroundGradientToOpacity: 0,
                 decimalPlaces: 0,
                 color: (opacity = 1) => `rgb(253, 98, 95)`,
                 labelColor: () => "rgb(204, 204, 204)",
