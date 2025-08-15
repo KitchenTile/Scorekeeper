@@ -9,6 +9,8 @@ const InfoComponent = () => {
         width: "100%",
         paddingBlock: 10,
         paddingInline: 10,
+        position: "relative",
+        top: "-20%",
       }}
     >
       <Text
@@ -26,11 +28,9 @@ const InfoComponent = () => {
       </Text>
       <View
         style={{
-          display: "grid",
-          gridTemplateRows: "repeat(4, 1fr)",
-          gridTemplateColumns: "repeat(2, 1fr)",
-          justifyItems: "center",
-          gap: 3,
+          display: "flex",
+          flexWrap: "wrap",
+          alignContent: "space-around",
         }}
       >
         {Object.entries(POINTMETHODS).map(([key, val]) => (
