@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, View, Text } from "react-native-web";
 import { useMatchStore } from "../../stores/store";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ScrollView, View, Text } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import TeamsCompoenent from "@/components/court_components/TeamsComponent";
@@ -47,6 +46,8 @@ const stats = () => {
           setSelectedMatch(res.data());
           setCurrentMatch(false);
           setPrevMatchModalVisible(true);
+          const dbDownloadURL = res.data().dbDownloadURL;
+          console.log(dbDownloadURL);
         }
       }
     };
@@ -102,7 +103,7 @@ const stats = () => {
         </TouchableOpacity>
       </View>
       {currentMatch === true ? (
-        <>
+        <ScrollView>
           <TeamsCompoenent />
 
           {sets.map((set, index) => (
@@ -125,9 +126,9 @@ const stats = () => {
               onSelectPlayer={setSelectedPlayer}
             />
           ))}
-        </>
+        </ScrollView>
       ) : (
-        <>
+        <ScrollView>
           {matchList.map((match, index) => (
             <MatchHistryCards
               key={index}
@@ -143,7 +144,7 @@ const stats = () => {
               match={selectedMatch}
             />
           ) : null}
-        </>
+        </ScrollView>
       )}
     </ScrollView>
   );
