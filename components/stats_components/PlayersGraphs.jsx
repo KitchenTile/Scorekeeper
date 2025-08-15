@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ScrollView, View, Text } from "react-native-web";
+import { ScrollView, View, Text } from "react-native";
 import { useMatchStore } from "../../stores/store";
 import { StyleSheet } from "react-native";
 import { BarChart, PieChart } from "react-native-chart-kit";
@@ -64,6 +64,7 @@ const PlayersGraphs = ({ set }) => {
         style={{
           borderRadius: 12,
           boxShadow: "rgb(22 22 22) 0px 4px 15px 2px",
+          // boxShadow
           marginBottom: 15,
         }}
       >
@@ -78,8 +79,10 @@ const PlayersGraphs = ({ set }) => {
               withInnerLines={false}
               withHorizontalLabels
               chartConfig={{
-                backgroundGradientFrom: "transparent",
-                backgroundGradientTo: "transparent",
+                backgroundGradientFrom: "rgba(0, 0, 0, 0)",
+                backgroundGradientFromOpacity: 0,
+                backgroundGradientTo: "rgba(0, 0, 0, 0)",
+                backgroundGradientToOpacity: 0,
                 decimalPlaces: 0,
                 color: (opacity = 1) => `rgba(98, 179, 255, ${opacity})`,
                 labelColor: () => "rgb(204, 204, 204)",
