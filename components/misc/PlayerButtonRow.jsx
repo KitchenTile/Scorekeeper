@@ -35,7 +35,7 @@ const PlayerButtonRow = ({ labels, active, onChange }) => {
   });
 
   return (
-    openedButton.open === false && (
+    openedButton.active === null && (
       <View>
         <TouchableOpacity
           onPress={toggleOpen}
