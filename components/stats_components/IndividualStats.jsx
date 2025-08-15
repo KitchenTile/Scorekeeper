@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import React from "react";
-import { ScrollView, View, Text } from "react-native-web";
+import { ScrollView, View, Text } from "react-native";
 import { useMatchStore } from "../../stores/store";
 import { StyleSheet } from "react-native";
 import { BarChart, PieChart } from "react-native-chart-kit";
@@ -160,8 +160,10 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
                 height={240}
                 showValuesOnTopOfBars
                 chartConfig={{
-                  backgroundGradientFrom: "transparent",
-                  backgroundGradientTo: "transparent",
+                  backgroundGradientFrom: "rgba(0, 0, 0, 0)",
+                  backgroundGradientFromOpacity: 0,
+                  backgroundGradientTo: "rgba(0, 0, 0, 0)",
+                  backgroundGradientToOpacity: 0,
                   decimalPlaces: 0,
                   color: (opacity = 1) =>
                     pointsOrError === "points"
@@ -232,7 +234,7 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
                 chartConfig={chartConfig}
                 accessor={"points"}
                 center={[10, 0]}
-                backgroundColor={"transparent"}
+                backgroundColor={"#161F23"}
                 absolute
                 style={{
                   "font-family": "Roboto, Helvetica, Arial, sans-serif",
@@ -286,7 +288,7 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
                 chartConfig={chartConfig}
                 accessor={"points"}
                 center={[10, 0]}
-                backgroundColor={"transparent"}
+                backgroundColor={"#161F23"}
                 absolute
                 style={{
                   "font-family": "Roboto, Helvetica, Arial, sans-serif",
