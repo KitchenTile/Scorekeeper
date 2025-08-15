@@ -93,9 +93,9 @@ export default MatchHistryCards;
 
 const styles = StyleSheet.create({
   cardContainer: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2, 50%)",
-    gridTemplateRows: "repeat(2, 50%)",
+    display: "flex",
+    flexWrap: "wrap",
+    alignContent: "space-between",
     width: "100%",
     height: 80,
     borderWidth: 2,
