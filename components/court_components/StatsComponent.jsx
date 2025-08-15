@@ -107,11 +107,12 @@ const StatsComponent = ({ team, score }) => {
       </View>
       <View
         style={{
-          display: "grid",
-          gridTemplateRows: "repeat(2, 1fr)",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          justifyItems: "center",
-          marginTop: 30,
+          display: "flex",
+          flexWrap: "wrap",
+          alignContent: "space-around",
+          height: "50%",
+          marginTop: 10,
+          paddingInline: 20,
         }}
       >
         {Object.entries(statOrganizer()[statsToDisplay]).map(([key, val]) => (
@@ -142,8 +143,6 @@ const styles = StyleSheet.create({
   info: {
     height: "100%",
     width: "50%",
-    // paddingBlock: 10,
-    // paddingInline: 10,
   },
 
   infoTitle: {
