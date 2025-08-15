@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useMatchStore } from "../../stores/store";
 
-const ButtonRow = ({ active, onChange, labels, icons }) => {
+const ButtonRow = ({ active, onChange, labels, icons, id }) => {
   const [open, setOpen] = useState(false);
   const openedButton = useMatchStore((state) => state.openedButton);
   const setOpenedButton = useMatchStore((state) => state.setOpenedButton);
@@ -13,10 +13,34 @@ const ButtonRow = ({ active, onChange, labels, icons }) => {
   const slideAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    openedButton !== null &&
-      !labels.includes(openedButton.active) &&
-      open &&
+    console.log(openedButton);
+  }, [openedButton]);
+  useEffect(() => {
+    console.log(open);
+  }, [open]);
+
+  // useEffect(() => {
+  //   openedButton.active !== null &&
+  //     // !labels.includes(openedButton.active) &&
+  //     openedButton.active !== id &&
+  //     open &&
+  //     toggleClose();
+  // }, [openedButton]);
+
+  const didMountRef = useRef(false);
+
+  useEffect(() => {
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    }
+
+    const shouldClose =
+      openedButton.active !== null && openedButton.active !== id && open;
+
+    if (shouldClose) {
       toggleClose();
+    }
   }, [openedButton]);
 
   const toggleOpen = () => {
@@ -27,7 +51,7 @@ const ButtonRow = ({ active, onChange, labels, icons }) => {
       easing: Easing.ease,
     }).start(() => {
       setOpen(true);
-      setOpenedButton({ ...openedButton, open: true });
+      // setOpenedButton({ ...openedButton, open: true });
     });
   };
 
@@ -39,7 +63,7 @@ const ButtonRow = ({ active, onChange, labels, icons }) => {
       easing: Easing.ease,
     }).start(() => {
       setOpen(false);
-      setOpenedButton({ ...openedButton, open: false });
+      setOpenedButton({ ...openedButton, active: null });
     });
   };
 
@@ -54,7 +78,7 @@ const ButtonRow = ({ active, onChange, labels, icons }) => {
     <View style={[styles.wrapper, styles.elevatedElement]}>
       <TouchableOpacity
         onPress={() => {
-          setOpenedButton({ active });
+          setOpenedButton({ ...openedButton, active: id });
           open ? toggleClose() : toggleOpen();
         }}
         style={[
@@ -90,6 +114,7 @@ const ButtonRow = ({ active, onChange, labels, icons }) => {
           ]}
           onPress={() => {
             onChange(unselectedLable);
+            setOpenedButton({ ...openedButton, active: id });
             toggleClose();
           }}
         >
