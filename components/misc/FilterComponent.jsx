@@ -20,12 +20,14 @@ const FilterComponent = ({
           onChange={(val) => onStatChange(val)}
           labels={["team", "players"]}
           icons={["users", "user"]}
+          id={"statView"}
         />
         <ButtonRow
           active={pointOrError}
           onChange={(val) => onPointToggle(val)}
           labels={["points", "errors"]}
           icons={["check", "close"]}
+          id={"pointOrError"}
         />
       </View>
       {statView === "players" && (
