@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Modal } from "react-native-web";
+import { Modal } from "react-native";
 import SetBreakdownCard from "../cards/SetBreakdownCard";
 import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import * as FileSystem from "expo-file-system";
 
 const PrevMatchModal = ({
   isVisible,
@@ -11,10 +12,27 @@ const PrevMatchModal = ({
   setSelectedMatchId,
   match,
 }) => {
+  // const path = `${RNFS.DocumentDirectoryPath}/match_report.json`;
+
   const [selectedPlayer, setSelectedPlayer] = useState(match.players[0]);
   const [pointOrError, setPointOrError] = useState("points");
   const [statView, setStatView] = useState("team");
   const [activeTab, setActiveTab] = useState(0);
+  // const data = JSON.stringify(match, null, 2);
+
+  // const callback = (downloadProgress) => {
+  //   const progress =
+  //     downloadProgress.totalBytesWritten /
+  //     downloadProgress.totalBytesExpectedToWrite;
+  //   console.log(progress);
+  // };
+
+  // const downloadResumable = FileSystem.createDownloadResumable(
+  //   "https://sheetjs.com/pres. Numbers",
+  //   FileSystem.documentDirectory + "data.xlsx",
+  //   {},
+  //   callback
+  // );
 
   const activeTabToggle = (index) => {
     setActiveTab((prev) => {
@@ -69,6 +87,15 @@ const PrevMatchModal = ({
     });
 
     return sets;
+  };
+
+  const handlePress = async () => {
+    try {
+      await RNFS.writeFile(path, data, "utf8");
+      console.log("Success!");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -128,28 +155,34 @@ const PrevMatchModal = ({
               {match.teams[1]} - {getSetResults()[match.teams[1]]}
             </Text>
           </View>
-          {setsArray().map((value, index) => (
-            // <>
-            <SetBreakdownCard
-              key={index}
-              set={value}
-              match={setsArray()}
-              index={index}
-              isActive={activeTab === index}
-              onToggle={() => {
-                activeTabToggle(index);
-                activeStatToggle("team");
-              }}
-              statView={statView}
-              onStatChange={activeStatToggle}
-              pointOrError={pointOrError}
-              onPointToggle={pointOrErrorToggle}
-              players={match.players}
-              selectedPlayer={selectedPlayer}
-              onSelectPlayer={setSelectedPlayer}
-            />
-            // </>
-          ))}
+          <ScrollView
+            contentContainerStyle={{
+              maxWidth: "100%",
+              minWidth: "99.9%",
+              // backgroundColor: "red",
+            }}
+          >
+            {setsArray().map((value, index) => (
+              <SetBreakdownCard
+                key={index}
+                set={value}
+                match={setsArray()}
+                index={index}
+                isActive={activeTab === index}
+                onToggle={() => {
+                  activeTabToggle(index);
+                  activeStatToggle("team");
+                }}
+                statView={statView}
+                onStatChange={activeStatToggle}
+                pointOrError={pointOrError}
+                onPointToggle={pointOrErrorToggle}
+                players={match.players}
+                selectedPlayer={selectedPlayer}
+                onSelectPlayer={setSelectedPlayer}
+              />
+            ))}
+          </ScrollView>
         </View>
       </View>
     </Modal>
@@ -188,7 +221,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
-  arrowBack: { position: "relative", left: "-850%", color: "white" },
+  arrowBack: { position: "relative", left: "-50%", color: "white" },
 
   halfMoon: {
     position: "absolute",
