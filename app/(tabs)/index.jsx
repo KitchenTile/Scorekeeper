@@ -1,4 +1,10 @@
-import { Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import {
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import ScoreBoardChart from "../../components/court_components/ScoreBoardChart";
 import StatsComponent from "../../components/court_components/StatsComponent";
@@ -40,6 +46,8 @@ const app = () => {
       };
     };
 
+    console.log(JSON.stringify(getSets(), null, 2));
+
     const submit = async () => {
       try {
         await addDoc(collection(db, "match_history"), getSets());
@@ -74,7 +82,15 @@ const app = () => {
             {infoVisible ? (
               <InfoComponent />
             ) : (
-              <>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  width: "100%",
+                  position: "relative",
+                  top: "-5%",
+                }}
+              >
                 <StatsComponent
                   team={teams[0]}
                   score={currentSet.scores.myScore}
@@ -83,7 +99,7 @@ const app = () => {
                   team={teams[1]}
                   score={currentSet.scores.oppScore}
                 />
-              </>
+              </View>
             )}
           </SafeAreaView>
           <SafeAreaView style={styles.bttnsContainer}>
@@ -148,7 +164,7 @@ const styles = StyleSheet.create({
   },
 
   infoContainer: {
-    width: "90%",
+    width: "100%",
     height: 170,
     position: "absolute",
     bottom: "12.5%",
@@ -164,18 +180,19 @@ const styles = StyleSheet.create({
 
   bttnsContainer: {
     position: "absolute",
-    bottom: "3%",
-    width: "90%",
+    bottom: "8%",
+    width: "100%",
     left: "5%",
     flexDirection: "row",
     justifyContent: "space-between",
     height: 40,
     marginBlock: 20,
+    // backgroundColor: "red",
   },
 
   bttn: {
     width: "48.5%",
-    height: 65,
+    height: 55,
     backgroundColor: "#78C93C",
     borderWidth: 2,
     borderColor: "#488719",
@@ -186,14 +203,10 @@ const styles = StyleSheet.create({
   },
 
   bttnTxt: {
-    position: "absolute",
-    left: "50%",
-    top: "50%",
-    transform: "translate(-50%, -60%)",
-    fontSize: "34px",
-    lineHeight: "28px",
+    fontSize: 30,
+    lineHeight: 34,
     textAlign: "center",
-    color: "rgb(0,0,0)",
+    color: "rgb(0, 0, 0)",
     fontWeight: 600,
   },
 
