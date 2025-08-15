@@ -383,6 +383,8 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 2,
     borderColor: "#3c4cbb",
+    textAlign: "ceenter",
+    alignItems: "center",
   },
 
   methodButtonText: {
@@ -410,10 +412,6 @@ const styles = StyleSheet.create({
   },
 
   optionText: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
     fontSize: 24,
     color: "white",
   },
