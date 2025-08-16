@@ -4,8 +4,15 @@ import { StyleSheet, ScrollView, View, Text } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import TeamsCompoenent from "@/components/court_components/TeamsComponent";
-import { db } from "@/firebase";
-import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import { db, auth } from "@/firebase";
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  query,
+  where,
+} from "firebase/firestore";
 import MatchHistryCards from "../../components/cards/MatchHistryCards";
 import SetBreakdownCard from "../../components/cards/SetBreakdownCard";
 import PrevMatchModal from "../../components/stats_components/PrevMatchModal";
@@ -20,23 +27,39 @@ const stats = () => {
   const [selectedPlayer, setSelectedPlayer] = useState(players[0]);
   const [currentMatch, setCurrentMatch] = useState(true);
   const [matchList, setMatchList] = useState(null);
+
   const [selectedMatchId, setSelectedMatchId] = useState(null);
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [prevMatchModalVisible, setPrevMatchModalVisible] = useState(false);
 
   useEffect(() => {
     const fetchMatches = async () => {
-      const res = await getDocs(collection(db, "match_history"));
-      const matches = res.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setMatchList(
-        matches.sort(
-          (a, b) => new Date(b.time_created) - new Date(a.time_created)
+      // const res = await getDocs(collection(db, "match_history"));
+      const res = await getDocs(
+        query(
+          collection(db, "match_history"),
+          where("user_id", "==", auth.currentUser.uid)
         )
       );
+      const matches = res.docs.map((doc) => ({
+        ...doc.data(),
+      }));
+      setMatchList(
+        matches
+          // .filter((x) => x.user_id === auth.currentUser.uid)
+          .sort((a, b) => new Date(b.time_created) - new Date(a.time_created))
+      );
+
+      // console.log(matches);
     };
 
     fetchMatches();
   }, [matchWinner]);
+
+  useEffect(() => {
+    console.log("Match List");
+    console.log(matchList);
+  }, [matchList]);
 
   useEffect(() => {
     const fetchMatch = async () => {
@@ -46,8 +69,6 @@ const stats = () => {
           setSelectedMatch(res.data());
           setCurrentMatch(false);
           setPrevMatchModalVisible(true);
-          const dbDownloadURL = res.data().dbDownloadURL;
-          console.log(dbDownloadURL);
         }
       }
     };
@@ -129,13 +150,19 @@ const stats = () => {
         </ScrollView>
       ) : (
         <ScrollView>
-          {matchList.map((match, index) => (
-            <MatchHistryCards
-              key={index}
-              match={match}
-              setSelectedMatchId={setSelectedMatchId}
-            />
-          ))}
+          {matchList.length !== 0 ? (
+            matchList.map((match, index) => (
+              <MatchHistryCards
+                key={index}
+                match={match}
+                setSelectedMatchId={setSelectedMatchId}
+              />
+            ))
+          ) : (
+            <Text style={[styles.title, { width: "100%", marginTop: 10 }]}>
+              No matches to show
+            </Text>
+          )}
           {selectedMatch !== null ? (
             <PrevMatchModal
               isVisible={prevMatchModalVisible}
