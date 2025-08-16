@@ -19,22 +19,24 @@ export default function TabLayout() {
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           backgroundColor: '#161F23',
           borderTopWidth: 0,
-          height: 60,
+          height: 70,
           paddingBottom: 0,
         },
         tabBarLabelStyle: {
           fontSize: 14,
           fontWeight: 'bold',
-          paddingTop: 2
+          paddingTop: 10
         }
 
       }}>
       <Tabs.Screen
         name="index"
         options={{
+          tabBarActiveTintColor: "#586DFF",
           title: 'Court',
           tabBarIcon: ({ color, focused }) => (
             <TabIcon focused={focused} color={color} iconName="volleyball" IconComponent={FontAwesome6}/>
@@ -45,6 +47,7 @@ export default function TabLayout() {
         name="stats"
         options={{
           title: 'Game Stats',
+          tabBarActiveTintColor: "#586DFF",
           tabBarIcon: ({ color, focused }) => (
               <TabIcon focused={focused} color={color} iconName="barschart" IconComponent={AntDesign}/>
           ),
