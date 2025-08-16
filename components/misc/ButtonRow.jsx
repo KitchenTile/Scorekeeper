@@ -12,21 +12,6 @@ const ButtonRow = ({ active, onChange, labels, icons, id }) => {
 
   const slideAnim = useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
-    console.log(openedButton);
-  }, [openedButton]);
-  useEffect(() => {
-    console.log(open);
-  }, [open]);
-
-  // useEffect(() => {
-  //   openedButton.active !== null &&
-  //     // !labels.includes(openedButton.active) &&
-  //     openedButton.active !== id &&
-  //     open &&
-  //     toggleClose();
-  // }, [openedButton]);
-
   const didMountRef = useRef(false);
 
   useEffect(() => {
