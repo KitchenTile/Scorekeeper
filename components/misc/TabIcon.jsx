@@ -14,7 +14,7 @@ const TabIcon = ({ focused, IconComponent, iconName, color }) => {
 
   const borderColor = borderAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: ["transparent", "#586DFF"],
+    outputRange: ["rgb(14, 21, 24)", "#586DFF"],
   });
 
   return (
@@ -22,10 +22,10 @@ const TabIcon = ({ focused, IconComponent, iconName, color }) => {
       style={{
         borderTopWidth: 2,
         borderTopColor: borderColor,
-        paddingTop: 5,
+        paddingTop: 10,
         alignItems: "center",
         height: 38,
-        width: "200%",
+        width: "660%",
       }}
     >
       <IconComponent name={iconName} size={24} color={color} />
