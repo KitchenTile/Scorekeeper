@@ -17,7 +17,6 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.blue.vb_scorekeeper"
-
     },
     "web": {
       "bundler": "metro",
@@ -38,6 +37,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "0c0ef270-d4a4-4751-b41f-977824d73771"
+      }
     }
   }
 }
