@@ -18,7 +18,7 @@ const LoginScreen = () => {
 
   return (
     <View>
-      <Text style={styles.title}>Welcome Back</Text>
+      <Text style={styles.title}>Ruben's Volleyball Scorekeeping App</Text>
       <TextInput
         value={email}
         placeholder="Email"
