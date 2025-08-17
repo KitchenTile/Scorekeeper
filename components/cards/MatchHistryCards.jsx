@@ -1,9 +1,32 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { TouchableOpacity } from "react-native";
+import * as FileSystem from "expo-file-system";
+import * as Sharing from "expo-sharing";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 const MatchHistryCards = ({ match, setSelectedMatchId }) => {
   const matchDate = new Date(match.time_created);
+
+  const downloadMatchInfo = async () => {
+    try {
+      const matchInfo = JSON.stringify(match, null, 2);
+
+      const fileURI =
+        FileSystem.documentDirectory +
+        `${match.teams[0]}_vs_${match.teams[1]}_${match.time_created}_match_info.json`;
+      // console.log(fileURI);
+
+      const isAvailable = await Sharing.isAvailableAsync();
+      if (isAvailable) {
+        await Sharing.shareAsync(fileURI);
+      }
+
+      // await FileSystem.writeAsStringAsync(fileURI, matchInfo);
+    } catch (error) {
+      console.log("Error saving file" + error);
+    }
+  };
 
   //   const gameSets = Object.fromEntries(
   //     Object.entries(match.gameSets).map(([key, value]) => {
@@ -68,11 +91,24 @@ const MatchHistryCards = ({ match, setSelectedMatchId }) => {
       >
         {match.teams[1]} - {getSetResults()[match.teams[1]]}
       </Text>
-      <TouchableOpacity
-        onPress={() => {
-          setSelectedMatchId(match.id);
-        }}
-      >
+      <View style={{ display: "flex", flexDirection: "row" }}>
+        <TouchableOpacity
+          onPress={() => {
+            setSelectedMatchId(match.id);
+          }}
+        >
+          <Text
+            style={{
+              color: "white",
+              fontSize: 15,
+              textAlign: "end",
+              lineHeight: 28,
+              paddingRight: 10,
+            }}
+          >
+            See Details
+          </Text>
+        </TouchableOpacity>
         <Text
           style={{
             color: "white",
@@ -82,9 +118,21 @@ const MatchHistryCards = ({ match, setSelectedMatchId }) => {
             paddingRight: 10,
           }}
         >
-          See Details
+          /
         </Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            downloadMatchInfo();
+          }}
+        >
+          <FontAwesome
+            name="share-square-o"
+            size={16}
+            color="white"
+            style={{ position: "relative", top: "30%", left: "-20%" }}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
