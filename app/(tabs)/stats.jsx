@@ -189,7 +189,6 @@ const styles = StyleSheet.create({
     height: "100%",
     overflow: "scroll",
   },
-
   title: {
     fontSize: 22,
     fontWeight: "bold",
