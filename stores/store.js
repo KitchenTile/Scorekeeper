@@ -56,9 +56,9 @@ export const useMatchStore = create((set, get) => ({
   },
   modalVisible: { setScore: false, setPlayers: true },
   matchWinner: null,
-  openedButton: { open: null, active: null },
+  openedButton: { active: "statView" },
 
-  // State setters
+  // State setter
   setModalVisible: (modal) => set({ modalVisible: modal }),
   setCurrentPoint: (point) => set({ currentPoint: point }),
   setTeams: (teams) => set({ teams }),
