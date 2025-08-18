@@ -51,6 +51,7 @@ const SetPlayersModal = () => {
               ) : (
                 <TextInput
                   key={index}
+                  keyboardType="numeric"
                   onEndEditing={(e) =>
                     e.nativeEvent.text !== "" && addPlayer(e.nativeEvent.text)
                   }
