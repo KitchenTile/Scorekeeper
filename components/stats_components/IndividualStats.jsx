@@ -157,7 +157,8 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
               <BarChart
                 data={pointsOrError === "points" ? barData : errorBarData}
                 width={Dimensions.get("window").width * 0.85}
-                height={240}
+                // height={240}
+                height={Dimensions.get("window").height * 0.27}
                 showValuesOnTopOfBars
                 chartConfig={{
                   backgroundGradientFrom: "rgba(0, 0, 0, 0)",
@@ -230,7 +231,8 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
                     : currentSetErrorPieData
                 }
                 width={Dimensions.get("window").width * 0.8}
-                height={220}
+                // height={220}
+                height={Dimensions.get("window").height * 0.248}
                 chartConfig={chartConfig}
                 accessor={"points"}
                 center={[10, 0]}
@@ -284,7 +286,8 @@ const IndividualStats = ({ player, set, sets, pointsOrError }) => {
                     : generalErrorPieData
                 }
                 width={Dimensions.get("window").width * 0.8}
-                height={220}
+                // height={220}
+                height={Dimensions.get("window").height * 0.248}
                 chartConfig={chartConfig}
                 accessor={"points"}
                 center={[10, 0]}
