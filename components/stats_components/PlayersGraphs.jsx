@@ -73,7 +73,8 @@ const PlayersGraphs = ({ set }) => {
             <BarChart
               data={barData}
               width={Dimensions.get("window").width * 0.85}
-              height={240}
+              // height={240}
+              height={Dimensions.get("window").height * 0.27}
               fromZero
               showValuesOnTopOfBars
               withInnerLines={false}
@@ -134,7 +135,8 @@ const PlayersGraphs = ({ set }) => {
             <PieChart
               data={pieData}
               width={Dimensions.get("window").width * 0.85}
-              height={220}
+              // height={220}
+              height={Dimensions.get("window").height * 0.248}
               chartConfig={chartConfig}
               accessor={"errorQty"}
               backgroundColor={"transparent"}
