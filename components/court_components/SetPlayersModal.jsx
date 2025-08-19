@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
 
   modalContent: {
-    width: "90%",
+    minWidth: "95%",
     minHeight: 500,
     gap: 20,
     backgroundColor: "#161F23",
@@ -157,7 +157,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderColor: "black",
     textAlign: "center",
-    width: "60%",
+    minWidth: "60%",
+    maxWidth: "80%",
   },
 
   bttn: {
