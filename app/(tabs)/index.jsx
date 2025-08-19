@@ -4,6 +4,7 @@ import {
   StyleSheet,
   ScrollView,
   View,
+  Dimensions,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import ScoreBoardChart from "../../components/court_components/ScoreBoardChart";
@@ -68,9 +69,17 @@ const app = () => {
           <SetPlayersModal />
           <TeamsCompoenent />
           <ScoreBoardChart />
-          <SafeAreaView style={styles.infoContainer}>
+          <SafeAreaView
+            style={[
+              styles.infoContainer,
+              { height: Dimensions.get("window").height * 0.191 },
+            ]}
+          >
             <TouchableOpacity
-              style={styles.infoIcon}
+              style={[
+                styles.infoIcon,
+                { height: Dimensions.get("window").height * 0.03375 },
+              ]}
               onPress={() => setInfoVisible(!infoVisible)}
             >
               <Text
@@ -102,9 +111,17 @@ const app = () => {
               </View>
             )}
           </SafeAreaView>
-          <SafeAreaView style={styles.bttnsContainer}>
+          <SafeAreaView
+            style={[
+              styles.bttnsContainer,
+              { height: Dimensions.get("window").height * 0.045 },
+            ]}
+          >
             <TouchableOpacity
-              style={styles.bttn}
+              style={[
+                styles.bttn,
+                { height: Dimensions.get("window").height * 0.062 },
+              ]}
               onPress={() => {
                 setCurrentPoint({ ...currentPoint, type: `${teams[0]}` });
                 setModalVisible({ ...modalVisible, setScore: true });
@@ -115,7 +132,11 @@ const app = () => {
             <TouchableOpacity
               style={[
                 styles.bttn,
-                { backgroundColor: "#DC605B", borderColor: "#B52924" },
+                {
+                  backgroundColor: "#DC605B",
+                  borderColor: "#B52924",
+                  height: Dimensions.get("window").height * 0.062,
+                },
               ]}
               onPress={() => {
                 setCurrentPoint({ ...currentPoint, type: `${teams[1]}` });
@@ -153,21 +174,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  pointInfoContainer: {
-    width: "100%",
-    height: 100,
-    borderWidth: 2,
-    borderColor: "#3A464E",
-    borderRadius: 20,
-    marginTop: 20,
-    marginInline: "auto",
-  },
-
   infoContainer: {
     width: "100%",
-    height: 170,
     position: "absolute",
-    bottom: "12.5%",
+    bottom: "11.5%",
     left: "5%",
     borderWidth: 2,
     borderColor: "#3A464E",
@@ -185,14 +195,11 @@ const styles = StyleSheet.create({
     left: "5%",
     flexDirection: "row",
     justifyContent: "space-between",
-    height: 40,
     marginBlock: 20,
-    // backgroundColor: "red",
   },
 
   bttn: {
     width: "48.5%",
-    height: 55,
     backgroundColor: "#78C93C",
     borderWidth: 2,
     borderColor: "#488719",
@@ -222,7 +229,7 @@ const styles = StyleSheet.create({
     left: "95%",
     borderRadius: "100%",
     width: 30,
-    height: 30,
+    // height: 30,
     backgroundColor: "#161F23",
     borderStyle: "solid",
     borderWidth: 2,
