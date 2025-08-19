@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useMatchStore } from "../../stores/store";
-import { StyleSheet, ScrollView, View, Text } from "react-native";
+import { StyleSheet, ScrollView, View, Text, Dimensions } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import TeamsCompoenent from "@/components/court_components/TeamsComponent";
@@ -31,6 +31,8 @@ const stats = () => {
   const [selectedMatchId, setSelectedMatchId] = useState(null);
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [prevMatchModalVisible, setPrevMatchModalVisible] = useState(false);
+
+  // console.log(Dimensions.get("window").width * 0.18);
 
   useEffect(() => {
     const fetchMatches = async () => {
@@ -119,7 +121,11 @@ const stats = () => {
             name="swap"
             size={26}
             color="white"
-            style={{ position: "relative", top: 3, left: 75 }}
+            style={{
+              position: "relative",
+              top: 3,
+              left: Dimensions.get("window").width * 0.18,
+            }}
           />
         </TouchableOpacity>
       </View>
@@ -197,125 +203,10 @@ const styles = StyleSheet.create({
     width: 150,
   },
 
-  pointInfoContainer: {
-    width: "100%",
-    height: 80,
-    borderWidth: 2,
-    borderColor: "#3A464E",
-    borderRadius: 20,
-    marginTop: 20,
-    padding: 10,
-    marginInline: "auto",
-    overflow: "hidden",
-  },
-
-  infoContainer: {
-    width: "90%",
-    height: 170,
-    position: "absolute",
-    bottom: "12.5%",
-    left: "5%",
-    borderWidth: 2,
-    borderColor: "#3A464E",
-    borderRadius: 20,
-    // overflow: "hidden",
-    marginInline: "auto",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-
-  bttnsContainer: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    textAlign: "center",
-  },
-
-  bttn: {
-    width: "48.5%",
-    height: 65,
-    backgroundColor: "#78C93C",
-    borderWidth: 2,
-    borderColor: "#488719",
-    position: "relative",
-    paddingBlock: 10,
-    paddingInline: 20,
-    borderRadius: 15,
-  },
-
-  bttnTxt: {
-    fontSize: 22,
-    textAlign: "center",
-    color: "white",
-    lineHeight: 35,
-  },
-
-  smallOptionButton: {
-    backgroundColor: "#586DFF",
-    padding: 3,
-    paddingTop: 0,
-    margin: 5,
-    borderRadius: 5,
-    minWidth: 30,
-    maxHeight: 30,
-    borderStyle: "solid",
-    borderWidth: 2,
-    borderColor: "#3c4cbb",
-  },
-
-  optionButton: {
-    backgroundColor: "#586DFF",
-    padding: 3,
-    paddingTop: 0,
-    marginBottom: 15,
-    borderRadius: 5,
-    minWidth: "48%",
-    minHeight: 40,
-    borderStyle: "solid",
-    borderWidth: 2,
-    borderColor: "#3c4cbb",
-  },
-
-  playersButton: {
-    backgroundColor: "#586DFF",
-    padding: 10,
-    margin: 5,
-    marginBlock: 10,
-    borderRadius: 5,
-    minWidth: 51,
-    minHeight: 51,
-    borderStyle: "solid",
-    borderWidth: 2,
-    borderColor: "#3c4cbb",
-  },
-
   text: {
     fontSize: 42,
     fontWeight: 600,
     textAlign: "center",
-  },
-
-  optionText: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    fontSize: 22,
-    color: "white",
-  },
-
-  optionContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    width: "100%",
-  },
-
-  selectedOption: {
-    backgroundColor: "#28a745",
-    borderColor: "#28a745",
-    borderStyle: "solid",
-    borderWidth: 2,
   },
 
   screenToggle: {
