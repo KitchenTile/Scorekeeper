@@ -65,7 +65,8 @@ const ScoreBoardChart = () => {
           datasets: [{ data: lineChartScore.map((point) => point.score) }],
         }}
         width={Dimensions.get("window").width * 0.95}
-        height={350}
+        // height={350}
+        height={Dimensions.get("window").height * 0.395}
         withShadow={true}
         withInnerLines={true}
         yAxisInterval={5}
@@ -73,8 +74,10 @@ const ScoreBoardChart = () => {
         yAxisLabel=""
         xAxisLabel=""
         chartConfig={{
-          backgroundGradientFrom: "#161F23",
-          backgroundGradientTo: "#161F23",
+          backgroundGradientFrom: "rgba(0, 0, 0, 0)",
+          backgroundGradientFromOpacity: 0,
+          backgroundGradientTo: "rgba(0, 0, 0, 0)",
+          backgroundGradientToOpacity: 0,
           decimalPlaces: 0,
           color: (opacity = 1) => {
             if (lineChartScore[lineChartScore.length - 1].score > 0) {
