@@ -74,7 +74,8 @@ const ErrorGraph = ({ set }) => {
             <BarChart
               data={barData}
               width={Dimensions.get("window").width * 0.85}
-              height={220}
+              // height={220}
+              height={Dimensions.get("window").height * 0.248}
               showValuesOnTopOfBars
               chartConfig={{
                 backgroundGradientFrom: "rgba(0, 0, 0, 0)",
@@ -131,7 +132,8 @@ const ErrorGraph = ({ set }) => {
             <PieChart
               data={pieData}
               width={Dimensions.get("window").width * 0.8}
-              height={220}
+              // height={220}
+              height={Dimensions.get("window").height * 0.248}
               center={[10, 0]}
               chartConfig={chartConfig}
               accessor={"errorQty"}
