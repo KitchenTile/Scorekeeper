@@ -151,6 +151,5 @@ const styles = StyleSheet.create({
   },
   hiddenContainer: {
     overflow: "hidden",
-    // maxHeight: 41,
   },
 });
