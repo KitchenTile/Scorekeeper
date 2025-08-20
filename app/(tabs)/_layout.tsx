@@ -8,9 +8,12 @@ import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AntDesign, FontAwesome6 } from '@expo/vector-icons';
+import { useAuthStore } from '@/stores/store';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+    const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  
 
   return (
     <Tabs
@@ -47,6 +50,7 @@ export default function TabLayout() {
         name="stats"
         options={{
           title: 'Game Stats',
+          href: !isLoggedIn ? null : "/stats",
           tabBarActiveTintColor: "#586DFF",
           tabBarIcon: ({ color, focused }) => (
               <TabIcon focused={focused} color={color} iconName="barschart" IconComponent={AntDesign}/>
