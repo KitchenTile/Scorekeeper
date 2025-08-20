@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import PlayersGraphs from "../../components/stats_components/PlayersGraphs";
 import ErrorGraph from "../../components/stats_components/ErrorGraph";
@@ -23,7 +29,12 @@ const SetBreakdownCard = ({
   const setWinner = set.scores.myScore > set.scores.oppScore;
 
   return (
-    <View style={[styles.container, { height: isActive ? "auto" : 65 }]}>
+    <View
+      style={[
+        styles.container,
+        { height: isActive ? "auto" : Dimensions.get("window").height * 0.073 },
+      ]}
+    >
       <View style={styles.header}>
         <Text style={styles.title}>SET {Number(index) + 1}</Text>
         <View style={{ flexDirection: "row", gap: 5 }}>
