@@ -28,7 +28,7 @@ const SetPlayersModal = () => {
       <View style={styles.modalBackground}>
         <View style={styles.modalContent}>
           <View
-            style={{ width: "90%", paddingBlock: 20, alignItems: "center" }}
+            style={{ width: "80%", paddingBlock: 20, alignItems: "center" }}
           >
             <Text style={styles.modalTxt}>
               Enter teams' names (3 letters MAX)
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   },
 
   modalContent: {
-    minWidth: "95%",
+    minWidth: "90%",
     minHeight: 500,
     gap: 20,
     backgroundColor: "#161F23",
@@ -136,7 +136,6 @@ const styles = StyleSheet.create({
   //inputs, buttons and labels
   setPlayer: {
     height: 60,
-    width: 60,
     borderColor: "black",
     borderWidth: 1,
     color: "white",
@@ -147,6 +146,7 @@ const styles = StyleSheet.create({
     lineHeight: 54,
     fontSize: 18,
     fontWeight: "bold",
+    width: "30%",
   },
 
   playersContainer: {
