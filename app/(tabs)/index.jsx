@@ -97,7 +97,7 @@ const app = () => {
                   flexDirection: "row",
                   width: "100%",
                   position: "relative",
-                  top: "-5%",
+                  top: "-20%",
                 }}
               >
                 <StatsComponent
@@ -164,7 +164,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginTop: 50,
     padding: 20,
-    // maxWidth: "800px",
   },
 
   title: {
@@ -190,7 +189,7 @@ const styles = StyleSheet.create({
 
   bttnsContainer: {
     position: "absolute",
-    bottom: "8%",
+    bottom: "9.5%",
     width: "100%",
     left: "5%",
     flexDirection: "row",
