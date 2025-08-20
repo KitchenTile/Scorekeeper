@@ -127,7 +127,7 @@ const stats = () => {
           <AntDesign
             name="swap"
             size={26}
-            color="white"
+            color={matchList === null ? "rgb(150, 150, 150)" : "white"}
             style={{
               position: "relative",
               top: 3,
