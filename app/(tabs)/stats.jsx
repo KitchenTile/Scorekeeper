@@ -44,6 +44,7 @@ const stats = () => {
         )
       );
       const matches = res.docs.map((doc) => ({
+        id: doc.id,
         ...doc.data(),
       }));
       setMatchList(
@@ -111,12 +112,18 @@ const stats = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.screenToggle}>
-        <TouchableOpacity onPress={() => setCurrentMatch(!currentMatch)}>
+        <TouchableOpacity
+          onPress={() => setCurrentMatch(!currentMatch)}
+          disabled={matchList === null}
+        >
           <Text style={styles.title}>
             {currentMatch ? "Current Game" : "Match History"}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setCurrentMatch(!currentMatch)}>
+        <TouchableOpacity
+          onPress={() => setCurrentMatch(!currentMatch)}
+          disabled={matchList === null}
+        >
           <AntDesign
             name="swap"
             size={26}
@@ -130,7 +137,7 @@ const stats = () => {
         </TouchableOpacity>
       </View>
       {currentMatch === true ? (
-        <ScrollView>
+        <View>
           <TeamsCompoenent />
 
           {sets.map((set, index) => (
@@ -153,7 +160,7 @@ const stats = () => {
               onSelectPlayer={setSelectedPlayer}
             />
           ))}
-        </ScrollView>
+        </View>
       ) : (
         <ScrollView>
           {matchList.length !== 0 ? (
