@@ -54,7 +54,7 @@ export const useMatchStore = create((set, get) => ({
     type: null,
     isMistake: null,
   },
-  modalVisible: { setScore: false, setPlayers: true },
+  modalVisible: { setScore: false, setPlayers: true, setFinishedGame: false },
   matchWinner: null,
   openedButton: { active: "statView" },
 
@@ -72,7 +72,14 @@ export const useMatchStore = create((set, get) => ({
   updateMatchWinner: () => {
     const { sets, teams } = get();
     const winner = calculateMatchWinner(teams, sets);
-    set({ matchWinner: winner });
+    if (winner) {
+      set({
+        matchWinner: winner,
+        modalVisible: { ...get().modalVisible, setFinishedGame: true },
+      });
+    } else {
+      set({ matchWinner: null });
+    }
   },
 
   // Player handlers
@@ -86,6 +93,27 @@ export const useMatchStore = create((set, get) => ({
     set((state) => ({
       players: state.players.filter((_, i) => i !== idx),
     })),
+
+  resetGame: () =>
+    set({
+      sets: [initialSet()],
+      currentSetIndex: 0,
+      matchWinner: null,
+      currentPoint: {
+        reason: null,
+        author: null,
+        method: null,
+        type: null,
+        isMistake: null,
+      },
+      teams: ["", ""],
+      players: [],
+      modalVisible: {
+        setScore: false,
+        setPlayers: true,
+        setFinishedGame: false,
+      },
+    }),
 
   // Confirm point
   handleConfirm: () => {
@@ -106,8 +134,10 @@ export const useMatchStore = create((set, get) => ({
     // Check win
     let winner = "";
     if (
-      (isTeamA && newScores.myScore >= 25 && newScoresscore > 1) ||
+      (isTeamA && newScores.myScore >= 25 && newScores.score > 1) ||
       (!isTeamA && newScores.oppScore >= 25 && newScores.score < -1)
+      // (isTeamA && newScores.myScore >= 2 && newScores.score > 1) ||
+      // (!isTeamA && newScores.oppScore >= 2 && newScores.score < -1)
     ) {
       winner = currentPoint.type;
       setObj.winner = winner;
