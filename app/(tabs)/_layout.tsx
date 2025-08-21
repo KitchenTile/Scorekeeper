@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import React, { useEffect, useRef } from 'react';
-import { Animated, View } from 'react-native';
+import { Animated, Dimensions, View } from 'react-native';
 import TabIcon from '@/components/misc/TabIcon';
 
 import { HapticTab } from '@/components/HapticTab';
@@ -26,7 +26,7 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: '#161F23',
           borderTopWidth: 0,
-          height: 70,
+          height: Dimensions.get("window").height * 0.07875,
           paddingBottom: 0,
         },
         tabBarLabelStyle: {
