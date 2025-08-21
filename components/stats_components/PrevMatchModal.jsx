@@ -1,10 +1,9 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-native";
 import SetBreakdownCard from "../cards/SetBreakdownCard";
 import { TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import * as FileSystem from "expo-file-system";
 
 const PrevMatchModal = ({
   isVisible,
@@ -12,27 +11,10 @@ const PrevMatchModal = ({
   setSelectedMatchId,
   match,
 }) => {
-  // const path = `${RNFS.DocumentDirectoryPath}/match_report.json`;
-
   const [selectedPlayer, setSelectedPlayer] = useState(match.players[0]);
   const [pointOrError, setPointOrError] = useState("points");
   const [statView, setStatView] = useState("team");
   const [activeTab, setActiveTab] = useState(0);
-  // const data = JSON.stringify(match, null, 2);
-
-  // const callback = (downloadProgress) => {
-  //   const progress =
-  //     downloadProgress.totalBytesWritten /
-  //     downloadProgress.totalBytesExpectedToWrite;
-  //   console.log(progress);
-  // };
-
-  // const downloadResumable = FileSystem.createDownloadResumable(
-  //   "https://sheetjs.com/pres. Numbers",
-  //   FileSystem.documentDirectory + "data.xlsx",
-  //   {},
-  //   callback
-  // );
 
   const activeTabToggle = (index) => {
     setActiveTab((prev) => {
@@ -112,17 +94,13 @@ const PrevMatchModal = ({
             ]}
           /> */}
           <TouchableOpacity
+            style={styles.arrowBack}
             onPress={() => {
               setIsVisible(false);
               setSelectedMatchId(null);
             }}
           >
-            <AntDesign
-              name="left"
-              size={22}
-              color="white"
-              style={styles.arrowBack}
-            />
+            <AntDesign name="left" size={22} color="white" />
           </TouchableOpacity>
           <View
             style={{
@@ -159,7 +137,6 @@ const PrevMatchModal = ({
             contentContainerStyle={{
               maxWidth: "100%",
               minWidth: "99.9%",
-              // backgroundColor: "red",
             }}
           >
             {setsArray().map((value, index) => (
@@ -210,7 +187,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
-    overflow: "scroll",
     justifyContent: "flex-start ",
   },
 
@@ -221,8 +197,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
-  arrowBack: { position: "relative", left: "-50%", color: "white" },
-
+  arrowBack: {
+    position: "absolute",
+    top: 14,
+    left: 16,
+    padding: 8,
+    elevation: 2,
+    borderColor: "red",
+  },
   halfMoon: {
     position: "absolute",
     width: "100%",
