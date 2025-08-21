@@ -12,6 +12,7 @@ import StatsComponent from "../../components/court_components/StatsComponent";
 import PointScoreModal from "../../components/court_components/PointScoreModal";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SetPlayersModal from "../../components/court_components/SetPlayersModal";
+import FinishedMatchModal from "../../components/misc/FinishedMatchModal";
 import TeamsCompoenent from "@/components/court_components/TeamsComponent";
 import InfoComponent from "../../components/court_components/InfoComponent";
 import LoginScreen from "@/components/misc/LoginScreen";
@@ -75,6 +76,7 @@ const app = () => {
               { height: Dimensions.get("window").height * 0.191 },
             ]}
           >
+            <View style={styles.line} />
             <TouchableOpacity
               style={[
                 styles.infoIcon,
@@ -96,8 +98,8 @@ const app = () => {
                   display: "flex",
                   flexDirection: "row",
                   width: "100%",
-                  position: "relative",
-                  top: "-20%",
+                  position: "absolute",
+                  top: "15%",
                 }}
               >
                 <StatsComponent
@@ -114,7 +116,7 @@ const app = () => {
           <SafeAreaView
             style={[
               styles.bttnsContainer,
-              { height: Dimensions.get("window").height * 0.045 },
+              { height: Dimensions.get("window").height * 0.04 },
             ]}
           >
             <TouchableOpacity
@@ -147,6 +149,7 @@ const app = () => {
             </TouchableOpacity>
           </SafeAreaView>
           <PointScoreModal />
+          <FinishedMatchModal />
         </>
       ) : (
         <LoginScreen />
@@ -181,7 +184,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#3A464E",
     borderRadius: 20,
-    // overflow: "hidden",
+    // backgroundColor: "red",
     marginInline: "auto",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -189,7 +192,7 @@ const styles = StyleSheet.create({
 
   bttnsContainer: {
     position: "absolute",
-    bottom: "9.5%",
+    bottom: "8%",
     width: "100%",
     left: "5%",
     flexDirection: "row",
@@ -214,6 +217,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "rgb(0, 0, 0)",
     fontWeight: 600,
+  },
+
+  line: {
+    height: "90%",
+    width: 2,
+    backgroundColor: "rgba(58,70,78,1.00)",
+    position: "absolute",
+    top: 0,
+    left: "50%",
+    top: "50%",
+    transform: "translateY(-50%)",
   },
 
   text: {
