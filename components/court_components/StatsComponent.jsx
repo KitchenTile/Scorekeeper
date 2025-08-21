@@ -67,6 +67,7 @@ const StatsComponent = ({ team, score }) => {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-around",
+          paddingInline: 5,
         }}
       >
         <TouchableOpacity
@@ -107,12 +108,13 @@ const StatsComponent = ({ team, score }) => {
       </View>
       <View
         style={{
+          width: "100%",
           display: "flex",
           flexWrap: "wrap",
           alignContent: "space-around",
-          height: "50%",
+          height: "30%",
           marginTop: 10,
-          paddingInline: 20,
+          paddingInline: 5,
         }}
       >
         {Object.entries(statOrganizer()[statsToDisplay]).map(([key, val]) => (
@@ -132,7 +134,6 @@ const StatsComponent = ({ team, score }) => {
           </Text>
         ))}
       </View>
-      <View style={styles.line}></View>
     </View>
   );
 };
@@ -157,16 +158,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "white",
     marginBottom: 5,
-  },
-
-  line: {
-    height: "80%",
-    width: 2,
-    backgroundColor: "rgba(58,70,78,1.00)",
-    position: "absolute",
-    top: "50%",
-    left: "100%",
-    transform: "translateY(-60%)",
   },
 
   horizontalLine: {
