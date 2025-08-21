@@ -9,8 +9,8 @@ const InfoComponent = () => {
         width: "100%",
         paddingBlock: 10,
         paddingInline: 10,
-        position: "relative",
-        top: "-20%",
+        position: "absolute",
+        top: "-3%",
       }}
     >
       <Text
