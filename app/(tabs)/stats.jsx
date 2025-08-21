@@ -137,7 +137,7 @@ const stats = () => {
         </TouchableOpacity>
       </View>
       {currentMatch === true ? (
-        <View>
+        <ScrollView>
           <TeamsCompoenent />
 
           {sets.map((set, index) => (
@@ -160,7 +160,7 @@ const stats = () => {
               onSelectPlayer={setSelectedPlayer}
             />
           ))}
-        </View>
+        </ScrollView>
       ) : (
         <ScrollView>
           {matchList.length !== 0 ? (
