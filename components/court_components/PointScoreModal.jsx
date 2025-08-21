@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalContent: {
-    width: "90%",
+    width: "95%",
     backgroundColor: "#161F23",
     padding: 10,
     borderRadius: 15,
@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   modalTxt: {
-    fontSize: 26,
+    fontSize: 20,
     fontWeight: "bold",
     margin: 15,
     color: "white",
@@ -375,11 +375,11 @@ const styles = StyleSheet.create({
 
   optionButton: {
     backgroundColor: "#586DFF",
-    padding: 10,
+    padding: 5,
     margin: 5,
     borderRadius: 5,
-    minWidth: 60,
-    minHeight: 60,
+    width: "30%",
+    height: 40,
     borderStyle: "solid",
     borderWidth: 2,
     borderColor: "#3c4cbb",
@@ -389,13 +389,13 @@ const styles = StyleSheet.create({
 
   methodButtonText: {
     color: "white",
-    fontSize: 18,
+    fontSize: 16,
     textAlign: "center",
   },
 
   methodButton: {
     backgroundColor: "#586DFF",
-    padding: 12,
+    padding: 10,
     margin: 5,
     borderRadius: 5,
     minWidth: 60,
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
   },
 
   optionText: {
-    fontSize: 24,
+    fontSize: 20,
     color: "white",
   },
 
