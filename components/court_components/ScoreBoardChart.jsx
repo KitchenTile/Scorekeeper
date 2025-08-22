@@ -17,6 +17,17 @@ const ScoreBoardChart = () => {
 
   const lineChartScore = sets[currentSetIndex].lineChartScore;
 
+  const editPoit = (point) => {
+    lineChartScore[point].type = teams[1];
+    lineChartScore[point].value = lineChartScore[point].value - 1;
+    console.log(lineChartScore[point].type);
+  };
+
+  useEffect(() => {
+    console.log(selectedPoint);
+    console.log(lineChartScore[selectedPoint.pointNumber]);
+  }, [selectedPoint]);
+
   return (
     <>
       <View
@@ -36,7 +47,13 @@ const ScoreBoardChart = () => {
       >
         {selectedPoint ? (
           <>
-            <TouchableOpacity style={styles.editButton}>
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={
+                () => editPoit(selectedPoint.pointNumber)
+                // console.log(lineChartScore[selectedPoint.pointNumber].type)
+              }
+            >
               <Text style={styles.buttonText}>Edit</Text>
             </TouchableOpacity>
             <Text
@@ -158,18 +175,24 @@ const styles = StyleSheet.create({
 
   editButton: {
     position: "absolute",
-    right: 0,
+    right: 10,
+    top: 8,
     borderWidth: 2,
     borderColor: "#3A464E",
     borderRadius: 10,
     backgroundColor: "#161F23",
     borderStyle: "solid",
+    height: 30,
+    width: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 2,
+    zIndex: 2,
   },
 
   buttonText: {
     color: "white",
-    fontSize: 10,
-    // lineHeight: 30,
+    fontSize: 14,
   },
 
   chart: {
