@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { LineChart } from "react-native-chart-kit";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useMatchStore } from "@/stores/store";
 
 const ScoreBoardChart = () => {
@@ -30,6 +36,9 @@ const ScoreBoardChart = () => {
       >
         {selectedPoint ? (
           <>
+            <TouchableOpacity style={styles.editButton}>
+              <Text style={styles.buttonText}>Edit</Text>
+            </TouchableOpacity>
             <Text
               style={[
                 styles.infoText,
@@ -145,6 +154,22 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 15,
     lineHeight: 30,
+  },
+
+  editButton: {
+    position: "absolute",
+    right: 0,
+    borderWidth: 2,
+    borderColor: "#3A464E",
+    borderRadius: 10,
+    backgroundColor: "#161F23",
+    borderStyle: "solid",
+  },
+
+  buttonText: {
+    color: "white",
+    fontSize: 10,
+    // lineHeight: 30,
   },
 
   chart: {
