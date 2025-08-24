@@ -163,7 +163,12 @@ const ScoreModal = () => {
                       borderWidth: 2,
                     },
                 ]}
-                onPress={() => handleConfirm()}
+                onPress={() =>
+                  handleConfirm(
+                    currentPoint.editIndex !== null,
+                    currentPoint.editIndex
+                  )
+                }
               >
                 <Text style={styles.bttnText}>Confirm</Text>
               </TouchableOpacity>
