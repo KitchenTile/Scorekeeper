@@ -13,19 +13,32 @@ const ScoreBoardChart = () => {
   const [selectedPoint, setSelectedPoint] = useState(null);
   const teams = useMatchStore((state) => state.teams);
   const sets = useMatchStore((state) => state.sets);
+  const modalVisible = useMatchStore((state) => state.modalVisible);
+
   const currentSetIndex = useMatchStore((state) => state.currentSetIndex);
+  const setModalVisible = useMatchStore((state) => state.setModalVisible);
+  const setCurrentPoint = useMatchStore((state) => state.setCurrentPoint);
 
   const lineChartScore = sets[currentSetIndex].lineChartScore;
 
-  const editPoit = (point) => {
-    lineChartScore[point].type = teams[1];
-    lineChartScore[point].value = lineChartScore[point].value - 1;
-    console.log(lineChartScore[point].type);
+  const editPoint = (point) => {
+    const pointData = lineChartScore[point];
+
+    setCurrentPoint({
+      author: pointData.author,
+      method: pointData.method,
+      type: pointData.type,
+      reason: pointData.reason,
+      isMistake: pointData.isMistake,
+      editIndex: point,
+    });
+
+    setModalVisible({ ...modalVisible, setScore: true });
   };
 
   useEffect(() => {
     console.log(selectedPoint);
-    console.log(lineChartScore[selectedPoint.pointNumber]);
+    // console.log(lineChartScore[selectedPoint.pointNumber]);
   }, [selectedPoint]);
 
   return (
@@ -49,10 +62,7 @@ const ScoreBoardChart = () => {
           <>
             <TouchableOpacity
               style={styles.editButton}
-              onPress={
-                () => editPoit(selectedPoint.pointNumber)
-                // console.log(lineChartScore[selectedPoint.pointNumber].type)
-              }
+              onPress={() => editPoint(selectedPoint.pointNumber)}
             >
               <Text style={styles.buttonText}>Edit</Text>
             </TouchableOpacity>
@@ -162,7 +172,7 @@ const styles = StyleSheet.create({
     borderColor: "#3A464E",
     borderRadius: 20,
     paddingInline: 15,
-    paddingBlock: 4,
+    paddingBlock: 5,
     marginTop: 20,
     marginInline: "auto",
   },
@@ -176,7 +186,7 @@ const styles = StyleSheet.create({
   editButton: {
     position: "absolute",
     right: 10,
-    top: 8,
+    top: 5,
     borderWidth: 2,
     borderColor: "#3A464E",
     borderRadius: 10,
