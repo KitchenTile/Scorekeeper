@@ -53,6 +53,7 @@ export const useMatchStore = create((set, get) => ({
     method: null,
     type: null,
     isMistake: null,
+    editIndex: null,
   },
   modalVisible: { setScore: false, setPlayers: true, setFinishedGame: false },
   matchWinner: null,
@@ -61,6 +62,7 @@ export const useMatchStore = create((set, get) => ({
   // State setter
   setModalVisible: (modal) => set({ modalVisible: modal }),
   setCurrentPoint: (point) => set({ currentPoint: point }),
+  setEditPoint: (point) => set({}),
   setTeams: (teams) => set({ teams }),
   setPlayers: (players) => set({ players }),
 
@@ -105,6 +107,7 @@ export const useMatchStore = create((set, get) => ({
         method: null,
         type: null,
         isMistake: null,
+        editIndex: null,
       },
       teams: ["", ""],
       players: [],
@@ -116,7 +119,7 @@ export const useMatchStore = create((set, get) => ({
     }),
 
   // Confirm point
-  handleConfirm: () => {
+  handleConfirm: (edit = false, index = null) => {
     const { teams, currentPoint, sets, currentSetIndex, matchWinner } = get();
     const updatedSets = [...sets];
     const setObj = updatedSets[currentSetIndex];
@@ -143,15 +146,28 @@ export const useMatchStore = create((set, get) => ({
       setObj.winner = winner;
     }
 
-    setObj.scores = newScores;
-    setObj.lineChartScore.push({
-      score: newScores.score,
-      author: currentPoint.author,
-      method: currentPoint.method,
-      type: currentPoint.type,
-      reason: currentPoint.reason,
-      isMistake: currentPoint.reason === "Defence Mistake",
-    });
+    if (edit) {
+      setObj.scores = newScores;
+      setObj.lineChartScore[index] = {
+        score: newScores.score,
+        author: currentPoint.author,
+        method: currentPoint.method,
+        type: currentPoint.type,
+        reason: currentPoint.reason,
+        isMistake: currentPoint.reason === "Defence Mistake",
+        editIndex: null,
+      };
+    } else {
+      setObj.scores = newScores;
+      setObj.lineChartScore.push({
+        score: newScores.score,
+        author: currentPoint.author,
+        method: currentPoint.method,
+        type: currentPoint.type,
+        reason: currentPoint.reason,
+        isMistake: currentPoint.reason === "Defence Mistake",
+      });
+    }
     setObj.number = currentSetIndex + 1;
 
     get().updateMatchWinner();
@@ -169,6 +185,7 @@ export const useMatchStore = create((set, get) => ({
         method: null,
         type: null,
         isMistake: null,
+        editIndex: null,
       },
       modalVisible: { ...get().modalVisible, setScore: false },
     });
