@@ -170,7 +170,9 @@ const ScoreModal = () => {
                   )
                 }
               >
-                <Text style={styles.bttnText}>Confirm</Text>
+                <Text style={styles.bttnText}>
+                  {currentPoint.editIndex !== null ? "Save Changes" : "Confirm"}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.cancelButton}
@@ -309,9 +311,16 @@ const ScoreModal = () => {
                     borderWidth: 2,
                   },
                 ]}
-                onPress={() => handleConfirm()}
+                onPress={() =>
+                  handleConfirm(
+                    currentPoint.editIndex !== null,
+                    currentPoint.editIndex
+                  )
+                }
               >
-                <Text style={styles.bttnText}>Confirm</Text>
+                <Text style={styles.bttnText}>
+                  {currentPoint.editIndex !== null ? "Save Changes" : "Confirm"}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.cancelButton}
