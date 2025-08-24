@@ -166,6 +166,7 @@ export const useMatchStore = create((set, get) => ({
         type: currentPoint.type,
         reason: currentPoint.reason,
         isMistake: currentPoint.reason === "Defence Mistake",
+        editIndex: null,
       });
     }
     setObj.number = currentSetIndex + 1;
