@@ -45,6 +45,7 @@ const calculateMatchWinner = (teams, sets) => {
 export const useMatchStore = create((set, get) => ({
   teams: ["", ""],
   players: [],
+  oppPlayers: [],
   sets: [initialSet()],
   currentSetIndex: 0,
   currentPoint: {
@@ -65,6 +66,7 @@ export const useMatchStore = create((set, get) => ({
   setEditPoint: (point) => set({}),
   setTeams: (teams) => set({ teams }),
   setPlayers: (players) => set({ players }),
+  setOppPlayers: (players) => set({ players }),
 
   setOpenedButton: (id) =>
     set({
@@ -85,15 +87,21 @@ export const useMatchStore = create((set, get) => ({
   },
 
   // Player handlers
-  addPlayer: (player) =>
+  addPlayer: (player, opp = false) =>
     set((state) =>
-      state.players.includes(player)
+      !opp
+        ? state.players.includes(player)
+          ? {}
+          : { players: [...state.players, player] }
+        : state.oppPlayers.includes(player)
         ? {}
-        : { players: [...state.players, player] }
+        : { oppPlayers: [...state.oppPlayers, player] }
     ),
-  removePlayer: (idx) =>
+  removePlayer: (idx, opp = false) =>
     set((state) => ({
-      players: state.players.filter((_, i) => i !== idx),
+      players: opp
+        ? state.oppPlayers.filter((_, i) => i !== idx)
+        : state.players.filter((_, i) => i !== idx),
     })),
 
   resetGame: () =>
