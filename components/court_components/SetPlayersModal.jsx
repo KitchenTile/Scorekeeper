@@ -24,6 +24,11 @@ const SetPlayersModal = () => {
     console.log(players);
   }, [players]);
 
+  useEffect(() => {
+    console.log("opp");
+    console.log(oppPlayers);
+  }, [oppPlayers]);
+
   return (
     <Modal visible={modalVisible.setPlayers} transparent animationType="slide">
       <View style={styles.modalBackground}>
@@ -47,7 +52,11 @@ const SetPlayersModal = () => {
                 <Text
                   style={styles.setPlayer}
                   key={index}
-                  onPress={() => removePlayer(index)}
+                  onPress={() =>
+                    oppTeamsPlayers
+                      ? removePlayer(index, true)
+                      : removePlayer(index)
+                  }
                 >
                   {oppTeamsPlayers ? oppPlayers[index] : players[index]}
                 </Text>
@@ -63,11 +72,15 @@ const SetPlayersModal = () => {
                   style={[
                     styles.setPlayer,
                     {
-                      backgroundColor: players[index]
+                      backgroundColor: oppTeamsPlayers
+                        ? oppPlayers[index]
+                          ? "#DC605B"
+                          : "transparent"
+                        : players[index]
                         ? "#586DFF"
                         : "transparent",
                       borderWidth: 2,
-                      borderColor: "#586DFF",
+                      borderColor: oppTeamsPlayers ? "#DC605B" : "#586DFF",
                     },
                   ]}
                 />
