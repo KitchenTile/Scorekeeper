@@ -12,6 +12,10 @@ const ScoreModal = () => {
   const teams = useMatchStore((state) => state.teams);
   const handleConfirm = useMatchStore((state) => state.handleConfirm);
 
+  useEffect(() => {
+    console.log(currentPoint);
+  }, [currentPoint]);
+
   const pointReady =
     currentPoint.reason !== null &&
     currentPoint.author !== null &&
@@ -24,10 +28,6 @@ const ScoreModal = () => {
       return currentPoint.reason === "Defence Mistake" ? oppPlayers : players;
     }
   };
-
-  useEffect(() => {
-    console.log(currentPoint);
-  }, [currentPoint]);
 
   return (
     <Modal visible={modalVisible.setScore} transparent animationType="slide">
@@ -47,6 +47,7 @@ const ScoreModal = () => {
                     setCurrentPoint({
                       ...currentPoint,
                       author: reason === "Defence Mistake" && "opp",
+                      isMistake: reason === "Defence Mistake" && true,
                       reason: reason,
                     });
                   }}
@@ -173,6 +174,7 @@ const ScoreModal = () => {
                     setCurrentPoint({
                       ...currentPoint,
                       author: reason === "Opp's point" && "opp",
+                      isMistake: reason === "Defence Mistake" && true,
                       reason: reason,
                     });
                   }}
