@@ -9,11 +9,14 @@ import {
   pointByMethodOrganizer,
 } from "../../utils/statsProcessor";
 
-const PlayersGraphs = ({ set }) => {
-  const players = useMatchStore((state) => state.players);
-
+const PlayersGraphs = ({ players, team, set }) => {
   const playerObject = playersPointsPerSetOrganizer(players, set);
-  const oppObject = pointByMethodOrganizer(set);
+
+  useEffect(() => {
+    console.log(playerObject);
+  }, []);
+
+  const methodObject = pointByMethodOrganizer(team, set);
 
   const barData = {
     labels: Object.entries(playerObject).map(([key, value]) => {
@@ -28,7 +31,7 @@ const PlayersGraphs = ({ set }) => {
     ],
   };
 
-  const pieData = Object.entries(oppObject).map(([key, value], index) => {
+  const pieData = Object.entries(methodObject).map(([key, value], index) => {
     const hue = 205 + index * 4;
     const lightness = Math.max(30, 60 - value * 5);
 
