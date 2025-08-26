@@ -11,6 +11,7 @@ import PlayersGraphs from "../../components/stats_components/PlayersGraphs";
 import ErrorGraph from "../../components/stats_components/ErrorGraph";
 import IndividualStats from "../../components/stats_components/IndividualStats";
 import FilterComponent from "../misc/FilterComponent";
+import { useMatchStore } from "../../stores/store";
 
 const SetBreakdownCard = ({
   match = null,
@@ -22,11 +23,13 @@ const SetBreakdownCard = ({
   onStatChange,
   pointOrError,
   onPointToggle,
-  players,
   selectedPlayer,
   onSelectPlayer,
 }) => {
   const setWinner = set.scores.myScore > set.scores.oppScore;
+  const players = useMatchStore((state) => state.players);
+  const oppPlayers = useMatchStore((state) => state.oppPlayers);
+  const teams = useMatchStore((state) => state.teams);
 
   return (
     <View
@@ -81,9 +84,9 @@ const SetBreakdownCard = ({
           {statView === "team" ? (
             <View>
               {pointOrError === "points" ? (
-                <PlayersGraphs set={set} />
+                <PlayersGraphs set={set} players={players} team={teams[0]} />
               ) : (
-                <ErrorGraph set={set} />
+                <ErrorGraph set={set} players={players} team={teams[0]} />
               )}
             </View>
           ) : (
