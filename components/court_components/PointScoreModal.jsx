@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Modal } from "react-native";
 
 const ScoreModal = () => {
   const players = useMatchStore((state) => state.players);
+  const oppPlayers = useMatchStore((state) => state.oppPlayers);
   const currentPoint = useMatchStore((state) => state.currentPoint);
   const setCurrentPoint = useMatchStore((state) => state.setCurrentPoint);
   const modalVisible = useMatchStore((state) => state.modalVisible);
@@ -15,6 +16,18 @@ const ScoreModal = () => {
     currentPoint.reason !== null &&
     currentPoint.author !== null &&
     currentPoint.method !== null;
+
+  const playerSelect = (param) => {
+    if (param === "oppPoint") {
+      return currentPoint.reason === "Defence Mistake" ? players : oppPlayers;
+    } else {
+      return currentPoint.reason === "Defence Mistake" ? oppPlayers : players;
+    }
+  };
+
+  useEffect(() => {
+    console.log(currentPoint);
+  }, [currentPoint]);
 
   return (
     <Modal visible={modalVisible.setScore} transparent animationType="slide">
@@ -42,55 +55,26 @@ const ScoreModal = () => {
                 </TouchableOpacity>
               ))}
             </View>
-            <Text
-              style={[
-                styles.modalTxt,
-                currentPoint.reason === "Defence Mistake" && {
-                  color: "rgba(255, 255, 255, 0.3)",
-                },
-              ]}
-            >
-              Select player
-            </Text>
+            <Text style={styles.modalTxt}>Select player</Text>
             <View style={styles.optionContainer}>
-              {players.map((player) => (
+              {playerSelect().map((player) => (
                 <TouchableOpacity
                   key={player}
-                  disabled={currentPoint.reason === "Defence Mistake"}
+                  // disabled={currentPoint.reason === "Defence Mistake"}
                   style={[
                     styles.optionButton,
                     currentPoint.author === player && styles.selectedOption,
-                    currentPoint.reason === "Defence Mistake" &&
-                      styles.disabled,
                   ]}
                   onPress={() => {
                     setCurrentPoint({ ...currentPoint, author: player });
                   }}
                 >
-                  <Text
-                    style={[
-                      styles.optionText,
-                      currentPoint.reason === "Defence Mistake" && {
-                        color: "rgba(255, 255, 255, 0.3)",
-                      },
-                    ]}
-                  >
-                    {player}
-                  </Text>
+                  <Text style={styles.optionText}>{player}</Text>
                 </TouchableOpacity>
               ))}
             </View>
 
-            <Text
-              style={[
-                styles.modalTxt,
-                currentPoint.reason === "Defence Mistake" && {
-                  color: "rgba(255, 255, 255, 0.3)",
-                },
-              ]}
-            >
-              Select Score Method
-            </Text>
+            <Text style={styles.modalTxt}>Select Score Method</Text>
             <View style={[styles.optionContainer, { width: "100%" }]}>
               {currentPoint.reason === "Our point"
                 ? Object.entries(POINTMETHODS).map((method) => (
@@ -117,13 +101,10 @@ const ScoreModal = () => {
                 : Object.entries(MISTAKEMETHODS).map((method) => (
                     <TouchableOpacity
                       key={method[1]}
-                      disabled={currentPoint.reason === "Defence Mistake"}
                       style={[
                         styles.methodButton,
                         currentPoint.method === method[1] &&
                           styles.selectedOption,
-                        currentPoint.reason === "Defence Mistake" &&
-                          styles.disabled,
                       ]}
                       onPress={() => {
                         setCurrentPoint({
@@ -132,36 +113,21 @@ const ScoreModal = () => {
                         });
                       }}
                     >
-                      <Text
-                        style={[
-                          styles.methodButtonText,
-                          currentPoint.reason === "Defence Mistake" && {
-                            color: "rgba(255, 255, 255, 0.3)",
-                          },
-                        ]}
-                      >
-                        {method[1]}
-                      </Text>
+                      <Text style={styles.methodButtonText}>{method[1]}</Text>
                     </TouchableOpacity>
                   ))}
             </View>
 
             <View style={styles.bttnContainer}>
               <TouchableOpacity
-                disabled={
-                  currentPoint.reason === "Defence Mistake"
-                    ? false
-                    : !pointReady
-                }
                 style={[
                   styles.confirmButton,
-                  currentPoint.reason !== "Defence Mistake" &&
-                    !pointReady && {
-                      backgroundColor: "transparent",
-                      borderColor: "#3A464E",
-                      borderStyle: "solid",
-                      borderWidth: 2,
-                    },
+                  !pointReady && {
+                    backgroundColor: "transparent",
+                    borderColor: "#3A464E",
+                    borderStyle: "solid",
+                    borderWidth: 2,
+                  },
                 ]}
                 onPress={() =>
                   handleConfirm(
@@ -178,7 +144,12 @@ const ScoreModal = () => {
                 style={styles.cancelButton}
                 onPress={() => {
                   setModalVisible({ ...modalVisible, setScore: false });
-                  setCurrentPoint({ author: null, method: null, type: null });
+                  setCurrentPoint({
+                    author: null,
+                    method: null,
+                    type: null,
+                    editIndex: null,
+                  });
                 }}
               >
                 <Text style={styles.bttnText}>Cancel</Text>
@@ -221,14 +192,13 @@ const ScoreModal = () => {
               Select Player
             </Text>
             <View style={styles.optionContainer}>
-              {players.map((player) => (
+              {playerSelect("oppPoint").map((player) => (
                 <TouchableOpacity
                   key={player}
                   disabled={currentPoint.method === "Opp's point"}
                   style={[
                     styles.optionButton,
                     currentPoint.author === player && styles.selectedOption,
-                    currentPoint.reason === "Opp's point" && styles.disabled,
                   ]}
                   onPress={() => {
                     setCurrentPoint({
@@ -238,16 +208,7 @@ const ScoreModal = () => {
                     });
                   }}
                 >
-                  <Text
-                    style={[
-                      styles.optionText,
-                      currentPoint.reason === "Opp's point" && {
-                        color: "rgba(255, 255, 255, 0.3)",
-                      },
-                    ]}
-                  >
-                    {player}
-                  </Text>
+                  <Text style={[styles.optionText]}>{player}</Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -257,13 +218,10 @@ const ScoreModal = () => {
                 ? Object.entries(POINTMETHODS).map((method) => (
                     <TouchableOpacity
                       key={method[1]}
-                      disabled={currentPoint.reason === "Defence Mistake"}
                       style={[
                         styles.methodButton,
                         currentPoint.method === method[1] &&
                           styles.selectedOption,
-                        currentPoint.reason === "Defence Mistake" &&
-                          styles.disabled,
                       ]}
                       onPress={() => {
                         setCurrentPoint({
@@ -326,7 +284,12 @@ const ScoreModal = () => {
                 style={styles.cancelButton}
                 onPress={() => {
                   setModalVisible({ ...modalVisible, setScore: false });
-                  setCurrentPoint({ author: null, method: null, type: null });
+                  setCurrentPoint({
+                    author: null,
+                    method: null,
+                    type: null,
+                    editIndex: null,
+                  });
                 }}
               >
                 <Text style={styles.bttnText}>Cancel</Text>
