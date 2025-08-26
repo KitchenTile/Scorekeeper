@@ -6,23 +6,21 @@ import { PieChart, BarChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
 import { errorOrganizer } from "../../utils/statsProcessor";
 
-const ErrorGraph = ({ set }) => {
-  const players = useMatchStore((state) => state.players);
+const ErrorGraph = ({ set, team, players }) => {
+  const pieData = Object.entries(
+    errorOrganizer(players, set, team).errorObj
+  ).map(([key, value], index) => {
+    const hue = 1 + index * 4;
+    const lightness = Math.max(10, 80 - value * 5);
 
-  const pieData = Object.entries(errorOrganizer(players, set).errorObj).map(
-    ([key, value], index) => {
-      const hue = 1 + index * 4;
-      const lightness = Math.max(10, 80 - value * 5);
-
-      return {
-        name: key,
-        errorQty: value,
-        color: `hsl(${hue}, 100%, ${lightness}%)`,
-        legendFontColor: "rgb(204, 204, 204)",
-        legendFontSize: 14,
-      };
-    }
-  );
+    return {
+      name: key,
+      errorQty: value,
+      color: `hsl(${hue}, 100%, ${lightness}%)`,
+      legendFontColor: "rgb(204, 204, 204)",
+      legendFontSize: 14,
+    };
+  });
 
   const barData = {
     labels: Object.entries(errorOrganizer(players, set).playersObj).map(
