@@ -11,14 +11,18 @@ import {
   playerPointsAcrossSetsOrganizer,
 } from "../../utils/statsProcessor";
 
-const IndividualStats = ({ player, set, sets, pointsOrError }) => {
+const IndividualStats = ({ player, set, sets, pointsOrError, team }) => {
   const playerPointsPerSet = playerPointsAcrossSetsOrganizer(
     sets,
-    player
+    player,
+    team
   ).playerPointsPerSet;
-  const pointObj = playerPointsAcrossSetsOrganizer(sets, player).pointObj;
-  const currentSetPointsObj = playerPointsAcrossSetsOrganizer(sets, player)
-    .pointObjPerSet[set.number - 1];
+  const pointObj = playerPointsAcrossSetsOrganizer(sets, player, team).pointObj;
+  const currentSetPointsObj = playerPointsAcrossSetsOrganizer(
+    sets,
+    player,
+    team
+  ).pointObjPerSet[set.number - 1];
   const playerErrorPerSet = playerErrorAcrossSetsOrganizer(
     sets,
     player
