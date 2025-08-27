@@ -95,6 +95,7 @@ const SetBreakdownCard = ({
               sets={match}
               set={set}
               pointsOrError={pointOrError}
+              team={teams[0]}
             />
           )}
         </>
