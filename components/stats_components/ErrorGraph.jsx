@@ -23,14 +23,14 @@ const ErrorGraph = ({ set, team, players }) => {
   });
 
   const barData = {
-    labels: Object.entries(errorOrganizer(players, set).playersObj).map(
+    labels: Object.entries(errorOrganizer(players, set, team).playersObj).map(
       ([key, value]) => {
         return key;
       }
     ),
     datasets: [
       {
-        data: Object.entries(errorOrganizer(players, set).playersObj).map(
+        data: Object.entries(errorOrganizer(players, set, team).playersObj).map(
           ([key, value]) => {
             return value;
           }
