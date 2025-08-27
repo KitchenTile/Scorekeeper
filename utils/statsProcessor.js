@@ -9,7 +9,7 @@ export const MISTAKEMETHODS = [
   "Court Coverage",
 ];
 
-export const playersPointsPerSetOrganizer = (players, set) => {
+export const playersPointsPerSetOrganizer = (players, set, team) => {
   const playerObj = {};
   players.forEach((e) => {
     playerObj[e] = 0;
@@ -18,7 +18,8 @@ export const playersPointsPerSetOrganizer = (players, set) => {
   for (let i = 0; i < set.lineChartScore.length; i++) {
     if (
       !set.lineChartScore[i].isMistake &&
-      players.includes(set.lineChartScore[i].author)
+      players.includes(set.lineChartScore[i].author) &&
+      set.lineChartScore[i].type === team
     ) {
       playerObj[set.lineChartScore[i].author]++;
     }
@@ -75,7 +76,7 @@ export const errorOrganizer = (players, set, team) => {
   return { errorObj, playersObj };
 };
 
-export const playerPointsAcrossSetsOrganizer = (sets, player) => {
+export const playerPointsAcrossSetsOrganizer = (sets, player, team) => {
   const pointObj = {};
   let arr = Array.from({ length: sets.length }, (element, index) => index + 1);
   const playerPointsPerSet = {};
@@ -98,7 +99,8 @@ export const playerPointsAcrossSetsOrganizer = (sets, player) => {
       if (
         !set.lineChartScore[i].isMistake &&
         POINTMETHODS.includes(set.lineChartScore[i].method) &&
-        set.lineChartScore[i].author === player
+        set.lineChartScore[i].author === player &&
+        set.lineChartScore[i].type === team
       ) {
         pointObj[set.lineChartScore[i].method]++;
         pointObjPerSet[index][set.lineChartScore[i].method]++;
@@ -110,7 +112,7 @@ export const playerPointsAcrossSetsOrganizer = (sets, player) => {
   return { pointObj, pointObjPerSet, playerPointsPerSet };
 };
 
-export const playerErrorAcrossSetsOrganizer = (sets, player) => {
+export const playerErrorAcrossSetsOrganizer = (sets, player, team) => {
   const errorObj = {};
   let arr = Array.from({ length: sets.length }, (element, index) => index + 1);
   const playerErrorsPerSet = {};
@@ -133,7 +135,8 @@ export const playerErrorAcrossSetsOrganizer = (sets, player) => {
       if (
         set.lineChartScore[i].isMistake &&
         MISTAKEMETHODS.includes(set.lineChartScore[i].method) &&
-        set.lineChartScore[i].author === player
+        set.lineChartScore[i].author === player &&
+        set.lineChartScore[i].type !== team
       ) {
         errorObj[set.lineChartScore[i].method]++;
         errorObjPerSet[index][set.lineChartScore[i].method]++;
