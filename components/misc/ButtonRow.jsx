@@ -54,7 +54,7 @@ const ButtonRow = ({ active, onChange, labels, icons, id }) => {
 
   const widthInterpolate = slideAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 110],
+    outputRange: [0, 100],
   });
 
   const unselectedLable = labels.find((val) => val !== active);
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     marginVertical: 4,
-    width: 110,
+    width: 100,
     justifyContent: "center",
   },
   active: {
