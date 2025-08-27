@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,7 @@ import PlayersGraphs from "../../components/stats_components/PlayersGraphs";
 import ErrorGraph from "../../components/stats_components/ErrorGraph";
 import IndividualStats from "../../components/stats_components/IndividualStats";
 import FilterComponent from "../misc/FilterComponent";
-import { useMatchStore } from "../../stores/store";
+import DisplayToggle from "../misc/DisplayToggle";
 
 const SetBreakdownCard = ({
   match = null,
@@ -25,11 +25,12 @@ const SetBreakdownCard = ({
   onPointToggle,
   selectedPlayer,
   onSelectPlayer,
+  players,
+  oppPlayers,
+  teams,
 }) => {
   const setWinner = set.scores.myScore > set.scores.oppScore;
-  const players = useMatchStore((state) => state.players);
-  const oppPlayers = useMatchStore((state) => state.oppPlayers);
-  const teams = useMatchStore((state) => state.teams);
+  const [selectedTeam, setSelectedTeam] = useState(teams[0]);
 
   return (
     <View
@@ -72,21 +73,47 @@ const SetBreakdownCard = ({
 
       {isActive && (
         <>
+          <View
+            style={{
+              width: "100%",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <DisplayToggle
+              label={teams[0]}
+              active={selectedTeam === teams[0]}
+              onPress={() => setSelectedTeam(teams[0])}
+            />
+            <DisplayToggle
+              label={teams[1]}
+              active={selectedTeam === teams[1]}
+              onPress={() => setSelectedTeam(teams[1])}
+            />
+          </View>
           <FilterComponent
             pointOrError={pointOrError}
             statView={statView}
             onStatChange={onStatChange}
             onPointToggle={onPointToggle}
-            players={players}
+            players={selectedTeam === teams[0] ? players : oppPlayers}
             onSelectPlayer={onSelectPlayer}
             selectedPlayer={selectedPlayer}
           />
           {statView === "team" ? (
             <View>
               {pointOrError === "points" ? (
-                <PlayersGraphs set={set} players={players} team={teams[0]} />
+                <PlayersGraphs
+                  set={set}
+                  players={selectedTeam === teams[0] ? players : oppPlayers}
+                  team={selectedTeam === teams[0] ? teams[0] : teams[1]}
+                />
               ) : (
-                <ErrorGraph set={set} players={players} team={teams[0]} />
+                <ErrorGraph
+                  set={set}
+                  players={selectedTeam === teams[0] ? players : oppPlayers}
+                  team={selectedTeam === teams[0] ? teams[0] : teams[1]}
+                />
               )}
             </View>
           ) : (
@@ -95,7 +122,7 @@ const SetBreakdownCard = ({
               sets={match}
               set={set}
               pointsOrError={pointOrError}
-              team={teams[0]}
+              team={selectedTeam === teams[0] ? teams[0] : teams[1]}
             />
           )}
         </>
