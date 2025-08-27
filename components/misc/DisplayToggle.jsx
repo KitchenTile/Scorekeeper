@@ -6,6 +6,7 @@ import { StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native";
 
 const DisplayToggle = ({ label, active, onPress }) => {
+  console.log(label);
   return (
     <TouchableOpacity
       style={[
@@ -34,7 +35,7 @@ export default DisplayToggle;
 
 const styles = StyleSheet.create({
   optionButton: {
-    backgroundColor: "#586DFF",
+    backgroundColor: "#3c4cbb",
     padding: 3,
     paddingTop: 0,
     marginBlock: 5,
