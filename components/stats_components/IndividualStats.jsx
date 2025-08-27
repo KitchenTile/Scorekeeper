@@ -2,7 +2,6 @@ import { useEffect } from "react";
 
 import React from "react";
 import { ScrollView, View, Text } from "react-native";
-import { useMatchStore } from "../../stores/store";
 import { StyleSheet } from "react-native";
 import { BarChart, PieChart } from "react-native-chart-kit";
 import { Dimensions } from "react-native";
@@ -25,10 +24,11 @@ const IndividualStats = ({ player, set, sets, pointsOrError, team }) => {
   ).pointObjPerSet[set.number - 1];
   const playerErrorPerSet = playerErrorAcrossSetsOrganizer(
     sets,
-    player
+    player,
+    team
   ).playerErrorsPerSet;
-  const errorObj = playerErrorAcrossSetsOrganizer(sets, player).errorObj;
-  const currentSetErrorsObj = playerErrorAcrossSetsOrganizer(sets, player)
+  const errorObj = playerErrorAcrossSetsOrganizer(sets, player, team).errorObj;
+  const currentSetErrorsObj = playerErrorAcrossSetsOrganizer(sets, player, team)
     .errorObjPerSet[set.number - 1];
 
   const errorBarData = {
