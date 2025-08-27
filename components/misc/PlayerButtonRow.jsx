@@ -41,7 +41,7 @@ const PlayerButtonRow = ({ labels, active, onChange }) => {
           onPress={toggleOpen}
           style={[
             styles.playerBtn,
-            { position: "absolute", top: -58, left: 236 },
+            { position: "absolute", top: -58, left: 215 },
           ]}
         >
           <Text style={styles.playerText}>{active}</Text>
