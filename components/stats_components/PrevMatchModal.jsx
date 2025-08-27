@@ -71,15 +71,6 @@ const PrevMatchModal = ({
     return sets;
   };
 
-  const handlePress = async () => {
-    try {
-      await RNFS.writeFile(path, data, "utf8");
-      console.log("Success!");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <Modal visible={isVisible} transparent animationType="slide">
       <View style={styles.modalBackground}>
@@ -155,8 +146,10 @@ const PrevMatchModal = ({
                 pointOrError={pointOrError}
                 onPointToggle={pointOrErrorToggle}
                 players={match.players}
+                oppPlayers={match.oppPlayers}
                 selectedPlayer={selectedPlayer}
                 onSelectPlayer={setSelectedPlayer}
+                teams={match.teams}
               />
             ))}
           </ScrollView>
