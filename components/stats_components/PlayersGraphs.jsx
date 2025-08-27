@@ -10,7 +10,7 @@ import {
 } from "../../utils/statsProcessor";
 
 const PlayersGraphs = ({ players, team, set }) => {
-  const playerObject = playersPointsPerSetOrganizer(players, set);
+  const playerObject = playersPointsPerSetOrganizer(players, set, team);
 
   useEffect(() => {
     console.log(playerObject);
