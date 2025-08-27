@@ -27,7 +27,7 @@ export const playersPointsPerSetOrganizer = (players, set) => {
   return playerObj;
 };
 
-export const pointByMethodOrganizer = (set) => {
+export const pointByMethodOrganizer = (team, set) => {
   const methodObj = {};
   POINTMETHODS.forEach((e) => {
     methodObj[e] = 0;
@@ -36,7 +36,7 @@ export const pointByMethodOrganizer = (set) => {
   for (let i = 0; i < set.lineChartScore.length; i++) {
     if (
       POINTMETHODS.includes(set.lineChartScore[i].method) &&
-      set.lineChartScore[i].type
+      set.lineChartScore[i].type === team
     ) {
       methodObj[set.lineChartScore[i].method]++;
     }
@@ -44,7 +44,7 @@ export const pointByMethodOrganizer = (set) => {
   return methodObj;
 };
 
-export const errorOrganizer = (players, set) => {
+export const errorOrganizer = (players, set, team) => {
   const errorObj = {};
   const playersObj = {};
   MISTAKEMETHODS.forEach((e) => {
@@ -57,10 +57,16 @@ export const errorOrganizer = (players, set) => {
   for (let i = 0; i < set.lineChartScore.length; i++) {
     const point = set.lineChartScore[i];
     if (point.isMistake) {
-      if (MISTAKEMETHODS.includes(point.method)) {
+      if (
+        MISTAKEMETHODS.includes(point.method) &&
+        set.lineChartScore[i].type !== team
+      ) {
         errorObj[point.method]++;
       }
-      if (players.includes(point.author)) {
+      if (
+        players.includes(point.author) &&
+        set.lineChartScore[i].type !== team
+      ) {
         playersObj[point.author]++;
       }
     }
