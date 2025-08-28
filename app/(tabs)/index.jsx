@@ -24,6 +24,7 @@ const app = () => {
   const sets = useMatchStore((state) => state.sets);
   const setModalVisible = useMatchStore((state) => state.setModalVisible);
   const players = useMatchStore((state) => state.players);
+  const oppPlayers = useMatchStore((state) => state.oppPlayers);
   const modalVisible = useMatchStore((state) => state.modalVisible);
   const teams = useMatchStore((state) => state.teams);
   const currentPoint = useMatchStore((state) => state.currentPoint);
@@ -45,6 +46,7 @@ const app = () => {
         user_id: isLoggedIn ? auth.currentUser.uid : "No User ID",
         match_winner: matchWinner,
         players: players,
+        oppPlayers: oppPlayers,
       };
     };
 
