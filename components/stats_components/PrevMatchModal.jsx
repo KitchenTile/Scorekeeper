@@ -75,15 +75,6 @@ const PrevMatchModal = ({
     <Modal visible={isVisible} transparent animationType="slide">
       <View style={styles.modalBackground}>
         <View style={styles.modalContainer}>
-          {/* <View
-            style={[
-              styles.halfMoon,
-              {
-                backgroundColor:
-                  match.match_winner === match.teams[0] ? "blue" : "red",
-              },
-            ]}
-          /> */}
           <TouchableOpacity
             style={styles.arrowBack}
             onPress={() => {
@@ -196,7 +187,6 @@ const styles = StyleSheet.create({
     left: 16,
     padding: 8,
     elevation: 2,
-    borderColor: "red",
   },
   halfMoon: {
     position: "absolute",
