@@ -46,7 +46,7 @@ const ScoreModal = () => {
                   onPress={() => {
                     setCurrentPoint({
                       ...currentPoint,
-                      author: reason === "Defence Mistake" && "opp",
+                      // author: reason === "Defence Mistake" && "opp",
                       isMistake: reason === "Defence Mistake" && true,
                       reason: reason,
                     });
@@ -173,7 +173,7 @@ const ScoreModal = () => {
                   onPress={() => {
                     setCurrentPoint({
                       ...currentPoint,
-                      author: reason === "Opp's point" && "opp",
+                      // author: reason === "Opp's point" && "opp",
                       isMistake: reason === "Defence Mistake" && true,
                       reason: reason,
                     });
