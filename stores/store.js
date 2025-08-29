@@ -86,7 +86,7 @@ export const useMatchStore = create((set, get) => ({
     }
   },
 
-  // Player handlers
+  // Player handler
   addPlayer: (player, opp = false) =>
     set((state) =>
       !opp
@@ -98,11 +98,11 @@ export const useMatchStore = create((set, get) => ({
         : { oppPlayers: [...state.oppPlayers, player] }
     ),
   removePlayer: (idx, opp = false) =>
-    set((state) => ({
-      players: opp
-        ? state.oppPlayers.filter((_, i) => i !== idx)
-        : state.players.filter((_, i) => i !== idx),
-    })),
+    set((state) =>
+      opp
+        ? { oppPlayers: state.oppPlayers.filter((_, i) => i !== idx) }
+        : { players: state.players.filter((_, i) => i !== idx) }
+    ),
 
   resetGame: () =>
     set({
@@ -119,6 +119,7 @@ export const useMatchStore = create((set, get) => ({
       },
       teams: ["", ""],
       players: [],
+      oppPlayers: [],
       modalVisible: {
         setScore: false,
         setPlayers: true,
@@ -153,11 +154,9 @@ export const useMatchStore = create((set, get) => ({
       winner = currentPoint.type;
       setObj.winner = winner;
     }
-
     if (edit) {
-      setObj.scores = newScores;
       setObj.lineChartScore[index] = {
-        score: newScores.score,
+        ...setObj.lineChartScore[index],
         author: currentPoint.author,
         method: currentPoint.method,
         type: currentPoint.type,
