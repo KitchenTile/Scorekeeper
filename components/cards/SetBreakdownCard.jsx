@@ -32,6 +32,9 @@ const SetBreakdownCard = ({
   const setWinner = set.scores.myScore > set.scores.oppScore;
   const [selectedTeam, setSelectedTeam] = useState(teams[0]);
 
+  console.log(oppPlayers);
+  console.log(teams);
+
   return (
     <View
       style={[
