@@ -19,6 +19,12 @@ const SetPlayersModal = () => {
   const addPlayer = useMatchStore((state) => state.addPlayer);
   const removePlayer = useMatchStore((state) => state.removePlayer);
   const [oppTeamsPlayers, setOppTeamsPlayers] = useState(false);
+  const finishPress = () => {
+    setModalVisible({ ...modalVisible, setPlayers: false });
+    setOppTeamsPlayers(false);
+  };
+
+  console.log(oppTeamsPlayers);
 
   useEffect(() => {
     console.log(players);
@@ -48,9 +54,22 @@ const SetPlayersModal = () => {
           </Text>
           <View style={styles.playersContainer}>
             {Array.from({ length: 9 }).map((_, index) =>
-              (oppTeamsPlayers ? oppTeamsPlayers[index] : players[index]) ? (
+              (oppTeamsPlayers ? oppPlayers[index] : players[index]) ? (
                 <Text
-                  style={styles.setPlayer}
+                  style={[
+                    styles.setPlayer,
+                    {
+                      backgroundColor: oppTeamsPlayers
+                        ? oppPlayers[index]
+                          ? "#DC605B"
+                          : "transparent"
+                        : players[index]
+                        ? "#586DFF"
+                        : "transparent",
+                      borderWidth: 2,
+                      borderColor: oppTeamsPlayers ? "#DC605B" : "#586DFF",
+                    },
+                  ]}
                   key={index}
                   onPress={() =>
                     oppTeamsPlayers
@@ -65,9 +84,10 @@ const SetPlayersModal = () => {
                   key={index}
                   keyboardType="numeric"
                   onEndEditing={(e) =>
-                    e.nativeEvent.text !== "" && oppTeamsPlayers
-                      ? addPlayer(e.nativeEvent.text, true)
-                      : addPlayer(e.nativeEvent.text)
+                    e.nativeEvent.text.trim() !== "" &&
+                    (oppTeamsPlayers
+                      ? addPlayer(e.nativeEvent.text.trim(), true)
+                      : addPlayer(e.nativeEvent.text.trim()))
                   }
                   style={[
                     styles.setPlayer,
@@ -96,9 +116,7 @@ const SetPlayersModal = () => {
               },
             ]}
             onPress={() =>
-              oppTeamsPlayers
-                ? setModalVisible({ ...modalVisible, setPlayers: false })
-                : setOppTeamsPlayers(true)
+              oppTeamsPlayers ? finishPress() : setOppTeamsPlayers(true)
             }
             disabled={players.length < 6}
           >
@@ -114,32 +132,6 @@ const SetPlayersModal = () => {
               {!oppTeamsPlayers ? "Continue" : "Confirm"}
             </Text>
           </TouchableOpacity>
-
-          {/* <TouchableOpacity
-            style={[
-              styles.bttn,
-              {
-                backgroundColor: players.length < 6 ? "" : "#78C93C",
-                borderColor: players.length < 6 ? "#3A464E" : "#488719",
-              },
-            ]}
-            onPress={() =>
-              setModalVisible({ ...modalVisible, setPlayers: false })
-            }
-            disabled={players.length < 6}
-          >
-            <Text
-              style={[
-                styles.bttnTxt,
-                {
-                  color:
-                    players.length < 6 ? "rgba(255, 255, 255, 0.3)" : "white",
-                },
-              ]}
-            >
-              {oppPlayers.length < 6 ? "Continue" : "Confirm"}
-            </Text>
-          </TouchableOpacity> */}
         </View>
       </View>
     </Modal>
@@ -188,7 +180,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderRadius: 10,
     textAlign: "center",
-    backgroundColor: "#586DFF",
+    // backgroundColor: "#586DFF",
     lineHeight: 54,
     fontSize: 18,
     fontWeight: "bold",
