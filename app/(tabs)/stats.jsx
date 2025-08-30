@@ -21,6 +21,8 @@ const stats = () => {
   const sets = useMatchStore((state) => state.sets);
   const matchWinner = useMatchStore((state) => state.matchWinner);
   const players = useMatchStore((state) => state.players);
+  const oppPlayers = useMatchStore((state) => state.oppPlayers);
+  const teams = useMatchStore((state) => state.teams);
   const [activeTab, setActiveTab] = useState(sets.length - 1);
   const [statView, setStatView] = useState("team");
   const [pointOrError, setPointOrError] = useState("points");
@@ -156,8 +158,10 @@ const stats = () => {
               pointOrError={pointOrError}
               onPointToggle={pointOrErrorToggle}
               players={players}
+              oppPlayers={oppPlayers}
               selectedPlayer={selectedPlayer}
               onSelectPlayer={setSelectedPlayer}
+              teams={teams}
             />
           ))}
         </ScrollView>
